@@ -18,20 +18,16 @@ pottery_tab <- tabItem(tabName = "pottery",
         ),
         fluidRow(
                 box(
-                        width = 3, height = 400,
-                        selectInput("layer", "Choose one or many contexts",
-                                    choices = c("all", uidlist %>%
-                                            filter(type == "Layer") %>%
-                                            arrange(identifier) %>%
-                                            pull("identifier")),
-                                    multiple = TRUE),
-                        selectInput("types", "Choose variable one (x-axis)",
-                                    choices = list("a", "b", "c")),
-                        selectInput("types", "Choose variable two (fill)",
-                                    choices = list("a", "b", "c"))
+                        width = 3, height = 500,
+                        htmlOutput("layer_selector"),
+                        htmlOutput("potPlot_1_x_selector"),
+                        htmlOutput("potPlot_1_fill_selector"),
+                        downloadButton("potPlot_1_png", label = "Download plot (png)"),
+                        downloadButton("potPlot_1_pdf", label = "Download plot (pdf)")
                 ),
                 box(
-                        tableOutput("values")
+                        width = 9, height = 500,
+                        plotOutput("potPlot_1")
                 )
         )
 

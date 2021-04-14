@@ -25,3 +25,28 @@ Plot_Base_Theme <- theme(panel.background = element_blank(),
 
 operations <- na.omit(unique(uidlist$isRecordedIn))
 
+drop_for_plot_vars <- c("identifier", "shortDescription", "notes",
+                        "storagePlaceOther", "measuringPointID",
+                        "localizationDescription", "conditionComment",
+                        "comparison", "MuseumInventoryNr", "OldInventoryNr",
+                        "FotoNr", "DrawingNr", "vesselFormDescription",
+                        "vesselType", "provenanceInput", "fabricStructure",
+                        "temperType", "temperTypeOther", "temperAmount",
+                        "temperGrain", "surfaceTreatment",
+                        "surfaceTreatmentDescription", "analysisMethodOther",
+                        "analysisAim", "analysisActor", "analysisResult",
+                        "otherNotes", "id", "isRecordedIn", "type")
+
+
+
+milQuant_dowloadHandler <- function(plot = "plot", ftype = "png") {
+  downloadHandler(
+    filename = paste(format(Sys.Date(), "%Y%m%d"),
+                     "_milQuant_plot.", ftype, sep = ""),
+    content <- function(file) {
+      ggsave(file, plot = plot, device = ftype,
+             width = 25, height = 15, units = "cm")
+    }
+  )
+}
+
