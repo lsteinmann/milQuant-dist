@@ -8,6 +8,7 @@ milet <- get_idaifield_docs(connection = idaif_connection,
                             simplified = TRUE)
 
 
-uidlist <- get_uid_list(milet, verbose = TRUE)
-
-operations <- unique(uidlist$isRecordedIn)
+uidlist <- get_uid_list(milet, verbose = TRUE) %>%
+  mutate(Operation = ifelse(is.na(isRecordedIn),
+                            liesWithin,
+                            isRecordedIn))

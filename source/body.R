@@ -1,3 +1,6 @@
+
+source("source/tabs/pottery_tab.R")
+
 body <- dashboardBody(
   tabItems(
     # First tab content
@@ -9,12 +12,11 @@ body <- dashboardBody(
                   width = 12, height = 600,
                   plotOutput("overview",
                              height = 250))
-            )
+            ),
+
     ),
     # Pottery tab content
-    tabItem(tabName = "pottery",
-            h2("Pottery")
-    ),
+    pottery_tab,
 
 
 

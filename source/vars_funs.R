@@ -1,6 +1,9 @@
 uhhcol <- c("#e2001a", "#3b515b")
 uhhcol <- colorRampPalette(uhhcol)
 
+uhhcol_two <- c("#3b515b", "#b6bfc3", "#e2001a", "#f07f8c", "#80b8dd", "#0271bb")
+uhhcol_two <- colorRampPalette(uhhcol_two)
+
 
 Plot_Base_Theme <- theme(panel.background = element_blank(),
                          panel.grid.major = element_line(color = "grey60",
@@ -11,4 +14,14 @@ Plot_Base_Theme <- theme(panel.background = element_blank(),
                                                     hjust = 1,
                                                     vjust = 1,
                                                     size = 14),
-                         axis.title = element_text(size = 16))
+                         axis.title = element_text(size = 16),
+                         legend.position = "top")
+
+
+
+##
+
+
+
+operations <- na.omit(unique(uidlist$isRecordedIn))
+
