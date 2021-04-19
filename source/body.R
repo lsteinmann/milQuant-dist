@@ -12,15 +12,16 @@ body <- dashboardBody(
             fluidRow(
               infoBox(
                 title = "This is a test.",
+                value = "This App is meant to be used with the Miletus-configuration and has only been tested on data sets from that config.",
                 icon = icon("vial"),
-                color = "yellow",
-                width = 8),
+                color = "teal",
+                width = 10),
               valueBox(
                 uiOutput("overview_n"),
                 "Total Resources",
                 icon = icon("file-alt"),
                 color = "teal",
-                width = 4
+                width = 2
               )
 
             ),
