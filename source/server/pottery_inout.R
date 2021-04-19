@@ -1,13 +1,7 @@
-# Return the requested dataset
-output$selected_operation <- renderText({
-  paste("You have selected", input$operation)
-})
-
 pottery_overview_data <- reactive({
 
-  pottery_overview_data <- milet %>%
+  pottery_overview_data <- milet_active() %>%
     select_by(by = "type", value = "^Pottery$") %>%
-    select_by(by = "isRecordedIn", value = as.character(input$operation)) %>%
     idaifield_as_matrix() %>%
     as.data.frame() %>%
     mutate_all(~ as.character(.))
@@ -22,17 +16,18 @@ pottery_overview_data <- reactive({
 output$pottery_overview <- renderText({
   n_objects <- nrow(pottery_overview_data())
   n_layers <- length(unique(pottery_overview_data()$relation.liesWithinLayer))
-  paste("This operation contains a total of ", n_objects,
+  paste("This operation (", input$operation, ") contains a total of ", n_objects,
         " pottery resources from ", n_layers, " contexts. Kolay gelsin.",
         sep = "")
 })
 
 
-output$layer_selector = renderUI({#creates County select box object called in ui
+output$POT_layer_selector = renderUI({#creates County select box object called in ui
 
   selectible_layers <- unique(pottery_overview_data()$relation.liesWithinLayer)
   #creates a reactive list of available counties based on the State selection made
-  selectInput(inputId = "layer_selector", label = "Choose one or many contexts",
+  selectInput(inputId = "POT_layer_selector",
+              label = "Choose one or many contexts",
               choices = c("all", selectible_layers),
               selected = "all",
               multiple = TRUE)
@@ -40,12 +35,12 @@ output$layer_selector = renderUI({#creates County select box object called in ui
 
 
 pottery_data <- reactive({
-  if ("all" %in% input$layer_selector) {
+  if ("all" %in% input$POT_layer_selector) {
     pottery_data <- pottery_overview_data()
   } else {
-    layer_selector <- input$layer_selector
+    POT_layer_selector <- input$POT_layer_selector
     pottery_data <- pottery_overview_data() %>%
-      filter(relation.liesWithinLayer %in% layer_selector)
+      filter(relation.liesWithinLayer %in% POT_layer_selector)
   }
 })
 
@@ -78,7 +73,9 @@ output$potPlot_1 <- renderPlot({
   potPlot_1()
 })
 
-output$potPlot_1_png <- milQuant_dowloadHandler(plot = potPlot_1(), ftype = "png")
-output$potPlot_1_pdf <- milQuant_dowloadHandler(plot = potPlot_1(), ftype = "pdf")
+output$potPlot_1_png <- milQuant_dowloadHandler(plot = potPlot_1(),
+                                                ftype = "png")
+output$potPlot_1_pdf <- milQuant_dowloadHandler(plot = potPlot_1(),
+                                                ftype = "pdf")
 
 #"Insula UV/8-9") %>%#

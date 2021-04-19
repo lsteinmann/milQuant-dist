@@ -49,4 +49,3 @@ milQuant_dowloadHandler <- function(plot = "plot", ftype = "png") {
     }
   )
 }
-
