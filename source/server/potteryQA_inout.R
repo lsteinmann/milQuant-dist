@@ -1,71 +1,81 @@
 potteryQA_all <- reactive({
-
   potteryQA_all <- milet_active() %>%
     select_by(by = "type", value = "Pottery_Quantification_A") %>%
-    idaifield_as_matrix() %>%
-    as.data.frame() %>%
-    mutate_all(~ as.character(.))
-
-  na_cols <- rowSums(apply(potteryQA_all,
-                           function(x) is.na(x),
-                           MARGIN = 1)) == 0
-  potteryQA_all <- potteryQA_all[, -na_cols]
-  potteryQA_all
+    prep_for_shiny(reorder_periods = FALSE)
 })
 
-output$QA_layer_selector = renderUI({#creates select box object called in ui
+output$potQA_overview <- renderText({
+  n_objects <- nrow(potteryQA_all())
+  n_layers <- length(unique(potteryQA_all()$relation.liesWithinLayer))
+  paste("The selected operation (", paste(input$operation, collapse = ", "),
+        ") contains a total of ", n_objects,
+        " pottery quantification (A) forms from ", n_layers, " contexts. Kolay gelsin.",
+        sep = "")
+})
 
-  selectible_layers <- unique(potteryQA_all()$relation.liesWithinLayer)
-  #creates a reactive list of available counties based on the State selection made
-  selectInput(inputId = "QA_layer_selector", label = "Choose one or many contexts",
-              choices = c("all", selectible_layers),
-              selected = "all",
-              multiple = TRUE)
+output$QA_layer_selector <- renderUI({
+  make_layer_selector(potteryQA_all(),
+                      inputId = "QA_layer_selector")
 })
 
 QA_pot_data <- reactive({
-  if ("all" %in% input$QA_layer_selector) {
-    QA_pot_data <- potteryQA_all()
-  } else {
-    POT_layer_selector <- input$QA_layer_selector
-    QA_pot_data <- potteryQA_all() %>%
-      filter(relation.liesWithinLayer %in% POT_layer_selector)
-  }
-
-  QA_pot_data
+  select_layers(data_all = potteryQA_all(),
+                input_layer_selector = input$QA_layer_selector)
 })
+
 
 QApotPlot_1 <- function() {
   existing_cols <- colnames(QA_pot_data())
   to_remove <- c("shortDescription", "weightTotal", "countTotal", "processor",
                  "relation.isRecordedIn", "id", "type", "quantificationType",
-                 "identifier", "relation.liesWithinLayer",
+                 "identifier", "relation.liesWithin",
                  "quantificationOther")
   to_remove <- c(to_remove, existing_cols[grepl("weight", existing_cols)])
   rem_cols <- existing_cols[existing_cols %in% to_remove]
 
   plot_data <- QA_pot_data() %>%
     select(-rem_cols) %>%
-    melt(id = "relation.liesWithin") %>%
-    na.omit() %>%
+    melt(id = "relation.liesWithinLayer") %>%
     mutate(value = as.numeric(value)) %>%
-    mutate(variable = gsub("count", "", variable))
+    mutate(variable = gsub("count", "", variable)) %>%
+    mutate(value = ifelse(is.na(value), 0, value)) %>%
+    group_by(variable) %>%
+    mutate(n_total = sum(value, na.rm = TRUE)) %>%
+    ungroup() %>%
+    mutate(variable = fct_reorder(variable, -n_total))
 
-  if (input$QApotPlot_1_display == "x") {
-    p <- ggplot(plot_data, aes(x = reorder(variable, -value),
-                               fill = relation.liesWithin,
+  if (input$QApotPlot_1_display == "fill") {
+    p <- ggplot(plot_data, aes(x = variable,
+                               fill = relation.liesWithinLayer,
                                y = value))
-  } else if (input$QApotPlot_1_display == "fill") {
-    p <- ggplot(plot_data, aes(x = reorder(relation.liesWithin, -value),
+    legend_title <- "Context"
+    x_axis_title <- "Vessel Forms"
+  } else if (input$QApotPlot_1_display == "x") {
+    p <- ggplot(plot_data, aes(x = reorder(relation.liesWithinLayer, -n_total),
                                fill = variable,
                                y = value))
+    legend_title <- "Vessel Forms"
+    x_axis_title <- "Context"
+
+  } else if (input$QApotPlot_1_display == "none") {
+
+    p <- plot_data %>%
+      group_by(variable) %>%
+      summarise(value = sum(value)) %>%
+      ggplot(aes(x = variable, y = value))
+    legend_title <- "none"
+    x_axis_title <- "Vessel Forms"
   }
+  plot_title <- paste("Vessel Forms from ", input$operation,
+                      " in Context: ",
+                      paste(input$QA_layer_selector, collapse = ", "),
+                      sep = "")
 
   p +
     geom_bar(stat = "identity", position = input$QApotPlot_1_bars) +
-    scale_fill_discrete(name = "Context") +
     Plot_Base_Theme +
-    labs(x = "Group", y = "count")
+    scale_fill_discrete(name = legend_title) +
+    labs(x = x_axis_title, y = "count", title = plot_title)
 }
 
 output$QApotPlot_1 <- renderPlot({

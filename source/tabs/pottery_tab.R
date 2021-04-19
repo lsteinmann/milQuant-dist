@@ -15,6 +15,12 @@ pottery_tab <- tabItem(
                         htmlOutput("POT_layer_selector"),
                         htmlOutput("potPlot_1_x_selector"),
                         htmlOutput("potPlot_1_fill_selector"),
+                        sliderTextInput(
+                                inputId = "period_select",
+                                label = "Choose a range:",
+                                choices = periods,
+                                selected = periods[c(1,length(periods))]
+                        ),
                         downloadButton("potPlot_1_png", label = "Download plot (png)"),
                         downloadButton("potPlot_1_pdf", label = "Download plot (pdf)")
                 ),

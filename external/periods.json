@@ -1,0 +1,154 @@
+{
+  "values": {
+    "Pleistozän": {
+      "labels": {
+        "de": "Pleistozän",
+        "it": "Pleistocene"
+      }
+    },
+    "Neolithisch": {
+      "labels": {
+        "de": "Neolithisch",
+        "it": "Neolitico"
+      }
+    },
+    "Frühbronzezeitlich": {
+      "labels": {
+        "de": "Frühbronzezeitlich",
+        "it": "Antica età del bronzo"
+      }
+    },
+    "Bronzezeitlich": {
+      "labels": {
+        "de": "Bronzezeitlich",
+        "it": "Età del bronzo"
+      }
+    },
+    "Spätbronzezeitlich": {
+      "labels": {
+        "de": "Spätbronzezeitlich",
+        "it": "Tarda età del bronzo"
+      }
+    },
+    "Eisenzeitlich": {
+      "labels": {
+        "de": "Eisenzeitlich",
+        "it": "Età del ferro"
+      }
+    },
+    "Geometrisch": {
+      "labels": {
+        "de": "Geometrisch",
+        "it": "Geometrico"
+      }
+    },
+    "Archaisch": {
+      "labels": {
+        "de": "Archaisch",
+        "en": "Arcaico"
+      }
+    },
+    "Frühklassisch": {
+      "labels": {
+        "de": "Frühklassisch",
+        "it": "Antica età classica"
+      }
+    },
+    "Klassisch": {
+      "labels": {
+        "de": "Klassisch",
+        "it": "Classico"
+      }
+    },
+    "Spätklassisch": {
+      "labels": {
+        "de": "Spätklassisch",
+        "it": "Tardo-classico"
+      }
+    },
+    "Frühbyzantinisch": {
+      "labels": {
+        "de": "Frühbyzantinisch",
+        "it": "Primo periodo Bizantino"
+      }
+    },
+    "Byzantinisch": {
+      "labels": {
+        "de": "Byzantinisch",
+        "it": "Bizantino"
+      }
+    },
+    "Frühhellenistisch": {
+      "labels": {
+        "de": "Frühhellenistisch",
+        "it": "Antica età ellenistica"
+      }
+    },
+    "Hellenistisch": {
+      "labels": {
+        "de": "Hellenistisch",
+        "it": "Ellenistico"
+      }
+    },
+    "Späthellenistisch": {
+      "labels": {
+        "de": "Späthellenistisch",
+        "it": "Tardo-ellenistico"
+      }
+    },
+    "Frühkaiserzeitlich": {
+      "labels": {
+        "de": "Frühkaiserzeitlich",
+        "it": "Prima età imperiale"
+      }
+    },
+    "Kaiserzeitlich": {
+      "labels": {
+        "de": "Kaiserzeitlich",
+        "it": "Periodo imperiale"
+      }
+    },
+    "Spätkaiserzeitlich": {
+      "labels": {
+        "de": "Spätkaiserzeitlich",
+        "it": "Tardo-imperiale"
+      }
+    },
+    "Römisch": {
+      "labels": {
+        "de": "Römisch",
+        "it": "Romano"
+      }
+    },
+    "Spätantik": {
+      "labels": {
+        "de": "Spätantik",
+        "it": "Tardo-antico"
+      }
+    },
+    "Spätbyzantinisch": {
+      "labels": {
+        "de": "Spätbyzantinisch",
+        "it": "Tardo-bizantino"
+      }
+    },
+    "Osmanisch": {
+      "labels": {
+        "de": "Osmanisch",
+        "it": "Ottomano"
+      }
+    },
+    "Neuzeitlich": {
+      "labels": {
+        "de": "Neuzeitlich",
+        "it": "Età moderna"
+      }
+    },
+    "Rezent": {
+      "labels": {
+        "de": "Rezent",
+        "it": "Recente"
+      }
+    }
+  }
+}

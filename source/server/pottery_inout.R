@@ -1,48 +1,31 @@
 pottery_overview_data <- reactive({
-
-  pottery_overview_data <- milet_active() %>%
+  milet_active() %>%
     select_by(by = "type", value = "^Pottery$") %>%
-    idaifield_as_matrix() %>%
-    as.data.frame() %>%
-    mutate_all(~ as.character(.))
-
-  na_cols <- rowSums(apply(pottery_overview_data,
-                           function(x) is.na(x),
-                           MARGIN = 1)) == 0
-  pottery_overview_data <- pottery_overview_data[, -na_cols]
-  pottery_overview_data
+    prep_for_shiny(reorder_periods = TRUE)
 })
 
 output$pottery_overview <- renderText({
   n_objects <- nrow(pottery_overview_data())
   n_layers <- length(unique(pottery_overview_data()$relation.liesWithinLayer))
-  paste("This operation (", input$operation, ") contains a total of ", n_objects,
+  paste("The selected operation (", paste(input$operation, collapse = ", "),
+        ") contains a total of ", n_objects,
         " pottery resources from ", n_layers, " contexts. Kolay gelsin.",
         sep = "")
 })
 
 
-output$POT_layer_selector = renderUI({#creates County select box object called in ui
-
-  selectible_layers <- unique(pottery_overview_data()$relation.liesWithinLayer)
-  #creates a reactive list of available counties based on the State selection made
-  selectInput(inputId = "POT_layer_selector",
-              label = "Choose one or many contexts",
-              choices = c("all", selectible_layers),
-              selected = "all",
-              multiple = TRUE)
+output$POT_layer_selector <- renderUI({
+  make_layer_selector(pottery_overview_data(),
+                      inputId = "POT_layer_selector")
 })
+
 
 
 pottery_data <- reactive({
-  if ("all" %in% input$POT_layer_selector) {
-    pottery_data <- pottery_overview_data()
-  } else {
-    POT_layer_selector <- input$POT_layer_selector
-    pottery_data <- pottery_overview_data() %>%
-      filter(relation.liesWithinLayer %in% POT_layer_selector)
-  }
+  data <- select_layers(input_layer_selector = input$POT_layer_selector,
+                data_all = pottery_overview_data())
 })
+
 
 pottery_vars <- reactive({
   pottery_vars <- colnames(pottery_data())

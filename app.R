@@ -1,14 +1,8 @@
 ## app.R ##
-library(shiny)
-library(shinydashboard)
-library(ggplot2)
-library(dplyr)
-library(forcats)
-library(reshape2)
-library(viridis)
-
+source("source/load_packages.R")
 source("source/get_data.R")
-source("source/vars_funs.R")
+source("source/global_vars.R")
+source("source/helpers.R")
 
 header <- dashboardHeader(title = img(src = "Logo.png",
                                       height = 44,
@@ -45,17 +39,20 @@ server <- function(input, output, session) {
     })
 
     milet_active <- reactive({
-
-        get_idaifield_data() %>%
-            select_by(by = "isRecordedIn", value = as.character(input$operation))
-
+        if (input$operation == "all") {
+            get_idaifield_data()
+        } else {
+            get_idaifield_data() %>%
+                select_by(by = "isRecordedIn", value = as.character(input$operation))
+        }
     })
+
 
     source('source/server/overview_inout.R', local = TRUE)
     source('source/server/pottery_inout.R', local = TRUE)
     source('source/server/potteryQA_inout.R', local = TRUE)
-    #source('source/server/potteryQB_inout.R', local = TRUE)
-
+    source('source/server/potteryQB_inout.R', local = TRUE)
+    source('source/server/sculpture_inout.R', local = TRUE)
 
 }
 

@@ -1,7 +1,7 @@
 
 source("source/tabs/pottery_tab.R")
 source("source/tabs/potteryQA_tab.R")
-#source("source/tabs/potteryQB_tab.R")
+source("source/tabs/potteryQB_tab.R")
 source("source/tabs/sculpture_tab.R")
 
 body <- dashboardBody(
@@ -36,7 +36,7 @@ body <- dashboardBody(
     # Pottery tabs content
     pottery_tab,
     potteryQA_tab,
-    #potteryQB_tab,
+    potteryQB_tab,
 
 
 

@@ -1,3 +1,5 @@
+## Design
+
 uhhcol <- c("#e2001a", "#3b515b")
 uhhcol <- colorRampPalette(uhhcol)
 
@@ -15,15 +17,15 @@ Plot_Base_Theme <- theme(panel.background = element_blank(),
                                                     vjust = 1,
                                                     size = 14),
                          axis.title = element_text(size = 16),
-                         legend.position = "top")
+                         legend.position = "bottom")
 
 
 
-##
+## Global Variables
 
+operations <- c("all", na.omit(unique(uidlist$isRecordedIn)))
+#operations <- na.omit(unique(uidlist$isRecordedIn))
 
-
-operations <- na.omit(unique(uidlist$isRecordedIn))
 
 drop_for_plot_vars <- c("identifier", "shortDescription", "notes",
                         "storagePlaceOther", "measuringPointID",
@@ -38,14 +40,5 @@ drop_for_plot_vars <- c("identifier", "shortDescription", "notes",
                         "otherNotes", "id", "isRecordedIn", "type")
 
 
-
-milQuant_dowloadHandler <- function(plot = "plot", ftype = "png") {
-  downloadHandler(
-    filename = paste(format(Sys.Date(), "%Y%m%d"),
-                     "_milQuant_plot.", ftype, sep = ""),
-    content <- function(file) {
-      ggsave(file, plot = plot, device = ftype,
-             width = 25, height = 15, units = "cm")
-    }
-  )
-}
+periods <- jsonlite::fromJSON("external/periods.json")
+periods <- factor(names(periods[[1]]), levels = names(periods[[1]]))
