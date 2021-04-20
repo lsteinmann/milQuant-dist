@@ -11,9 +11,15 @@ prep_for_shiny <- function(data, reorder_periods = TRUE) {
 
   if(reorder_periods) {
     data <- data %>%
-      mutate(period = factor(period, levels = levels(periods)),
-             period.end = factor(period.end, levels = levels(periods)),
-             period.start = factor(period.start, levels = levels(periods)))
+      mutate(period = factor(period,
+                             levels = levels(periods),
+                             ordered = TRUE),
+             period.end = factor(period.end,
+                                 levels = levels(periods),
+                                 ordered = TRUE),
+             period.start = factor(period.start,
+                                   levels = levels(periods),
+                                   ordered = TRUE))
   }
   return(data)
 }

@@ -38,31 +38,23 @@ QApotPlot_1 <- function() {
     melt(id = "relation.liesWithinLayer") %>%
     mutate(value = as.numeric(value)) %>%
     mutate(variable = gsub("count", "", variable)) %>%
-    mutate(value = ifelse(is.na(value), 0, value)) %>%
-    group_by(variable) %>%
-    mutate(n_total = sum(value, na.rm = TRUE)) %>%
-    ungroup() %>%
-    mutate(variable = fct_reorder(variable, -n_total))
+    mutate(value = ifelse(is.na(value), 0, value))  %>%
+    uncount(value)
 
   if (input$QApotPlot_1_display == "fill") {
-    p <- ggplot(plot_data, aes(x = variable,
-                               fill = relation.liesWithinLayer,
-                               y = value))
+    p <- ggplot(plot_data, aes(x = fct_infreq(variable),
+                               fill = fct_infreq(relation.liesWithinLayer)))
     legend_title <- "Context"
     x_axis_title <- "Vessel Forms"
   } else if (input$QApotPlot_1_display == "x") {
-    p <- ggplot(plot_data, aes(x = reorder(relation.liesWithinLayer, -n_total),
-                               fill = variable,
-                               y = value))
+    p <- ggplot(plot_data, aes(x = fct_infreq(relation.liesWithinLayer),
+                               fill = fct_infreq(variable)))
     legend_title <- "Vessel Forms"
     x_axis_title <- "Context"
 
   } else if (input$QApotPlot_1_display == "none") {
 
-    p <- plot_data %>%
-      group_by(variable) %>%
-      summarise(value = sum(value)) %>%
-      ggplot(aes(x = variable, y = value))
+    p <- ggplot(plot_data, aes(x = fct_infreq(variable)))
     legend_title <- "none"
     x_axis_title <- "Vessel Forms"
   }
@@ -72,7 +64,7 @@ QApotPlot_1 <- function() {
                       sep = "")
 
   p +
-    geom_bar(stat = "identity", position = input$QApotPlot_1_bars) +
+    geom_bar(position = input$QApotPlot_1_bars) +
     Plot_Base_Theme +
     scale_fill_discrete(name = legend_title) +
     labs(x = x_axis_title, y = "count", title = plot_title)

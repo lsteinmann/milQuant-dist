@@ -1,5 +1,5 @@
 packages <- c("shiny", "shinydashboard", "ggplot2", "dplyr", "reshape2",
-              "forcats", "idaifieldR", "shinyWidgets", "tidyr")
+              "forcats", "idaifieldR", "shinyWidgets", "tidyr", "viridis")
 for (p in packages) {
   if(!require(p, character.only = TRUE)) {
     if (p == "idaifieldR") {

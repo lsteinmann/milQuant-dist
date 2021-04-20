@@ -2,31 +2,37 @@ potteryQB_tab <- tabItem(
   tabName = "potteryQB",
   h1("Charts from Form: Pottery Quantification B"),
   fluidRow(
-    infoBox(title = "titel", value = textOutput("potQB_overview"),
+    infoBox(title = "Info", value = textOutput("potQB_overview"),
             icon = icon("list-alt"),
-            color = "orange", width = 12),
+            color = "teal", width = 12),
   ),
   fluidRow(
     box(
-      width = 3, height = 500,
+      width = 3, height = 600,
       htmlOutput("QB_layer_selector"),
       prettyRadioButtons(inputId = "QBpotPlot_1_display",
                    label = "Display Options", icon = icon("check"),
                    inline = FALSE, animation = "jelly",
-                   choices = list("Context as Color" = "fill",
-                                  "Context as Subplot" = "wrap",
-                                  "Do not display Context" = "none")),
+                   choices = list("Do not display Context" = "none",
+                                  "Context as Subplot" = "wrap")),
       prettyRadioButtons(inputId = "QBpotPlot_1_bars",
                    label = "Position of Bars", icon = icon("check"),
                    inline = TRUE, animation = "jelly",
                    choices = list("Dodged Bars" = "dodge",
                                   "Stacked Bars" = "stack")),
+      sliderTextInput(
+        inputId = "QB_period_select",
+        label = "Choose a range:",
+        choices = periods,
+        selected = periods[c(1,length(periods))],
+        force_edges = TRUE
+      ),
       downloadButton("QBpotPlot_1_png", label = "Download plot (png)"),
       downloadButton("QBpotPlot_1_pdf", label = "Download plot (pdf)")
     ),
     box(
-      width = 9, height = 500,
-      plotOutput("QBpotPlot_1")
+      width = 9, height = 600,
+      plotOutput("QBpotPlot_1", height = 570)
     )
   )
 

@@ -22,7 +22,7 @@ output$POT_layer_selector <- renderUI({
 
 
 pottery_data <- reactive({
-  data <- select_layers(input_layer_selector = input$POT_layer_selector,
+  select_layers(input_layer_selector = input$POT_layer_selector,
                 data_all = pottery_overview_data())
 })
 
@@ -45,8 +45,13 @@ output$potPlot_1_fill_selector <- renderUI({
 })
 
 potPlot_1 <- function() {
-  ggplot(pottery_data(), aes(x = get(input$potPlot_1_xvar),
-                             fill = get(input$potPlot_1_fillvar))) +
+  pottery_data() %>%
+    # select by periods from the slider, i tested but am not totally sure if that works
+    # very well
+    filter(period.start >= input$period_select[1] & period.end <= input$period_select[2]) %>%
+    filter(period.end <= input$period_select[2]) %>%
+    ggplot(aes(x = get(input$potPlot_1_xvar),
+               fill = get(input$potPlot_1_fillvar))) +
     geom_bar() + Plot_Base_Theme +
     scale_fill_discrete(name = input$potPlot_1_fillvar) +
     labs(y = "Number of Objects", x = input$potPlot_1_xvar)

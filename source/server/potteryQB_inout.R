@@ -28,51 +28,41 @@ QBpotPlot_1 <- function() {
   existing_cols <- colnames(QB_pot_data())
   to_remove <- c("shortDescription", "weightTotal", "countTotal", "processor",
                  "relation.isRecordedIn", "id", "type", "quantificationType",
-                 "identifier", "relation.liesWithinLayer", "datingAddenda",
+                 "identifier", "relation.liesWithin", "datingAddenda",
                  "quantificationOther", "period.end", "period.start")
   to_remove <- c(to_remove, existing_cols[grepl("weight", existing_cols)])
   rem_cols <- existing_cols[existing_cols %in% to_remove]
 
   plot_data <- QB_pot_data() %>%
     select(-rem_cols) %>%
-    melt(id = c("relation.liesWithin", "period")) %>%
+    melt(id = c("relation.liesWithinLayer", "period")) %>%
     mutate(value = as.numeric(value)) %>%
     mutate(value = ifelse(is.na(value), 0, value)) %>%
     mutate(variable = gsub("count", "", variable)) %>%
     mutate(variable = gsub("Rim|Base|Handle", "", variable)) %>%
-    mutate(period = fct_explicit_na(period, "undated")) %>%
-    group_by(variable) %>%
-    mutate(n_total = sum(value, na.rm = TRUE))
+    filter(period >= input$QB_period_select[1]) %>%
+    filter(period <= input$QB_period_select[2]) %>%
+    uncount(value)
 
-  if (input$QBpotPlot_1_display == "fill") {
-    p <- ggplot(plot_data, aes(x = reorder(variable, -n_total),
-                               fill = relation.liesWithin,
-                               y = value)) +
-      scale_fill_discrete(name = "Context")
-
-  } else if (input$QBpotPlot_1_display == "none") {
-    p <- ggplot(plot_data, aes(x = reorder(variable, -n_total),
-                               fill = period,
-                               y = value)) +
-      scale_fill_discrete(name = "Period")
-  } else if (input$QBpotPlot_1_display == "wrap") {
-    p <- ggplot(plot_data, aes(x = reorder(variable, -n_total),
-                               fill = period,
-                               y = value)) +
-      scale_fill_discrete(name = "Period") +
-      facet_wrap(~ relation.liesWithin, ncol = 2)
-  }
 
   plot_title <- paste("Vessel Forms from ", input$operation,
                       " in Context: ",
                       paste(input$QB_layer_selector, collapse = ", "),
                       sep = "")
-  x_lab <- "Vessel Forms"
 
-  p +
-    geom_bar(stat = "identity", position = input$QBpotPlot_1_bars) +
+
+  p <- ggplot(plot_data, aes(x = fct_infreq(variable),
+                             fill = period)) +
+    geom_bar(position = input$QBpotPlot_1_bars) +
     Plot_Base_Theme +
-    labs(x = x_lab, y = "count", title = plot_title)
+    labs(x = "Vessel Forms", y = "count", title = plot_title) +
+    scale_fill_period
+
+  if (input$QBpotPlot_1_display == "wrap") {
+    p <- p + facet_wrap(~ relation.liesWithinLayer, ncol = 2)
+  }
+
+  p
 }
 
 output$QBpotPlot_1 <- renderPlot({

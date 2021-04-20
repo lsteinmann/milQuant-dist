@@ -41,4 +41,18 @@ drop_for_plot_vars <- c("identifier", "shortDescription", "notes",
 
 
 periods <- jsonlite::fromJSON("external/periods.json")
-periods <- factor(names(periods[[1]]), levels = names(periods[[1]]))
+periods <- factor(names(periods[[1]]),
+                  levels = names(periods[[1]]),
+                  ordered = TRUE)
+
+#period_colors <- read.csv("external/period_colors.csv", header = FALSE)[,1]
+period_colors <- viridis::viridis_pal(option = "D")(length(periods))
+
+scale_fill_period <- scale_fill_manual(name = "Period",
+                                       values = period_colors,
+                                       breaks = periods)
+
+find_types <- c("Find", "Pottery", "Terracotta", "Brick", "Bone",
+                "Glass", "Metal", "Stone", "Wood", "Coin", "PlasterFragment",
+                "Mollusk", "Sculpture")
+
