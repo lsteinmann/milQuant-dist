@@ -45,6 +45,13 @@ output$potPlot_1_fill_selector <- renderUI({
 })
 
 potPlot_1 <- function() {
+
+  if (grepl("period", input$potPlot_1_fillvar)) {
+    potPlot_1_scale_fill <- scale_fill_period
+  } else {
+    potPlot_1_scale_fill <- scale_fill_discrete(name = input$potPlot_1_fillvar)
+  }
+
   pottery_data() %>%
     # select by periods from the slider, i tested but am not totally sure if that works
     # very well
@@ -52,8 +59,7 @@ potPlot_1 <- function() {
     filter(period.end <= input$period_select[2]) %>%
     ggplot(aes(x = get(input$potPlot_1_xvar),
                fill = get(input$potPlot_1_fillvar))) +
-    geom_bar() + Plot_Base_Theme +
-    scale_fill_discrete(name = input$potPlot_1_fillvar) +
+    geom_bar() + Plot_Base_Theme + potPlot_1_scale_fill +
     labs(y = "Number of Objects", x = input$potPlot_1_xvar)
 }
 
