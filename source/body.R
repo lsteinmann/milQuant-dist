@@ -29,8 +29,7 @@ body <- dashboardBody(
               box(title = "Overview", status = "primary",
                   solidHeader = TRUE, collapsible = FALSE,
                   width = 12, height = 600,
-                  plotOutput("overview",
-                             height = 250))
+                  plotOutput("overview"))
               )
             ),
     # Pottery tabs content

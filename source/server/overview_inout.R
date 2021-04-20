@@ -24,4 +24,4 @@ output$overview <- renderPlot({
                       #values = uhhcol_two(length(unique(uidlist$Operation)))) +
     labs(x = "Resources in iDAI.field 2", y = "Count") +
     Plot_Base_Theme
-}, height = 500)
+}, height = 530)
