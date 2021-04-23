@@ -10,7 +10,7 @@ The milQuant-Shiny Dashboard provides quick quantitative overviews of the data i
 This app uses the [idaifieldR](https://github.com/lsteinmann/idaifieldR) package currently only available on GitHub to import data from iDAI.field 2 into R. Apart from that there is a variety of other packages used in this app, all of which can be found on CRAN: 
 
 ```
-require("shiny", "shinydashboard", "ggplot2", "dplyr", "reshape2", "forcats", "idaifieldR", "shinyWidgets", "tidyr")
+require("shiny", "shinydashboard", "ggplot2", "dplyr", "reshape2", "forcats", "idaifieldR", "shinyWidgets", "tidyr", "viridis")
 ```
 
 ## Adaptation

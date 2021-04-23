@@ -3,6 +3,7 @@ source("source/tabs/pottery_tab.R")
 source("source/tabs/potteryQA_tab.R")
 source("source/tabs/potteryQB_tab.R")
 source("source/tabs/sculpture_tab.R")
+source("source/tabs/buildings_tab.R")
 
 body <- dashboardBody(
   tabItems(
@@ -40,6 +41,9 @@ body <- dashboardBody(
 
 
     # Sculpture tab content
-    sculpture_tab
+    sculpture_tab,
+
+    # Buildings tab
+    buildings_tab
   )
 )

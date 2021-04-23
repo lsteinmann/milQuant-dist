@@ -1,3 +1,5 @@
+options(digits = 20)
+
 idaif_connection <- connect_idaifield(serverip = "192.168.2.21",
                                       user = "milQUant",
                                       pwd = "hallo")
@@ -5,10 +7,12 @@ idaif_connection <- connect_idaifield(serverip = "192.168.2.21",
 get_idaifield_data <- function(projectname = "milet") {
   get_idaifield_docs(connection = idaif_connection,
                      projectname = projectname,
-                     keep_geometry = FALSE,
+                     keep_geometry = TRUE,
                      simplified = TRUE)
 }
 
+
+project_list <- sofa::db_list(idaif_connection)
 
 uidlist <- get_uid_list(get_idaifield_data(), verbose = TRUE) %>%
   mutate(Operation = ifelse(is.na(isRecordedIn),

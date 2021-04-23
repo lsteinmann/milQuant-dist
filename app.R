@@ -4,24 +4,25 @@ source("source/get_data.R")
 source("source/global_vars.R")
 source("source/helpers.R")
 
-header <- dashboardHeader(title = img(src = "Logo.png",
-                                      height = 44,
-                                      width = 45))
+header <- dashboardHeader(title = img(src = "loewe.png",
+                                      height = 44))
+
 
 sidebar <- dashboardSidebar(
     sidebarMenu(
-        menuItem("Home", tabName = "home", icon = icon("graduation-cap"),
-                 badgeLabel = "new"),
         selectInput("operation", "Choose Operation to work with",
                     choices = operations, multiple = FALSE,
                     selected = operations[1]),
+        menuItem("Home", tabName = "home", icon = icon("graduation-cap")),
         menuItem("Pottery", tabName = "pottery_all", icon = icon("trophy"),
                  menuSubItem("Pottery (single)", tabName = "pottery", icon = icon("wine-glass-alt")),
                  menuSubItem("Pottery Quantification A", tabName = "potteryQA", icon = icon("glass-cheers")),
                  menuSubItem("Pottery Quantification B", tabName = "potteryQB", icon = icon("glass-cheers"))
                 ),
         menuItem("Sculpture", tabName = "sculpture", icon = icon("horse-head"),
-                 badgeLabel = "new", badgeColor = "green"),
+                 badgeLabel = "empty", badgeColor = "red"),
+        menuItem("Buildings", tabName = "buildings", icon = icon("landmark"),
+                 badgeLabel = "wip", badgeColor = "yellow"),
         menuItem("Issues / Contact", icon = icon("file-code-o"),
                  href = "https://github.com/lsteinmann/milQuant")
     )
@@ -47,12 +48,15 @@ server <- function(input, output, session) {
         }
     })
 
+    #
+
 
     source('source/server/overview_inout.R', local = TRUE)
     source('source/server/pottery_inout.R', local = TRUE)
     source('source/server/potteryQA_inout.R', local = TRUE)
     source('source/server/potteryQB_inout.R', local = TRUE)
     source('source/server/sculpture_inout.R', local = TRUE)
+    source('source/server/buildings_inout.R', local = TRUE)
 
 }
 

@@ -28,10 +28,8 @@ prep_for_shiny <- function(data, reorder_periods = TRUE) {
 
 # Helper to remove columns that are empty
 remove_na_cols <- function(data) {
-  na_cols <- rowSums(apply(data,
-                           function(x) is.na(x),
-                           MARGIN = 1)) == 0
-  data <- data[, -na_cols]
+  na_cols <- apply(data, function(x) all(is.na(x)), MARGIN = 2)
+  data <- data[, !na_cols]
   return(data)
 }
 

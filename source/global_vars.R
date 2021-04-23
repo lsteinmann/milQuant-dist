@@ -37,7 +37,8 @@ drop_for_plot_vars <- c("identifier", "shortDescription", "notes",
                         "temperGrain", "surfaceTreatment",
                         "surfaceTreatmentDescription", "analysisMethodOther",
                         "analysisAim", "analysisActor", "analysisResult",
-                        "otherNotes", "id", "isRecordedIn", "type")
+                        "otherNotes", "id", "isRecordedIn", "type", "workflow",
+                        "analysisMethod", "localization")
 
 
 periods <- jsonlite::fromJSON("external/periods.json")
