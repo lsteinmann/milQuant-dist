@@ -8,6 +8,6 @@ buildings_tab <- tabItem(
     ),
   fluidRow(
     box(width = 12,
-        leafletOutput("my_leaf", height = 750))
+        leafletOutput("buildings_leaf", height = 750))
   )
 )

@@ -105,7 +105,7 @@ library(leaflet)
 
 
 
-output$my_leaf <- renderLeaflet({
+output$buildings_leaf <- renderLeaflet({
 
 buildingCategory <- building_data()$buildingCategory
 buildingCategory.pal <- colorFactor(rainbow(length(buildingCategory)),
