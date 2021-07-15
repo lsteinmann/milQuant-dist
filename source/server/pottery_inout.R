@@ -1,6 +1,6 @@
 pottery_overview_data <- reactive({
   milet_active() %>%
-    select_by(by = "type", value = "^Pottery$") %>%
+    select_by(by = "type", value = "Pottery") %>%
     prep_for_shiny(reorder_periods = TRUE)
 })
 

@@ -10,7 +10,7 @@ header <- dashboardHeader(title = img(src = "loewe.png",
 
 sidebar <- dashboardSidebar(
     sidebarMenu(
-        selectInput("operation", "Choose Operation to work with",
+        selectInput("operation", "Choose an Area or Survey to work with",
                     choices = operations, multiple = FALSE,
                     selected = operations[1]),
         menuItem("Home", tabName = "home", icon = icon("graduation-cap")),
@@ -43,13 +43,23 @@ server <- function(input, output, session) {
         if (input$operation == "all") {
             get_idaifield_data()
         } else {
-            get_idaifield_data() %>%
-                select_by(by = "isRecordedIn", value = as.character(input$operation))
+            inp_operation <- as.character(input$operation)
+            type <- uidlist$type[which(uidlist$identifier == inp_operation)]
+            if (type == "Place") {
+                UIDs <- get_uid_list(get_idaifield_data(),
+                                     verbose = TRUE,
+                                     gather_trenches = TRUE) %>%
+                    filter(Place == inp_operation) %>%
+                    pull(UID)
+
+                get_idaifield_data() %>%
+                    select_by(by = "UID", value = UIDs)
+            } else {
+                get_idaifield_data() %>%
+                    select_by(by = "isRecordedIn", value = inp_operation)
+            }
         }
     })
-
-    #
-
 
     source('source/server/overview_inout.R', local = TRUE)
     source('source/server/pottery_inout.R', local = TRUE)

@@ -23,8 +23,7 @@ Plot_Base_Theme <- theme(panel.background = element_blank(),
 
 ## Global Variables
 
-operations <- c("all", na.omit(unique(uidlist$isRecordedIn)))
-#operations <- na.omit(unique(uidlist$isRecordedIn))
+operations <- c("all", sort(na.omit(unique(uidlist$Place))))
 
 
 drop_for_plot_vars <- c("identifier", "shortDescription", "notes",

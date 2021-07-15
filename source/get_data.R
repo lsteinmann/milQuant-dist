@@ -14,10 +14,14 @@ get_idaifield_data <- function(projectname = "milet") {
 
 project_list <- sofa::db_list(idaif_connection)
 
-uidlist <- get_uid_list(get_idaifield_data(), verbose = TRUE) %>%
+uidlist <- get_uid_list(get_idaifield_data(),
+                        verbose = TRUE,
+                        gather_trenches = TRUE) %>%
   mutate(Operation = ifelse(is.na(isRecordedIn),
                             liesWithin,
                             isRecordedIn)) %>%
   mutate(Operation = ifelse(is.na(Operation),
                             "none",
                             Operation))
+
+

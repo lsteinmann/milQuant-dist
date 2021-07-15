@@ -5,12 +5,12 @@ output$overview_n <- renderText({
 output$overview <- renderPlot({
   filter_op <- input$operation
   if (filter_op == "all") {
-    filter_op <- unique(uidlist$Operation)
+    filter_op <- operations[-1]
   }
 
-  alpha <- rep(0.3, length(unique(uidlist$Operation)))
+  alpha <- rep(0.3, length(operations[-1]))
 
-  table(uidlist$type, uidlist$Operation) %>%
+  table(uidlist$type, uidlist$Place) %>%
     as.data.frame() %>%
     group_by(Var1) %>%
     mutate(freq_group = sum(Freq)) %>%
