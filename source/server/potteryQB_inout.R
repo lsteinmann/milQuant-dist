@@ -29,7 +29,7 @@ QBpotPlot_1 <- function() {
   to_remove <- c("shortDescription", "weightTotal", "countTotal", "processor",
                  "relation.isRecordedIn", "id", "type", "quantificationType",
                  "identifier", "relation.liesWithin", "datingAddenda",
-                 "quantificationOther", "period.end", "period.start")
+                 "quantificationOther", "period.end", "period.start", "campaign")
   to_remove <- c(to_remove, existing_cols[grepl("weight", existing_cols)])
   rem_cols <- existing_cols[existing_cols %in% to_remove]
 
@@ -39,7 +39,7 @@ QBpotPlot_1 <- function() {
     mutate(value = as.numeric(value)) %>%
     mutate(value = ifelse(is.na(value), 0, value)) %>%
     mutate(variable = gsub("count", "", variable)) %>%
-    mutate(variable = gsub("Rim|Base|Handle", "", variable)) %>%
+    mutate(variable = gsub("Rim|Base|Handle|Wall", "", variable)) %>%
     filter(period >= input$QB_period_select[1]) %>%
     filter(period <= input$QB_period_select[2]) %>%
     uncount(value)
@@ -50,13 +50,21 @@ QBpotPlot_1 <- function() {
                       paste(input$QB_layer_selector, collapse = ", "),
                       sep = "")
 
+  if (input$QBpotPlot_2_display == "function") {
+    p <- ggplot(plot_data, aes(x = fct_infreq(variable),
+                               fill = period)) +
+      geom_bar(position = input$QBpotPlot_1_bars) +
+      Plot_Base_Theme +
+      labs(x = "Vessel Forms", y = "count", title = plot_title) +
+      scale_fill_period
+  } else if (input$QBpotPlot_2_display == "period") {
+    p <- ggplot(plot_data, aes(x = period,
+                               fill = fct_infreq(variable))) +
+      geom_bar(position = input$QBpotPlot_1_bars) +
+      Plot_Base_Theme +
+      labs(x = "Period", y = "count", title = plot_title)
+  }
 
-  p <- ggplot(plot_data, aes(x = fct_infreq(variable),
-                             fill = period)) +
-    geom_bar(position = input$QBpotPlot_1_bars) +
-    Plot_Base_Theme +
-    labs(x = "Vessel Forms", y = "count", title = plot_title) +
-    scale_fill_period
 
   if (input$QBpotPlot_1_display == "wrap") {
     p <- p + facet_wrap(~ relation.liesWithinLayer, ncol = 2)

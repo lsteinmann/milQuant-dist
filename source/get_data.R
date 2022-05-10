@@ -1,7 +1,7 @@
 options(digits = 20)
 
 idaif_connection <- connect_idaifield(serverip = "127.0.0.1",
-                                      user = "milQUant",
+                                      user = "milQuant",
                                       pwd = "hallo")
 
 get_idaifield_data <- function(projectname = "milet") {
@@ -25,3 +25,5 @@ uidlist <- get_uid_list(get_idaifield_data(),
                             Operation))
 
 
+
+data <- get_idaifield_data()

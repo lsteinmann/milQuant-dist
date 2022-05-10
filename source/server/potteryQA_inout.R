@@ -29,7 +29,7 @@ QApotPlot_1 <- function() {
   to_remove <- c("shortDescription", "weightTotal", "countTotal", "processor",
                  "relation.isRecordedIn", "id", "type", "quantificationType",
                  "identifier", "relation.liesWithin",
-                 "quantificationOther")
+                 "quantificationOther", "campaign")
   to_remove <- c(to_remove, existing_cols[grepl("weight", existing_cols)])
   rem_cols <- existing_cols[existing_cols %in% to_remove]
 
