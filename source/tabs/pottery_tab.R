@@ -1,6 +1,4 @@
 
-
-
 pottery_tab <- tabItem(
         tabName = "pottery",
         h1("Charts from Form: Pottery"),

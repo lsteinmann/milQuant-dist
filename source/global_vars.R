@@ -23,7 +23,7 @@ Plot_Base_Theme <- theme(panel.background = element_blank(),
 
 ## Global Variables
 
-operations <- c("all", sort(na.omit(unique(uidlist$Place))))
+#operations <- c("all", sort(na.omit(unique(index$Place))))
 
 
 drop_for_plot_vars <- c("identifier", "shortDescription", "notes",
@@ -31,12 +31,15 @@ drop_for_plot_vars <- c("identifier", "shortDescription", "notes",
                         "localizationDescription", "conditionComment",
                         "comparison", "MuseumInventoryNr", "OldInventoryNr",
                         "FotoNr", "DrawingNr", "vesselFormDescription",
-                        "vesselType", "provenanceInput", "fabricStructure",
-                        "temperType", "temperTypeOther", "temperAmount",
-                        "temperGrain", "surfaceTreatment",
+                        "fabricStructure", "temperType", "temperTypeOther",
+                        "temperAmount", "temperGrain", "surfaceTreatment",
                         "surfaceTreatmentDescription", "analysisMethodOther",
                         "analysisAim", "analysisActor", "analysisResult",
-                        "otherNotes", "id", "isRecordedIn", "type", "workflow",
+                        "otherNotes", "id", "relation.isRecordedIn",
+                        "relation.isDepictedIn", "relation.liesWithin",
+                        "relation.liesWithinLayer",
+                        "relation.isSameAs",
+                        "type", "workflow",
                         "analysisMethod", "localization")
 
 
@@ -52,7 +55,8 @@ scale_fill_period <- scale_fill_manual(name = "Period",
                                        values = period_colors,
                                        breaks = periods)
 
-find_types <- c("Find", "Pottery", "Terracotta", "Brick", "Bone",
+find_types <- c("Find", "Pottery", "Terracotta", "Brick", "Bone", "Loomweight",
                 "Glass", "Metal", "Stone", "Wood", "Coin", "PlasterFragment",
                 "Mollusk", "Sculpture")
 
+#all_types <- unique(index$type)

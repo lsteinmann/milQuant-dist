@@ -1,13 +1,17 @@
-pottery_overview_data <- reactive({
-  milet_active() %>%
-    select_by(by = "type", value = "Pottery") %>%
-    prep_for_shiny(reorder_periods = TRUE)
+
+
+pottery <- reactive({
+  pottery <- selected_db() %>%
+    filter(type == "Pottery") %>%
+    remove_na_cols()
+  return(pottery)
 })
 
+
 output$pottery_overview <- renderText({
-  n_objects <- nrow(pottery_overview_data())
-  n_layers <- length(unique(pottery_overview_data()$relation.liesWithinLayer))
-  paste("The selected operation (", paste(input$operation, collapse = ", "),
+  n_objects <- nrow(pottery())
+  n_layers <- length(unique(pottery()$relation.liesWithinLayer))
+  paste("The selected place (", paste(input$select_place, collapse = ", "),
         ") contains a total of ", n_objects,
         " pottery resources from ", n_layers, " contexts. Kolay gelsin.",
         sep = "")
@@ -15,20 +19,20 @@ output$pottery_overview <- renderText({
 
 
 output$POT_layer_selector <- renderUI({
-  make_layer_selector(pottery_overview_data(),
+  make_layer_selector(pottery(),
                       inputId = "POT_layer_selector")
 })
 
 
 
-pottery_data <- reactive({
-  select_layers(input_layer_selector = input$POT_layer_selector,
-                data_all = pottery_overview_data())
-})
+#pottery_data <- reactive({
+#  select_layers(input_layer_selector = input$POT_layer_selector,
+#                data_all = pottery())
+#})
 
 
 pottery_vars <- reactive({
-  pottery_vars <- colnames(pottery_data())
+  pottery_vars <- colnames(pottery())
   pottery_vars <- pottery_vars[!pottery_vars %in% drop_for_plot_vars]
 })
 
@@ -52,8 +56,10 @@ potPlot_1 <- function() {
     potPlot_1_scale_fill <- scale_fill_discrete(name = input$potPlot_1_fillvar)
   }
 
-  pottery_data() %>%
-    # select by periods from the slider, i tested but am not totally sure if that works
+  pottery() %>%
+    # filter the layers selected in the layer selector
+    filter(relation.liesWithinLayer %in% input$POT_layer_selector) %>%
+    # filter by periods from the slider, I tested but am not totally sure if that works
     # very well
     filter(period.start >= input$period_select[1] & period.end <= input$period_select[2]) %>%
     filter(period.end <= input$period_select[2]) %>%

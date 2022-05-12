@@ -1,27 +1,27 @@
 output$overview_n <- renderText({
-  prettyNum(nrow(uidlist), big.mark = ",")
+  prettyNum(nrow(react_index()), big.mark = ",")
 })
 
 output$overview <- renderPlot({
-  filter_op <- input$operation
-  if (filter_op == "all") {
-    filter_op <- operations[-1]
+  filter_place <- input$select_place
+  if (filter_place == "all") {
+    filter_place <- na.omit(unique(react_index()$Place))
   }
 
-  alpha <- rep(0.3, length(operations[-1]))
+  alpha <- rep(0.3, length(na.omit(unique(react_index()$Place))))
 
-  table(uidlist$type, uidlist$Place) %>%
+  table(react_index()$type, react_index()$Place) %>%
     as.data.frame() %>%
     group_by(Var1) %>%
     mutate(freq_group = sum(Freq)) %>%
     ungroup() %>%
     mutate(Var1 = fct_reorder(Var1, -freq_group)) %>%
-    filter(Var2 %in% filter_op) %>%
+    filter(Var2 %in% filter_place) %>%
     ggplot(aes(x = Var1, fill = Var2, y = Freq)) +
     geom_bar(stat = "identity") +
-    scale_fill_discrete(name = "Operations",
+    scale_fill_discrete(name = "Places / Projects",
                         guide = guide_legend(nrow = 1)) +
-                      #values = uhhcol_two(length(unique(uidlist$Operation)))) +
-    labs(x = "Resources in iDAI.field 2", y = "Count") +
+    #values = uhhcol_two(length(unique(index$Operation)))) +
+    labs(x = "Resources in iDAI.field", y = "Count") +
     Plot_Base_Theme
 }, height = 530)

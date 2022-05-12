@@ -9,7 +9,7 @@ body <- dashboardBody(
   tabItems(
     # First tab content
     tabItem(tabName = "home",
-            h2("Welcome to milQuant - Quantitative Analysis with Data from iDAI.field 2"),
+            h2("Welcome to milQuant - Quantitative Analysis with Data from iDAI.field"),
             fluidRow(
               infoBox(
                 title = "This is a test.",
