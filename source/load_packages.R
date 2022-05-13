@@ -1,6 +1,7 @@
 packages <- c("shiny", "shinydashboard", "ggplot2", "dplyr", "reshape2",
               "forcats", "idaifieldR", "shinyWidgets", "tidyr", "viridis",
-              "leaflet", "sp", "rgdal", "rgeos")
+              #"leaflet", "sp", "rgdal", "rgeos",
+              "shinyjs", "glue")
 for (p in packages) {
   if(!require(p, character.only = TRUE)) {
     if (p == "idaifieldR") {
@@ -11,4 +12,4 @@ for (p in packages) {
   }
   library(p, character.only = TRUE)
 }
-rm(packages)
+rm(packages, p)

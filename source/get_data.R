@@ -1,56 +1,39 @@
 options(digits = 20)
 
-idaif_connection <- connect_idaifield(serverip = "127.0.0.1",
-                                      user = "milQuant",
-                                      pwd = "hallo")
+#idaif_conn <- connect_idaifield(serverip = input$tab_login.host,
+#                                user = input$tab_login.user,
+#                                pwd = input$tab_login.pwd)
 
-get_complete_db <- function(projectname = "milet") {
-  get_idaifield_docs(connection = idaif_connection,
-                     projectname = projectname,
-                     keep_geometry = FALSE,
-                     simplified = TRUE)
+
+
+get_complete_db <- function(connection = idaif_conn,
+                            projectname = "rtest") {
+  docs <- get_idaifield_docs(connection = connection,
+                             projectname = projectname,
+                             keep_geometry = FALSE,
+                             simplified = TRUE)
+  return(docs)
 }
 
-index_query <- function(projectname = "milet",
+index_query <- function(connection = idaif_conn,
+                        projectname = "rtest",
                         uidlist = react_index(),
                         field = "type",
                         value = "Brick") {
-  idf_index_query(connection = idaif_connection,
-                  project = projectname,
-                  field = field, value = value,
-                  uidlist = uidlist,
-                  keep_geometry = FALSE) %>%
+  result <- idf_index_query(connection = connection,
+                            projectname = projectname,
+                            field = field, value = value,
+                            uidlist = uidlist,
+                            keep_geometry = FALSE) %>%
     prep_for_shiny(reorder_periods = TRUE)
+  return(result)
 }
 
 
-#data <- get_complete_db()
-
-#index <- get_index(source = data)
-#index <- get_index(source = get_complete_db())
-
-#rm(data)
-
-#test <- index_query(field = "type", value = "Pottery",
-#                    uidlist = index)
-
-
-
-
-
-#test <- test %>%
-#  filter(id %in% uid_to_filter(place = "Kaletepe", index = index))
-
-
-
-#project_list <- sofa::db_list(idaif_connection)
-
-
-
 get_index <- function(source = get_complete_db()) {
-  get_uid_list(source,
-               verbose = TRUE,
-               gather_trenches = TRUE) %>%
+  uidlist <- get_uid_list(source,
+                          verbose = TRUE,
+                          gather_trenches = TRUE) %>%
     mutate(Operation = ifelse(is.na(isRecordedIn),
                               liesWithin,
                               isRecordedIn)) %>%
@@ -58,11 +41,12 @@ get_index <- function(source = get_complete_db()) {
                               "Typenkatalog",
                               Operation)) %>%
     mutate(Place = ifelse(type %in% c("Type","TypeCatalog"),
-                              "Typenkatalog",
-                              Place)) %>%
+                          "Typenkatalog",
+                          Place)) %>%
     mutate(Operation = ifelse(is.na(Operation),
                               "none",
                               Operation))
+  return(uidlist)
 }
 
 

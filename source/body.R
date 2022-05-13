@@ -1,4 +1,5 @@
 
+source("source/tabs/connect.R")
 source("source/tabs/pottery_tab.R")
 source("source/tabs/potteryQA_tab.R")
 source("source/tabs/potteryQB_tab.R")
@@ -9,7 +10,27 @@ body <- dashboardBody(
   tabItems(
     # First tab content
     tabItem(tabName = "home",
-            h2("Welcome to milQuant - Quantitative Analysis with Data from iDAI.field"),
+            fluidPage(
+              fluidRow(
+                h2("Welcome to milQuant - Quantitative Analysis
+                   with Data from iDAI.field"),
+                   p("With this App, you can view and download various
+                   plots of data from an iDAI.field-Database,
+                   that is otherwise usually inaccessible.
+                   In order for the App to work, you need to have
+                   iDAI.field 2 or Field Desktop running on your computer.
+                   Below are a few settings that probably need to be adjusted
+                   before you can start.")
+                ),
+              fluidRow(
+                column(6,
+                       fluidRow(uiOutput("select_project"))),
+                column(6,
+                       fluidRow(uiOutput("select_place")))
+              ),
+
+
+
             fluidRow(
               infoBox(
                 title = "This is a test.",
@@ -24,7 +45,6 @@ body <- dashboardBody(
                 color = "teal",
                 width = 2
               )
-
             ),
             fluidRow(
               box(title = "Overview", status = "primary",
@@ -32,7 +52,7 @@ body <- dashboardBody(
                   width = 12, height = 600,
                   plotOutput("overview"))
               )
-            ),
+            )),
     # Pottery tabs content
     pottery_tab,
     potteryQA_tab,

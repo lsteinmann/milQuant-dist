@@ -21,7 +21,7 @@ output$overview <- renderPlot({
     geom_bar(stat = "identity") +
     scale_fill_discrete(name = "Places / Projects",
                         guide = guide_legend(nrow = 1)) +
-    #values = uhhcol_two(length(unique(index$Operation)))) +
+    #values = uhhcol_two(length(unique(react_index()$Place))) +
     labs(x = "Resources in iDAI.field", y = "Count") +
     Plot_Base_Theme
 }, height = 530)
