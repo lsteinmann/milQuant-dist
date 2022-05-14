@@ -14,10 +14,12 @@ sidebar <- dashboardSidebar(
              menuSubItem("Pottery Quantification A", tabName = "potteryQA", icon = icon("glass-cheers")),
              menuSubItem("Pottery Quantification B", tabName = "potteryQB", icon = icon("glass-cheers"))
     ),
-    menuItem("Sculpture", tabName = "sculpture", icon = icon("horse-head"),
-             badgeLabel = "empty", badgeColor = "red"),
-    menuItem("Buildings", tabName = "buildings", icon = icon("landmark"),
-             badgeLabel = "wip", badgeColor = "yellow"),
+    menuItem("Loomweights", tabName = "loomweights", icon = icon("weight-hanging"),
+             badgeLabel = "WIP", badgeColor = "yellow"),
+    #menuItem("Sculpture", tabName = "sculpture", icon = icon("horse-head"),
+    #         badgeLabel = "empty", badgeColor = "red"),
+    #menuItem("Buildings", tabName = "buildings", icon = icon("landmark"),
+    #         badgeLabel = "wip", badgeColor = "yellow"),
     menuItem("Issues / Contact", icon = icon("file-contract"),
              href = "https://github.com/lsteinmann/milQuant")
   )

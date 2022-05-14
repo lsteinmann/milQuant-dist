@@ -11,7 +11,8 @@ body <- dashboardBody(
     # Pottery tabs content
     pottery_tab,
     potteryQA_tab,
-    potteryQB_tab
+    potteryQB_tab,
+    loomweight_tab
 
 
 

@@ -7,7 +7,10 @@ prep_for_shiny <- function(data, reorder_periods = TRUE) {
     as.data.frame() %>%
     remove_na_cols() %>%
     #select(!any_of(drop_for_plot_vars)) %>% # no, dont do that, stupid
-    type.convert(as.is = FALSE)
+    type.convert(as.is = FALSE) %>%
+    mutate(beginningDate = as.Date(beginningDate, format = "%d.%m.%Y")) %>%
+    mutate(endDate = as.Date(endDate, format = "%d.%m.%Y")) %>%
+    mutate(date = as.Date(date, format = "%d.%m.%Y"))
 
   if(reorder_periods) {
     data <- data %>%

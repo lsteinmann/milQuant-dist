@@ -17,6 +17,7 @@ source("source/tabs/home_tab.R")
 source("source/tabs/pottery_tab.R")
 source("source/tabs/potteryQA_tab.R")
 source("source/tabs/potteryQB_tab.R")
+source("source/tabs/loomweight_tab.R")
 #source("source/tabs/sculpture_tab.R")
 #source("source/tabs/buildings_tab.R")
 
@@ -46,6 +47,9 @@ server <- function(input, output, session) {
   source('source/server/potteryQA_serv.R', local = TRUE)
   # server code only for pottery quantification B form
   source('source/server/potteryQB_serv.R', local = TRUE)
+
+  # server code only for loomweights
+  source('source/server/loomweight_serv.R', local = TRUE)
 
 
 
