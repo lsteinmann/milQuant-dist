@@ -1,5 +1,3 @@
-
-
 pottery <- reactive({
   pottery <- selected_db() %>%
     filter(type == "Pottery") %>%
@@ -11,7 +9,7 @@ pottery <- reactive({
 output$pottery_overview <- renderText({
   n_objects <- nrow(pottery())
   n_layers <- length(unique(pottery()$relation.liesWithinLayer))
-  paste("The selected place (", paste(input$select_place, collapse = ", "),
+  paste("The selected place (", paste(input$select_operation, collapse = ", "),
         ") contains a total of ", n_objects,
         " pottery resources from ", n_layers, " contexts. Kolay gelsin.",
         sep = "")
@@ -50,19 +48,21 @@ output$potPlot_1_fill_selector <- renderUI({
 
 potPlot_1 <- function() {
 
-  if (grepl("period", input$potPlot_1_fillvar)) {
+  if (grepl("period", input$potPlot_1_fillvar) & is_milet) {
     potPlot_1_scale_fill <- scale_fill_period
   } else {
     potPlot_1_scale_fill <- scale_fill_discrete(name = input$potPlot_1_fillvar)
   }
 
-  pottery() %>%
+
+
+  plot_data <- pottery() %>%
     # filter the layers selected in the layer selector
     filter(relation.liesWithinLayer %in% input$POT_layer_selector) %>%
-    # filter by periods from the slider, I tested but am not totally sure if that works
-    # very well
-    filter(period.start >= input$period_select[1] & period.end <= input$period_select[2]) %>%
-    filter(period.end <= input$period_select[2]) %>%
+    # filter by periods from the slider if config is milet
+    period_filter(is_milet = is_milet, selector = input$period_select)
+
+  plot_data %>%
     ggplot(aes(x = get(input$potPlot_1_xvar),
                fill = get(input$potPlot_1_fillvar))) +
     geom_bar() + Plot_Base_Theme + potPlot_1_scale_fill +

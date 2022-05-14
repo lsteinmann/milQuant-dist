@@ -20,6 +20,7 @@ pottery_tab <- tabItem(
                                 selected = periods[c(1,length(periods))],
                                 force_edges = TRUE
                         ),
+                        p("Please note: The period selector currently only works for the milet-configuration."),
                         downloadButton("potPlot_1_png", label = "Download plot (png)"),
                         downloadButton("potPlot_1_pdf", label = "Download plot (pdf)")
                 ),

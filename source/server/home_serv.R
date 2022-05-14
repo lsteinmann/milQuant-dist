@@ -1,22 +1,33 @@
+
 output$overview_n <- renderText({
+  validate(
+    need(react_index(), "No project selected.")
+  )
   prettyNum(nrow(react_index()), big.mark = ",")
 })
 
 output$overview <- renderPlot({
-  filter_place <- input$select_place
-  if (filter_place == "all") {
-    filter_place <- na.omit(unique(react_index()$Place))
-  }
+  validate(
+    need(react_index(), "No project selected.")
+  )
 
-  alpha <- rep(0.3, length(na.omit(unique(react_index()$Place))))
 
-  table(react_index()$type, react_index()$Place) %>%
+
+  filter_operation <- uid_by_operation(filter_operation = input$select_operation,
+                                       index = react_index())
+
+  tmp_index <- react_index() %>%
+    filter(UID %in% filter_operation) %>%
+    select(type, Operation)
+
+  alpha <- rep(0.3, length(na.omit(unique(tmp_index$Operation))))
+
+  table(tmp_index$type, tmp_index$Operation) %>%
     as.data.frame() %>%
     group_by(Var1) %>%
     mutate(freq_group = sum(Freq)) %>%
     ungroup() %>%
     mutate(Var1 = fct_reorder(Var1, -freq_group)) %>%
-    filter(Var2 %in% filter_place) %>%
     ggplot(aes(x = Var1, fill = Var2, y = Freq)) +
     geom_bar(stat = "identity") +
     scale_fill_discrete(name = "Places / Projects",

@@ -1,31 +1,12 @@
 home_tab <- tabItem(
   tabName = "home",
+  title = "Home",
 
   fluidPage(
     fluidRow(
-      h2("Welcome to milQuant - Quantitative Analysis
-                   with Data from iDAI.field"),
-      p("With this App, you can view and download various
-                   plots of data from an iDAI.field-Database,
-                   that is otherwise usually inaccessible.
-                   In order for the App to work, you need to have
-                   iDAI.field 2 or Field Desktop running on your computer.
-                   Below are a few settings that probably need to be adjusted
-                   before you can start.")
-    ),
-    fluidRow(
-      column(6,
-             fluidRow(uiOutput("select_project"))),
-      column(6,
-             fluidRow(uiOutput("select_place")))
-    ),
-
-
-
-    fluidRow(
       infoBox(
-        title = "This is a test.",
-        value = "This App is meant to be used with the Miletus-configuration and has only been tested on data sets from that config.",
+        title = "Development",
+        value = "This App is still under development. However, just try it!",
         icon = icon("vial"),
         color = "teal",
         width = 10),
@@ -34,15 +15,11 @@ home_tab <- tabItem(
         "Total Resources",
         icon = icon("file-alt"),
         color = "teal",
-        width = 2
-      )
-    ),
+        width = 2)),
     fluidRow(
       box(title = "Overview", status = "primary",
           solidHeader = TRUE, collapsible = FALSE,
           width = 12, height = 600,
-          plotOutput("overview"))
-    )
+          plotOutput("overview")))
   )
-
 )

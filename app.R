@@ -13,10 +13,10 @@ source("source/header_sidebar.R")
 
 # code for each tab
 source("source/tabs/connect_tab.R")
-#source("source/tabs/home_tab.R")
-#source("source/tabs/pottery_tab.R")
-#source("source/tabs/potteryQA_tab.R")
-#source("source/tabs/potteryQB_tab.R")
+source("source/tabs/home_tab.R")
+source("source/tabs/pottery_tab.R")
+source("source/tabs/potteryQA_tab.R")
+source("source/tabs/potteryQB_tab.R")
 #source("source/tabs/sculpture_tab.R")
 #source("source/tabs/buildings_tab.R")
 
@@ -27,24 +27,28 @@ ui <- dashboardPage(header, sidebar, body)
 
 server <- function(input, output, session) {
 
+  # show login dialog box when initiated
+  showModal(login_dialog, session = getDefaultReactiveDomain())
   # server code to handle basic setting, i.e. ip and pwd
   source('source/server/connect_serv.R', local = TRUE)
 
   # server code to handle basic setting, i.e. ip and pwd
   source('source/server/settings_serv.R', local = TRUE)
   # server code to import database, places etc.
-  #source('source/server/database_serv.R', local = TRUE)
+  source('source/server/database_serv.R', local = TRUE)
 
   # server code only for main page
-  #source('source/server/home_serv.R', local = TRUE)
+  source('source/server/home_serv.R', local = TRUE)
 
   # server code only for pottery form (single)
-  #source('source/server/pottery_serv.R', local = TRUE)
-
+  source('source/server/pottery_serv.R', local = TRUE)
   # server code only for pottery quantification A form
-  #source('source/server/potteryQA_serv.R', local = TRUE)
+  source('source/server/potteryQA_serv.R', local = TRUE)
   # server code only for pottery quantification B form
-  #source('source/server/potteryQB_serv.R', local = TRUE)
+  source('source/server/potteryQB_serv.R', local = TRUE)
+
+
+
   #source('source/server/sculpture_serv.R', local = TRUE)
   #source('source/server/buildings_serv.R', local = TRUE)
 

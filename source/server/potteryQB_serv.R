@@ -56,7 +56,7 @@ QBpotPlot_1 <- function() {
     filter(period.end <= input$QB_period_select[2])
 
 
-  plot_title <- paste("Vessel Forms from ", input$select_place,
+  plot_title <- paste("Vessel Forms from ", input$select_operation,
                       " in Context: ",
                       paste(input$QB_layer_selector, collapse = ", "),
                       sep = "")

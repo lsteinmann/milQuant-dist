@@ -5,13 +5,13 @@ body <- dashboardBody(
     tags$link(rel = "stylesheet", type = "text/css", href = "main.css")
   ),
   tabItems(
-    connect_tab
+    connect_tab,
     # First tab content
-    #home_tab,
+    home_tab,
     # Pottery tabs content
-    #pottery_tab,
-    #potteryQA_tab,
-    #potteryQB_tab,
+    pottery_tab,
+    potteryQA_tab,
+    potteryQB_tab
 
 
 

@@ -33,17 +33,32 @@ remove_na_cols <- function(data) {
   return(data)
 }
 
+# Returns the UIDs of entries belonging to the variable in question
+uid_by_operation <- function(filter_operation = "all",
+                             index = react_index()) {
 
-# Returns the UIDs of entries belongig to the Place in question
-uid_to_filter <- function(place = "all", index = react_index()) {
-  if (place == "all") {
-    uids <- index$UID
+  if (filter_operation == "none") {
+    parent_type <- "unknown"
   } else {
-    uids <- index$UID[which(index$Place == place)]
+    parent_type <- index$type[index$identifier == filter_operation]
   }
-  return(uids)
+  if (filter_operation == "all") {
+    uid_filter <- index$UID
+  } else if (parent_type == "Place") {
+    uid_filter <- index %>%
+      filter(Place == filter_operation) %>%
+      pull(UID)
+  } else if (filter_operation == "none") {
+    uid_filter <- index %>%
+      filter(Operation == filter_operation) %>%
+      pull(UID)
+  } else {
+    uid_filter <- index %>%
+      filter(isRecordedIn == filter_operation) %>%
+      pull(UID)
+  }
+  return(uid_filter)
 }
-
 
 
 
@@ -67,6 +82,7 @@ make_layer_selector <- function(data_all, inputId,
   # creates the selector for layers present in data_all as a relation
 
   # first get the unique values that will be displayed in the selectInput
+
   selectable_layers <- data_all$relation.liesWithinLayer %>%
     unique() %>%
     as.character() %>%
@@ -82,5 +98,18 @@ make_layer_selector <- function(data_all, inputId,
                              "live-search-normalize" = TRUE,
                              "live-search-placeholder" = "Search here..."))
 }
+
+
+# apply the period filter if the config is milet
+period_filter <- function(find_df, is_milet = FALSE, selector = NULL) {
+  if (is_milet) {
+    find_df <- find_df %>%
+      filter(period.start >= selector[1] & period.end <= selector[2])  %>%
+      filter(period.end <= selector[2])
+  }
+  return(find_df)
+}
+
+
 
 

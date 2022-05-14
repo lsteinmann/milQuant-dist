@@ -1,12 +1,6 @@
 options(digits = 20)
 
-idaif_conn <- connect_idaifield(serverip = "127.0.0.1",
-                                user = "user",
-                                pwd = "hallo")
-
-
-
-get_complete_db <- function(connection = idaif_conn,
+get_complete_db <- function(connection = NULL,
                             projectname = "rtest") {
   docs <- get_idaifield_docs(connection = connection,
                              projectname = projectname,
@@ -15,7 +9,7 @@ get_complete_db <- function(connection = idaif_conn,
   return(docs)
 }
 
-index_query <- function(connection = idaif_conn,
+index_query <- function(connection = NULL,
                         projectname = "rtest",
                         uidlist = react_index(),
                         field = "type",
