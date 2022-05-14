@@ -5,14 +5,14 @@ react_index <- reactiveVal()
 react_db <- reactiveVal(get_complete_db(connection = idaif_conn))
 react_index <- reactiveVal(get_index(source = isolate(react_db())))
 
-observeEvent(input$tab_login.connect, {
-  reactiveVal(get_complete_db(connection = idaif_connection()))
+observeEvent(input$tab_connect.connect, {
+  reactiveVal(get_complete_db(connection = login_connection))
   reactiveVal(get_index(source = isolate(react_db())))
 })
 
 # rebuild the Index when Refresh Button is pushed
 observeEvent(input$refresh, {
-  newDB <- get_complete_db(connection = idaif_connection())
+  newDB <- get_complete_db(connection = login_connection)
   newIndex <- get_index(source = newDB)
   react_db(newDB)
   react_index(newIndex)
@@ -21,7 +21,7 @@ observeEvent(input$refresh, {
 })
 
 observeEvent(input$select_project, {
-  newDB <- get_complete_db(connection = idaif_connection(),
+  newDB <- get_complete_db(connection = login_connection,
                            projectname = input$select_project)
   newIndex <- get_index(source = newDB)
   react_db(newDB)

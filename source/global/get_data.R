@@ -1,8 +1,8 @@
 options(digits = 20)
 
-#idaif_conn <- connect_idaifield(serverip = input$tab_login.host,
-#                                user = input$tab_login.user,
-#                                pwd = input$tab_login.pwd)
+idaif_conn <- connect_idaifield(serverip = "127.0.0.1",
+                                user = "user",
+                                pwd = "hallo")
 
 
 
