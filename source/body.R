@@ -6,12 +6,14 @@ body <- dashboardBody(
   ),
   tabItems(
     connect_tab,
-    # First tab content
+    # home and find overview content
     home_tab,
+    allfinds_tab,
     # Pottery tabs content
     pottery_tab,
     potteryQA_tab,
     potteryQB_tab,
+    # loomweights
     loomweight_tab
 
 
