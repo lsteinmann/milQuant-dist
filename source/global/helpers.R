@@ -1,19 +1,29 @@
 ###### Reusable functions
 
 # Prep for shiny
-prep_for_shiny <- function(data, reorder_periods = TRUE) {
+prep_for_shiny <- function(data, reorder_periods = reorder_periods) {
   data <- data %>%
     idaifield_as_matrix() %>%
     as.data.frame() %>%
     remove_na_cols() %>%
-    #select(!any_of(drop_for_plot_vars)) %>% # no, dont do that, stupid
     type.convert(as.is = FALSE) %>%
+    mutate_at(c("beginningDate", "endDate", "date",
+                "period", "period.end", "period.start"), as.character) %>%
+    #select(!any_of(drop_for_plot_vars)) %>% # no, dont do that, stupid
     mutate(beginningDate = as.Date(beginningDate, format = "%d.%m.%Y")) %>%
     mutate(endDate = as.Date(endDate, format = "%d.%m.%Y")) %>%
     mutate(date = as.Date(date, format = "%d.%m.%Y"))
 
   if(reorder_periods) {
     data <- data %>%
+      # fix value for periods that have been assigned multiple periods
+      # TODO i need to think of something better here, it is horrible
+      mutate(period = ifelse(grepl(pattern = ";", period), "multiple", period)) %>%
+      # assign "unbestimmt" instead of NA to make period picker work
+      # TODO i need to think of something better here as well
+      mutate(period = ifelse(is.na(period), "unbestimmt", period)) %>%
+      mutate(period.end = ifelse(is.na(period.end), "unbestimmt", period.end)) %>%
+      mutate(period.start = ifelse(is.na(period.start), "unbestimmt", period.start)) %>%
       mutate(period = factor(period,
                              levels = levels(periods),
                              ordered = TRUE),
@@ -24,6 +34,8 @@ prep_for_shiny <- function(data, reorder_periods = TRUE) {
                                    levels = levels(periods),
                                    ordered = TRUE))
   }
+
+
   return(data)
 }
 
@@ -101,6 +113,14 @@ make_layer_selector <- function(data_all, inputId,
                              "live-search-normalize" = TRUE,
                              "live-search-placeholder" = "Search here..."))
 }
+
+period_selector <- sliderTextInput(
+  inputId = "period_select",
+  label = "Choose a chronological range:",
+  choices = periods,
+  selected = periods[c(1,length(periods))],
+  force_edges = TRUE
+)
 
 
 # apply the period filter if the config is milet

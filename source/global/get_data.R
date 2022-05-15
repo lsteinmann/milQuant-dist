@@ -19,7 +19,7 @@ index_query <- function(connection = NULL,
                             field = field, value = value,
                             uidlist = uidlist,
                             keep_geometry = FALSE) %>%
-    prep_for_shiny(reorder_periods = TRUE)
+    prep_for_shiny(reorder_periods = reorder_periods)
   return(result)
 }
 

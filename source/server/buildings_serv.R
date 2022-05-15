@@ -49,7 +49,7 @@ building_data <- reactive({
                              proj4string=CRS("+init=epsg:4326"))
 
   building_data <- buildings %>%
-    prep_for_shiny(reorder_periods = TRUE)
+    prep_for_shiny(reorder_periods = reorder_periods)
 
   keep <- c("identifier", "shortDescription", "description",
             "relation.liesWithin", "period.start", "period.end",

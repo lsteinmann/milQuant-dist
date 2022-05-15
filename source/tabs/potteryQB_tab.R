@@ -25,13 +25,7 @@ potteryQB_tab <- tabItem(
                    inline = TRUE, animation = "jelly",
                    choices = list("Dodged Bars" = "dodge",
                                   "Stacked Bars" = "stack")),
-      sliderTextInput(
-        inputId = "QB_period_select",
-        label = "Choose a range:",
-        choices = periods,
-        selected = periods[c(1,length(periods))],
-        force_edges = TRUE
-      ),
+      period_selector,
       downloadButton("QBpotPlot_1_png", label = "Download plot (png)"),
       downloadButton("QBpotPlot_1_pdf", label = "Download plot (pdf)")
     ),

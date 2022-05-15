@@ -5,7 +5,7 @@ observeEvent(input$select_operation, {
 
   selected <- react_db() %>%
     # also prep it to be better readable
-    prep_for_shiny(reorder_periods = TRUE) %>%
+    prep_for_shiny(reorder_periods = reorder_periods) %>%
     filter(id %in% uid_by_operation(filter_operation = input$select_operation,
                                     index = react_index()))
   selected_db(selected)

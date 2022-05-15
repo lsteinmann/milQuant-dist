@@ -60,6 +60,7 @@ output$lwPlot_1 <- renderPlot({
 
   loomweights() %>%
     # filter by periods from the slider if config is milet
+    period_filter(is_milet = is_milet, selector = input$period_select) %>%
     filter(relation.liesWithinLayer %in% input$LW_layer_selector) %>%
     filter(conditionAmount %in% condition_filter) %>%
     ggplot(aes(x = weightTotal, fill = get(input$lwPlot_1_fillvar))) +

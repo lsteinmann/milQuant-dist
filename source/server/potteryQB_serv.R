@@ -52,8 +52,7 @@ QBpotPlot_1 <- function() {
     mutate(variable = gsub("count", "", variable)) %>%
     mutate(variable = gsub("Rim|Base|Handle|Wall", "", variable)) %>%
     uncount(value) %>%
-    filter(period.start >= input$QB_period_select[1] & period.end <= input$QB_period_select[2]) %>%
-    filter(period.end <= input$QB_period_select[2])
+    period_filter(is_milet = is_milet, selector = input$period_select)
 
 
   plot_title <- paste("Vessel Forms from ", input$select_operation,

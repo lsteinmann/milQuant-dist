@@ -23,13 +23,7 @@ loomweight_tab <- tabItem(
                                       "display all objects" = "all"),
                        selected = "all", inline = TRUE),
           htmlOutput("lw_weight_slider"),
-          sliderTextInput(
-            inputId = "period_select",
-            label = "Choose a chronological range:",
-            choices = periods,
-            selected = periods[c(1,length(periods))],
-            force_edges = TRUE
-          ),
+          period_selector,
           downloadButton("lwPlot_1_png", label = "Download plot (png)"),
           downloadButton("lwPlot_1_pdf", label = "Download plot (pdf)")
       ),
