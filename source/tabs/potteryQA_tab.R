@@ -4,7 +4,7 @@ potteryQA_tab <- tabItem(
   fluidRow(
     infoBox(title = "Info", value = textOutput("potQA_overview"),
             icon = icon("list-alt"),
-            color = "teal", width = 12),
+            color = "olive", width = 12),
   ),
   fluidRow(
     box(
@@ -26,7 +26,7 @@ potteryQA_tab <- tabItem(
     ),
     box(
       width = 9, height = 600,
-      plotOutput("QApotPlot_1", height = 570)
+      plotOutput("QApotPlot_1", height = 570) %>% mq_spinner()
     )
   )
 

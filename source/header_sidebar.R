@@ -1,14 +1,11 @@
-header <- dashboardHeader(title = img(src = "loewe.png",
-                                      height = 44))
+header <- dashboardHeader(title = "milQuant")
 
 
 sidebar <- dashboardSidebar(
   sidebarMenu(
     menuItem("Connect", tabName = "connect", icon = icon("sign-in-alt")),
     uiOutput("select_operation"),
-    div(class = "warn-text",
-        textOutput("load.error_msg")),
-    menuItem("Home", tabName = "home", icon = icon("graduation-cap")),
+    menuItem("Home (Project)", tabName = "home", icon = icon("graduation-cap")),
     menuItem("Finds (Overview)", tabName = "allfinds", icon = icon("chart-bar"),
              badgeLabel = "NEW", badgeColor = "green"),
     menuItem("Pottery", tabName = "pottery_all", icon = icon("trophy"),

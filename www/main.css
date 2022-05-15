@@ -1,17 +1,60 @@
+/* main sidebar */
+.skin-blue .main-sidebar {
+
+}
+
+/* active selected tab in the sidebarmenu */
+.skin-blue .main-sidebar .sidebar .sidebar-menu .active a {
+  background-color: #2E3F47;
+}
+
+
+/* other links in the sidebarmenu when hovered */
+.skin-blue .main-sidebar .sidebar .sidebar-menu a:hover{
+background-color: #e2001a;
+}
+/* toggle button when hovered  */
+.skin-blue .main-header .navbar .sidebar-toggle:hover{
+background-color: #e2001a;
+}
+
+/* body */
+.content-wrapper, .right-side {
+  background-color: #f5f5f5;
+}
+
+
+.skin-blue .main-header .navbar {
+  background-color: #3b515b;
+}
+
+.skin-blue .main-header .logo {
+  background-color: #3b515b;
+}
+
+.skin-blue .main-header .logo:hover {
+  background-color: #e2001a;
+}
+
+.skin-blue .main-header .navbar .sidebar-toggle:hover{
+  background-color: #e2001a;
+}
 
 .warn-text {
-  color: dark-green;
+  color: #e2001a;
   font-style: bold;
   margin: 10px;
   padding: 10px;
 }
 
 .success-text {
-  color: red;
+  color: #006400;
   font-style: italic;
   margin: 10px;
   padding: 10px;
+
 }
+
 
 .output-text {
   font-size: 1.5em;
@@ -21,8 +64,8 @@
 
 .btn.btn-default {
   color: #ffffff;
-    background-color: #337ab7;
-    border-color: #2e6da4;
+  background-color: #e2001a;
+  border-color: #3b515b;
 }
 
 .login-text {
@@ -38,3 +81,4 @@
 .wip-show {
   background-color: #76d2e4;
 }
+

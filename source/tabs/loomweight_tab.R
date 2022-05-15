@@ -6,7 +6,7 @@ loomweight_tab <- tabItem(
     fluidRow(
       infoBox(title = "Info", value = textOutput("loomweight_overview"),
               icon = icon("list-alt"),
-              color = "teal", width = 12),
+              color = "olive", width = 12),
     ),
     fluidRow(
       box(width = 3, height = 600,
@@ -29,7 +29,7 @@ loomweight_tab <- tabItem(
       ),
       box(
         width = 9, height = 600,
-        plotOutput("lwPlot_1", height = 570)
+        plotOutput("lwPlot_1", height = 570) %>% mq_spinner()
       )
 
 

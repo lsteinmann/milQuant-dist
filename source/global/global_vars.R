@@ -62,6 +62,9 @@ find_types <- c("Find", "Pottery", "Terracotta", "Brick", "Bone", "Loomweight",
                 "Glass", "Metal", "Stone", "Wood", "Coin", "PlasterFragment",
                 "Mollusk", "Sculpture")
 
+mq_spinner <- function(object) {
+  withSpinner(object, color = "#e2001a", type = 1)
+}
 
 
 #all_types <- unique(index$type)

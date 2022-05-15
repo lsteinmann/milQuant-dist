@@ -6,7 +6,7 @@ sculpture_tab <- tabItem(
   fluidRow(
     infoBox(title = "Info", value = textOutput("sculpture_overview"),
             icon = icon("list-alt"),
-            color = "teal", width = 12),
+            color = "olive", width = 12),
   ),
   fluidRow(
     box(
@@ -16,7 +16,7 @@ sculpture_tab <- tabItem(
     ),
     box(
       width = 9, height = 600,
-      #plotOutput("potPlot_1", height = 570)
+      #plotOutput("potPlot_1", height = 570)%>% mq_spinner()
     )
   )
 )

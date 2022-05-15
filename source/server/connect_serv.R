@@ -19,7 +19,8 @@ observeEvent(input$tab_connect.connect, {
   if (is.list(ping) & ping$`express-pouchdb` == "Welcome!") {
     # succesfully connected
     removeModal() # remove login dialog
-    output$tab_connect.welcome_text <- renderText(glue('welcome, {user}'))
+    output$tab_connect.welcome_text <- renderText(glue("Welcome to milQuant - Quantitative Analysis
+                                                       with Data from iDAI.field, {user}!"))
     shinyjs::show('tab_connect.welcome_div') # show welcome message
   } else if (class(ping) == "try-error") {
     # display the message

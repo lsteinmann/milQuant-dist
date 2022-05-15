@@ -7,6 +7,22 @@ findPlot_data <- reactive({
   return(findPlot_data)
 })
 
+output$allfinds_n <- renderText({
+  validate(
+    need(findPlot_data(), "No project selected.")
+  )
+  prettyNum(nrow(findPlot_data()), big.mark = ",")
+})
+
+output$loomweight_overview <- renderText({
+  n_objects <- nrow(findPlot_data())
+  n_layers <- length(unique(findPlot_data()$relation.liesWithinLayer))
+  paste("The selected place (", paste(input$select_operation, collapse = ", "),
+        ") contains a total of ", n_objects,
+        " Loomweights from ", n_layers, " contexts. Kolay gelsin.",
+        sep = "")
+})
+
 
 output$findPlot_layer_selector <- renderUI({
   make_layer_selector(findPlot_data(),

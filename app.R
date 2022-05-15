@@ -59,6 +59,12 @@ server <- function(input, output, session) {
   #source('source/server/sculpture_serv.R', local = TRUE)
   #source('source/server/buildings_serv.R', local = TRUE)
 
+  # close the R session when Chrome closes
+  session$onSessionEnded(function() {
+    stopApp()
+    q("no")
+  })
+
 }
 
 shinyApp(ui, server)
