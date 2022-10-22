@@ -5,6 +5,8 @@ get_complete_db <- function(connection = NULL,
   docs <- get_idaifield_docs(connection = connection,
                              projectname = projectname,
                              raw = FALSE)
+  docs <- simplify_idaifield(docs, keep_geometry = FALSE,
+                             replace_uids = TRUE)
   return(docs)
 }
 
