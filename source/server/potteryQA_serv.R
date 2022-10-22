@@ -44,11 +44,11 @@ QApotPlot_1 <- function() {
     p <- ggplot(plot_data, aes(x = fct_infreq(variable),
                                fill = fct_infreq(relation.liesWithinLayer)))
     legend_title <- "Context"
-    x_axis_title <- "Vessel Forms"
+    x_axis_title <- "functional category"
   } else if (input$QApotPlot_1_display == "x") {
     p <- ggplot(plot_data, aes(x = fct_infreq(relation.liesWithinLayer),
                                fill = fct_infreq(variable)))
-    legend_title <- "Vessel Forms"
+    legend_title <- "functional category"
     x_axis_title <- "Context"
 
   } else if (input$QApotPlot_1_display == "none") {

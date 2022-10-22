@@ -31,8 +31,7 @@ output$overview <- renderPlot({
     ggplot(aes(x = Var1, fill = Var2, y = Freq)) +
     geom_bar(stat = "identity") +
     scale_fill_discrete(name = "Places / Projects",
-                        guide = guide_legend(nrow = 1)) +
-    #values = uhhcol_two(length(unique(react_index()$Place))) +
+                        guide = guide_legend(nrow = 3)) +
     labs(x = "Resources in iDAI.field", y = "Count") +
     Plot_Base_Theme
 }, height = 530)

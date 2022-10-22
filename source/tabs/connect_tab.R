@@ -10,8 +10,8 @@ connect_tab <- tabItem(
                                      class = "login-text",
                                      textOutput("tab_connect.welcome_text",
                                                 container = tags$h1))))),
-      infoBox(width = 3, title = "Version", subtitle = "date: 15.05.2022",
-              icon = icon("code-fork"), value = "v.0.1.1", color = "olive")
+      infoBox(width = 3, title = "Version", subtitle = "date: 22.10.2022",
+              icon = icon("code-branch"), value = "v.0.1.1", color = "olive")
     ),
     fluidRow(
       box(width = 6,

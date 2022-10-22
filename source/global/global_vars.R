@@ -58,9 +58,9 @@ scale_fill_period <<- scale_fill_manual(name = "Period",
                                        breaks = periods,
                                        limits = periods)
 
-find_types <<- c("Find", "Pottery", "Terracotta", "Brick", "Bone", "Loomweight",
-                "Glass", "Metal", "Stone", "Wood", "Coin", "PlasterFragment",
-                "Mollusk", "Sculpture")
+find_types <<- c("Find", "Pottery", "Lamp", "Loomweight", "Terracotta", "Brick",
+                 "Bone", "Glass", "Metal", "Stone", "Wood", "Coin",
+                 "PlasterFragment", "Mollusk", "Sculpture")
 
 
 
