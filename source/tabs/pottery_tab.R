@@ -13,7 +13,7 @@ pottery_tab <- tabItem(
                         htmlOutput("POT_layer_selector"),
                         htmlOutput("potPlot_1_x_selector"),
                         htmlOutput("potPlot_1_fill_selector"),
-                        period_selector,
+                        htmlOutput("potPlot_1_period_selector"),
                         p("Please note: The period selector currently only works for the milet-configuration."),
                         downloadButton("potPlot_1_png", label = "Download plot (png)"),
                         downloadButton("potPlot_1_pdf", label = "Download plot (pdf)")

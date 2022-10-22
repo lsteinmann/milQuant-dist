@@ -8,7 +8,7 @@ sculpture_all <- reactive({
 output$sculpture_overview <- renderText({
   n_objects <- nrow(sculpture_all())
   paste("There is a total of ", n_objects, " objects in the operation (",
-        paste(input$operation, collapse = ", "),
+        paste(input$select_operation, collapse = ", "),
         "). Kolay gelsin.",
         sep = "")
 })

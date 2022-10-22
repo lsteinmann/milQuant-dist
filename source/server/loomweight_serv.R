@@ -19,6 +19,9 @@ output$LW_layer_selector <- renderUI({
                       inputId = "LW_layer_selector")
 })
 
+output$LW_period_selector <- renderUI({
+  make_period_selector(inputId = "LW_period_selector")
+})
 
 fill_vars <- list("Operation" = "relation.isRecordedIn",
                   "Condition" = "condition",
@@ -60,7 +63,7 @@ output$lwPlot_1 <- renderPlot({
 
   loomweights() %>%
     # filter by periods from the slider if config is milet
-    period_filter(is_milet = is_milet, selector = input$period_select) %>%
+    period_filter(is_milet = is_milet, selector = input$LW_period_selector) %>%
     filter(relation.liesWithinLayer %in% input$LW_layer_selector) %>%
     filter(conditionAmount %in% condition_filter) %>%
     ggplot(aes(x = weightTotal, fill = get(input$lwPlot_1_fillvar))) +

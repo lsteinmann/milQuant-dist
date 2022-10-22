@@ -21,7 +21,9 @@ output$POT_layer_selector <- renderUI({
                       inputId = "POT_layer_selector")
 })
 
-
+output$potPlot_1_period_selector <- renderUI({
+  make_period_selector(inputId = "potPlot_1_period_selector")
+})
 
 #pottery_data <- reactive({
 #  select_layers(input_layer_selector = input$POT_layer_selector,
@@ -60,7 +62,7 @@ potPlot_1 <- function() {
     # filter the layers selected in the layer selector
     filter(relation.liesWithinLayer %in% input$POT_layer_selector) %>%
     # filter by periods from the slider if config is milet
-    period_filter(is_milet = is_milet, selector = input$period_select)
+    period_filter(is_milet = is_milet, selector = input$potPlot_1_period_selector)
 
   plot_data %>%
     ggplot(aes(x = get(input$potPlot_1_xvar),

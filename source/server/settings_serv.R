@@ -42,7 +42,7 @@ observeEvent(input$close_busy_dialog,{
 
 observeEvent(input$select_project, {
   hide('load.success_msg')
-  is_milet <<- grepl("milet", as.character(input$select_project))
+  is_milet <<- input$select_project == "milet"
   if (is_milet) {
     reorder_periods <<- TRUE
   } else {

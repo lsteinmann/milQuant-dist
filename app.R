@@ -59,11 +59,13 @@ server <- function(input, output, session) {
   #source('source/server/sculpture_serv.R', local = TRUE)
   #source('source/server/buildings_serv.R', local = TRUE)
 
+
+  # uncomment this for distribution
   # close the R session when Chrome closes
-  session$onSessionEnded(function() {
-    stopApp()
-    q("no")
-  })
+  #session$onSessionEnded(function() {
+  #  stopApp()
+  #  q("no")
+  #})
 
 }
 

@@ -8,7 +8,7 @@ potteryQB <- reactive({
 output$potQB_overview <- renderText({
   n_objects <- nrow(potteryQB())
   n_layers <- length(unique(potteryQB()$relation.liesWithinLayer))
-  paste("The selected operation (", paste(input$operation, collapse = ", "),
+  paste("The selected place (", paste(input$select_operation, collapse = ", "),
         ") contains a total of ", n_objects,
         " pottery quantification (B) forms from ", n_layers, " contexts. Kolay gelsin.\\n",
         "Please note: It doesnt work to select two periods... we have to resolve this somehow.",
@@ -20,7 +20,9 @@ output$QB_layer_selector <- renderUI({
                       inputId = "QB_layer_selector")
 })
 
-
+output$QBpotPlot_1_period_selector <- renderUI({
+  make_period_selector(inputId = "QBpotPlot_1_period_selector")
+})
 
 QBpotPlot_1 <- function() {
   existing_cols <- colnames(potteryQB())
@@ -52,7 +54,7 @@ QBpotPlot_1 <- function() {
     mutate(variable = gsub("count", "", variable)) %>%
     mutate(variable = gsub("Rim|Base|Handle|Wall", "", variable)) %>%
     uncount(value) %>%
-    period_filter(is_milet = is_milet, selector = input$period_select)
+    period_filter(is_milet = is_milet, selector = input$QBpotPlot_1_period_selector)
 
 
   plot_title <- paste("Vessel Forms from ", input$select_operation,

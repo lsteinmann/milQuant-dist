@@ -35,7 +35,7 @@ allfinds_tab <- tabItem(
                                     "percentage" = "fill"),
                      selected = "stack",
                      inline = TRUE),
-        period_selector,
+        htmlOutput("findPlot_period_selector"),
         downloadButton("allFindsPlot_png", label = "Download plot (png)"),
         downloadButton("allFindsPlot_pdf", label = "Download plot (pdf)")
       ),

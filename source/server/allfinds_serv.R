@@ -14,20 +14,24 @@ output$allfinds_n <- renderText({
   prettyNum(nrow(findPlot_data()), big.mark = ",")
 })
 
-output$loomweight_overview <- renderText({
+output$allfinds_overview <- renderText({
   n_objects <- nrow(findPlot_data())
   n_layers <- length(unique(findPlot_data()$relation.liesWithinLayer))
   paste("The selected place (", paste(input$select_operation, collapse = ", "),
         ") contains a total of ", n_objects,
-        " Loomweights from ", n_layers, " contexts. Kolay gelsin.",
+        " Finds from ", n_layers, " contexts. Kolay gelsin.",
         sep = "")
 })
 
+output$findPlot_period_selector <- renderUI({
+  make_period_selector(inputId = "findPlot_period_selector")
+})
 
 output$findPlot_layer_selector <- renderUI({
   make_layer_selector(findPlot_data(),
                       inputId = "findPlot_layer_selector")
 })
+
 output$findPlot_var_selector <- renderUI({
   all_cols <- colnames(findPlot_data())
   findPlot_vars <- c("type")
@@ -40,7 +44,10 @@ output$findPlot_var_selector <- renderUI({
   findPlot_vars <- c(findPlot_vars, all_cols[grepl("period", all_cols)])
   findPlot_vars <- c(findPlot_vars, all_cols[grepl("campaign", all_cols)])
 
-  to_remove <- c("isDepictedIn", "isInstanceOf", "isSameAs")
+  to_remove <- c("isDepictedIn", "isInstanceOf", "isSameAs",
+                 findPlot_vars[!findPlot_vars %in% all_cols])
+
+
   findPlot_vars <- findPlot_vars[!grepl(paste(to_remove,collapse = "|"),
                                         findPlot_vars)]
 
@@ -56,11 +63,9 @@ output$findPlot_var_selector <- renderUI({
 
 
 output$allFindsPlot <- renderPlot({
-
-
   findPlot_tmp <- findPlot_data() %>%
     filter(relation.liesWithinLayer %in% input$findPlot_layer_selector) %>%
-    period_filter(is_milet = is_milet, selector = input$period_select)
+    period_filter(is_milet = is_milet, selector = input$findPlot_period_selector)
 
   if (input$findPlot_axis == "var_is_fill") {
     p <- findPlot_tmp %>%
@@ -70,7 +75,7 @@ output$allFindsPlot <- renderPlot({
                  fill = get(input$findPlot_PlotVar))) +
       labs(fill = input$findPlot_PlotVar,
            x = "Type of Find")
-    if (input$findPlot_PlotVar == "period" & is_milet) {
+    if (input$findPlot_PlotVar == "period") {
       p <- p + scale_fill_period
     }
   } else if (input$findPlot_axis == "var_is_x") {

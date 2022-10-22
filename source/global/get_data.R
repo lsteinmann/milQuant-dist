@@ -4,8 +4,7 @@ get_complete_db <- function(connection = NULL,
                             projectname = "rtest") {
   docs <- get_idaifield_docs(connection = connection,
                              projectname = projectname,
-                             keep_geometry = FALSE,
-                             simplified = TRUE)
+                             raw = FALSE)
   return(docs)
 }
 
@@ -18,7 +17,7 @@ index_query <- function(connection = NULL,
                             projectname = projectname,
                             field = field, value = value,
                             uidlist = uidlist,
-                            keep_geometry = FALSE) %>%
+                            keep_geometry = TRUE) %>%
     prep_for_shiny(reorder_periods = reorder_periods)
   return(result)
 }

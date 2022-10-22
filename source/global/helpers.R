@@ -1,21 +1,25 @@
 ###### Reusable functions
 
 # Prep for shiny
-prep_for_shiny <- function(data, reorder_periods = reorder_periods) {
+prep_for_shiny <<- function(data, reorder_periods = reorder_periods) {
   data <- data %>%
     idaifield_as_matrix() %>%
     as.data.frame() %>%
     remove_na_cols() %>%
-    type.convert(as.is = FALSE) %>%
-    mutate_at(c("beginningDate", "endDate", "date",
-                "period", "period.end", "period.start"), as.character) %>%
-    #select(!any_of(drop_for_plot_vars)) %>% # no, dont do that, stupid
-    mutate(beginningDate = as.Date(beginningDate, format = "%d.%m.%Y")) %>%
-    mutate(endDate = as.Date(endDate, format = "%d.%m.%Y")) %>%
-    mutate(date = as.Date(date, format = "%d.%m.%Y"))
+    type.convert(as.is = FALSE)
+
+  if ("beginningDate" %in% colnames(data)) {
+    data <- data %>%
+      mutate_at(c("beginningDate", "endDate", "date"), as.character) %>%
+      #select(!any_of(drop_for_plot_vars)) %>% # no, dont do that, stupid
+      mutate(beginningDate = as.Date(beginningDate, format = "%d.%m.%Y")) %>%
+      mutate(endDate = as.Date(endDate, format = "%d.%m.%Y")) %>%
+      mutate(date = as.Date(date, format = "%d.%m.%Y"))
+  }
 
   if(reorder_periods) {
     data <- data %>%
+      mutate_at(c("period", "period.end", "period.start"), as.character) %>%
       # fix value for periods that have been assigned multiple periods
       # TODO i need to think of something better here, it is horrible
       mutate(period = ifelse(grepl(pattern = ";", period), "multiple", period)) %>%
@@ -42,14 +46,14 @@ prep_for_shiny <- function(data, reorder_periods = reorder_periods) {
 
 
 # Helper to remove columns that are empty
-remove_na_cols <- function(data) {
+remove_na_cols <<- function(data) {
   na_cols <- apply(data, function(x) all(is.na(x)), MARGIN = 2)
   data <- data[, !na_cols]
   return(data)
 }
 
 # Returns the UIDs of entries belonging to the variable in question
-uid_by_operation <- function(filter_operation = "all",
+uid_by_operation <<- function(filter_operation = "all",
                              index = react_index()) {
 
   if (filter_operation == "none") {
@@ -77,7 +81,7 @@ uid_by_operation <- function(filter_operation = "all",
 
 
 
-milQuant_dowloadHandler <- function(plot = "plot", ftype = "png") {
+milQuant_dowloadHandler <<- function(plot = "plot", ftype = "png") {
   downloadHandler(
     filename = paste(format(Sys.Date(), "%Y%m%d"),
                      "_milQuant_plot.", ftype, sep = ""),
@@ -92,7 +96,7 @@ milQuant_dowloadHandler <- function(plot = "plot", ftype = "png") {
 
 #selectable_layers
 
-make_layer_selector <- function(data_all, inputId,
+make_layer_selector <<- function(data_all, inputId,
                                 label = "Choose one or many contexts") {
   # creates the selector for layers present in data_all as a relation
 
@@ -114,17 +118,19 @@ make_layer_selector <- function(data_all, inputId,
                              "live-search-placeholder" = "Search here..."))
 }
 
-period_selector <- sliderTextInput(
-  inputId = "period_select",
-  label = "Choose a chronological range:",
-  choices = periods,
-  selected = periods[c(1,length(periods))],
-  force_edges = TRUE
-)
+make_period_selector <<- function(inputId,
+                                 label = "Choose one or many contexts") {
+  sliderTextInput(
+    inputId = inputId,
+    label = label,
+    choices = periods,
+    selected = periods[c(1,length(periods))],
+    force_edges = TRUE)
+}
 
 
 # apply the period filter if the config is milet
-period_filter <- function(find_df, is_milet = FALSE, selector = NULL) {
+period_filter <<- function(find_df, is_milet = FALSE, selector = NULL) {
   if (is_milet) {
     find_df <- find_df %>%
       filter(period.start >= selector[1] & period.end <= selector[2])  %>%
@@ -133,6 +139,9 @@ period_filter <- function(find_df, is_milet = FALSE, selector = NULL) {
   return(find_df)
 }
 
+mq_spinner <<- function(object) {
+  withSpinner(object, color = "#e2001a", type = 1)
+}
 
 
 

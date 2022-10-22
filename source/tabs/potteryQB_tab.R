@@ -25,7 +25,7 @@ potteryQB_tab <- tabItem(
                    inline = TRUE, animation = "jelly",
                    choices = list("Dodged Bars" = "dodge",
                                   "Stacked Bars" = "stack")),
-      period_selector,
+      htmlOutput("QBpotPlot_1_period_selector"),
       downloadButton("QBpotPlot_1_png", label = "Download plot (png)"),
       downloadButton("QBpotPlot_1_pdf", label = "Download plot (pdf)")
     ),

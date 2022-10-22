@@ -23,7 +23,7 @@ loomweight_tab <- tabItem(
                                       "display all objects" = "all"),
                        selected = "all", inline = TRUE),
           htmlOutput("lw_weight_slider"),
-          period_selector,
+          htmlOutput("LW_period_selector"),
           downloadButton("lwPlot_1_png", label = "Download plot (png)"),
           downloadButton("lwPlot_1_pdf", label = "Download plot (pdf)")
       ),

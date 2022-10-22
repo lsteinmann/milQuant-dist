@@ -11,7 +11,7 @@ connect_tab <- tabItem(
                                      textOutput("tab_connect.welcome_text",
                                                 container = tags$h1))))),
       infoBox(width = 3, title = "Version", subtitle = "date: 15.05.2022",
-              icon = icon("code-fork"), value = "v.0.1.0", color = "olive")
+              icon = icon("code-fork"), value = "v.0.1.1", color = "olive")
     ),
     fluidRow(
       box(width = 6,

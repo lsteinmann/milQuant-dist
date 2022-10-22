@@ -1,3 +1,8 @@
+# milQuant 0.2.1 _2022-05-15_
+
+* uses idaifieldR v0.2.1
+* WIP
+
 # milQuant 0.2.0 _2022-05-15_
 
 * First executable version
