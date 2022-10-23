@@ -9,9 +9,10 @@ pottery <- reactive({
 output$pottery_overview <- renderText({
   n_objects <- nrow(pottery())
   n_layers <- length(unique(pottery()$relation.liesWithinLayer))
-  paste("The selected place (", paste(input$select_operation, collapse = ", "),
-        ") contains a total of ", n_objects,
-        " pottery resources from ", n_layers, " contexts. Kolay gelsin.",
+  paste("The selected trenches ", paste(input$select_trench, collapse = ", "),
+        " (from ", paste(input$select_operation, collapse = ", "),
+        ") contain a total of ", n_objects,
+        " Pottery-resources from ", n_layers, " contexts.",
         sep = "")
 })
 

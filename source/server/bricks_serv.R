@@ -8,9 +8,10 @@ bricks <- reactive({
 output$bricks_overview <- renderText({
   n_objects <- nrow(bricks())
   n_layers <- length(unique(bricks()$relation.liesWithinLayer))
-  paste("The selected place (", paste(input$select_operation, collapse = ", "),
-        ") contains a total of ", n_objects,
-        " Loomweights from ", n_layers, " contexts. Kolay gelsin.",
+  paste("The selected trenches ", paste(input$select_trench, collapse = ", "),
+        " (from ", paste(input$select_operation, collapse = ", "),
+        ") contain a total of ", n_objects,
+        " Brick-Resources from ", n_layers, " contexts.",
         sep = "")
 })
 

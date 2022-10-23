@@ -17,9 +17,10 @@ output$allfinds_n <- renderText({
 output$allfinds_overview <- renderText({
   n_objects <- nrow(findPlot_data())
   n_layers <- length(unique(findPlot_data()$relation.liesWithinLayer))
-  paste("The selected place (", paste(input$select_operation, collapse = ", "),
-        ") contains a total of ", n_objects,
-        " Finds from ", n_layers, " contexts. Kolay gelsin.",
+  paste("The selected trenches ", paste(input$select_trench, collapse = ", "),
+        " (from ", paste(input$select_operation, collapse = ", "),
+        ") contain a total of ", n_objects,
+        " Finds from ", n_layers, " contexts.",
         sep = "")
 })
 
