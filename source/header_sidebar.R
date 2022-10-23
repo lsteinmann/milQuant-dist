@@ -16,6 +16,11 @@ sidebar <- dashboardSidebar(
              menuSubItem("Pottery (single)", tabName = "pottery", icon = icon("wine-glass-alt")),
              menuSubItem("Pottery Quantification A", tabName = "potteryQA", icon = icon("glass-cheers")),
              menuSubItem("Pottery Quantification B", tabName = "potteryQB", icon = icon("glass-cheers"))
+    menuItem("Bricks and Tiles", tabName = "bricks_all", icon = icon("square"),
+          menuSubItem("Bricks and Tiles", tabName = "bricks",
+                      icon = icon("house")),
+          menuSubItem("Brick/Tile/Pipe Quantification", tabName = "bricksQ",
+                      icon = icon("shapes"))
     ),
     menuItem("Loomweights", tabName = "loomweights", icon = icon("weight-hanging")),
     #menuItem("Sculpture", tabName = "sculpture", icon = icon("horse-head"),
