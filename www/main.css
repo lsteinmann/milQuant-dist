@@ -68,6 +68,12 @@ background-color: #e2001a;
   border-color: #3b515b;
 }
 
+.btn.dropdown-toggle {
+  color: #ffffff;
+  background-color: #627279;
+  border-color: #3b515b;
+}
+
 .login-text {
   color: #e2001a;
   font-size: 50px;
