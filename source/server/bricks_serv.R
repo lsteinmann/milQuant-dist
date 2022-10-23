@@ -46,7 +46,7 @@ output$bricksPlot_1 <- renderPlot({
     geom_bar() +
     scale_fill_discrete() +#name = fill_name) +
     scale_y_continuous(name = "number of bricks") +
-    scale_x_continuous(name = "bla") +
+    scale_x_discrete(name = "bla") +
     Plot_Base_Theme
 
 })
