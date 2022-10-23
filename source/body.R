@@ -14,6 +14,7 @@ body <- dashboardBody(
     potteryQA_tab,
     potteryQB_tab,
     # loomweights
+    bricks_tab,
     loomweight_tab
 
 
