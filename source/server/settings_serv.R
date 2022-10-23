@@ -53,12 +53,27 @@ observeEvent(input$select_project, {
 # Produces the List of Places to select from the reactive Index
 # may not update when index is refreshed
 operations <- reactive({
-  tmp_operations <- react_index()$Operation
-  tmp_operations <- unique(tmp_operations)
-  operations <- c("all", sort(na.omit(tmp_operations)))
+  tmp_operations <- react_index() %>%
+    pull(Place) %>%
+    unique()
+  tmp_operations <- tmp_operations[!is.na(tmp_operations)]
+  operations <- sort(tmp_operations)
   rm(tmp_operations)
   return(operations)
 })
+
+
+trenches <- reactive({
+  tmp_trenches <- react_index() %>%
+    filter(Place %in% input$select_operation) %>%
+    pull(isRecordedIn) %>%
+    unique()
+  tmp_trenches <- tmp_trenches[!is.na(tmp_trenches)]
+  trenches <- sort(tmp_trenches)
+  rm(tmp_trenches)
+  return(trenches)
+})
+
 #Place Selector -- Return the requested dataset as text
 # apparently i do not use this anywhere??
 #output$selected_place <- renderText({
@@ -68,10 +83,28 @@ output$select_operation <- renderUI({
   validate(
     need(react_index(), "No project selected.")
   )
-  selectInput(inputId = "select_operation",
-              label = "Choose Place or Operation to work with",
-              choices = operations(), multiple = FALSE,
-              selected = operations()[1])
+  pickerInput(inputId = "select_operation",
+              label = "Choose one or more Places / Operations to work with",
+              choices = operations(),
+              multiple = TRUE,
+              options = list("actions-box" = TRUE,
+                             "live-search" = TRUE,
+                             "live-search-normalize" = TRUE,
+                             "live-search-placeholder" = "Search here..."))
+})
+
+output$select_trench <- renderUI({
+  validate(
+    need(react_index(), "No project selected.")
+  )
+  pickerInput(inputId = "select_trench",
+              label = "Choose one or more Trenches to work with",
+              choices = trenches(),
+              multiple = TRUE,
+              options = list("actions-box" = TRUE,
+                             "live-search" = TRUE,
+                             "live-search-normalize" = TRUE,
+                             "live-search-placeholder" = "Search here..."))
 })
 
 # TODO: try to get a periods list

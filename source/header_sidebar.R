@@ -9,6 +9,7 @@ sidebar <- dashboardSidebar(
   sidebarMenu(
     menuItem("Connect", tabName = "connect", icon = icon("sign-in-alt")),
     uiOutput("select_operation"),
+    uiOutput("select_trench"),
     menuItem("Home (Project)", tabName = "home", icon = icon("graduation-cap")),
     menuItem("Finds (Overview)", tabName = "allfinds", icon = icon("chart-bar")),
     menuItem("Pottery", tabName = "pottery_all", icon = icon("trophy"),
