@@ -5,7 +5,7 @@ bricks_tab <- tabItem(
     h1("Charts from Form: Bricks and Tiles"),
     fluidRow(
       infoBox(title = "Info", value = textOutput("bricks_overview"),
-              icon = icon("list-alt"),
+              icon = icon("list"),
               color = "olive", width = 12),
     ),
     fluidRow(

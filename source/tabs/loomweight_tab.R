@@ -5,7 +5,7 @@ loomweight_tab <- tabItem(
     h1("Charts from Form: Loomweight"),
     fluidRow(
       infoBox(title = "Info", value = textOutput("loomweight_overview"),
-              icon = icon("list-alt"),
+              icon = icon("list"),
               color = "olive", width = 12),
     ),
     fluidRow(

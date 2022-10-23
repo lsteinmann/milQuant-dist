@@ -17,8 +17,6 @@ sidebar <- dashboardSidebar(
              menuSubItem("Pottery Quantification A", tabName = "potteryQA", icon = icon("glass-cheers")),
              menuSubItem("Pottery Quantification B", tabName = "potteryQB", icon = icon("glass-cheers"))
     ),
-    menuItem("Bricks and Tiles", tabName = "bricks", icon = icon("weight-hanging"),
-             badgeLabel = "NEW", badgeColor = "green"),
     menuItem("Loomweights", tabName = "loomweights", icon = icon("weight-hanging")),
     #menuItem("Sculpture", tabName = "sculpture", icon = icon("horse-head"),
     #         badgeLabel = "empty", badgeColor = "red"),

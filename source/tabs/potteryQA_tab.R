@@ -3,7 +3,7 @@ potteryQA_tab <- tabItem(
   h1("Charts from Form: Pottery Quantification A"),
   fluidRow(
     infoBox(title = "Info", value = textOutput("potQA_overview"),
-            icon = icon("list-alt"),
+            icon = icon("list"),
             color = "olive", width = 12),
   ),
   fluidRow(

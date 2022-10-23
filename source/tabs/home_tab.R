@@ -13,7 +13,7 @@ home_tab <- tabItem(
       valueBox(
         uiOutput("overview_n"),
         "Total Resources",
-        icon = icon("file-alt"),
+        icon = icon("file"),
         color = "olive",
         width = 2)),
     fluidRow(

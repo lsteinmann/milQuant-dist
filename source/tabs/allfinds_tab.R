@@ -4,12 +4,12 @@ allfinds_tab <- tabItem(
     h1("Overview of all find types"),
     fluidRow(
       infoBox(title = "Info", value = textOutput("allfinds_overview"),
-              icon = icon("list-alt"),
+              icon = icon("list"),
               color = "olive", width = 10),
       valueBox(
         uiOutput("allfinds_n"),
         "Total Resources",
-        icon = icon("file-alt"),
+        icon = icon("file"),
         color = "olive",
         width = 2)
     ),

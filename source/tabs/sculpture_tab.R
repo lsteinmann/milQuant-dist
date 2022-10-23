@@ -5,7 +5,7 @@ sculpture_tab <- tabItem(
   h2("Sculpture"),
   fluidRow(
     infoBox(title = "Info", value = textOutput("sculpture_overview"),
-            icon = icon("list-alt"),
+            icon = icon("list"),
             color = "olive", width = 12),
   ),
   fluidRow(
