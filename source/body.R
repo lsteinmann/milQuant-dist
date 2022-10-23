@@ -16,6 +16,7 @@ body <- dashboardBody(
 
     #bricks
     bricks_tab,
+    bricksQ_tab,
 
     # loomweights
     loomweight_tab

@@ -22,9 +22,9 @@ sidebar <- dashboardSidebar(
     ),
     menuItem("Bricks and Tiles", tabName = "bricks_all", icon = icon("square"),
           menuSubItem("Bricks and Tiles", tabName = "bricks",
-                      icon = icon("house"))#,
-    #      menuSubItem("Brick/Tile/Pipe Quantification", tabName = "bricksQ",
-    #                  icon = icon("shapes"))
+                      icon = icon("house")),
+          menuSubItem("Brick/Tile/Pipe Quantification", tabName = "bricksQ",
+                      icon = icon("shapes"))
     ),
     menuItem("Loomweights", tabName = "loomweights", icon = icon("weight-hanging")),
     #menuItem("Sculpture", tabName = "sculpture", icon = icon("horse-head"),
