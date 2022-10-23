@@ -64,10 +64,20 @@ operations <- reactive({
 
 
 trenches <- reactive({
-  tmp_trenches <- react_index() %>%
+  validate(
+    need(input$select_operation, "No operation selected.")
+  )
+  if (input$select_operation == "select everything") {
+    tmp_trenches <- react_index() %>%
+      pull(isRecordedIn) %>%
+      unique()
+  } else {
+    tmp_trenches <- react_index() %>%
     filter(Place %in% input$select_operation) %>%
     pull(isRecordedIn) %>%
     unique()
+  }
+
   tmp_trenches <- tmp_trenches[!is.na(tmp_trenches)]
   trenches <- sort(tmp_trenches)
   rm(tmp_trenches)
@@ -83,9 +93,13 @@ output$select_operation <- renderUI({
   validate(
     need(react_index(), "No project selected.")
   )
+  choices <- operations()
+  if (length(choices) == 0) {
+    choices <- c("select everything")
+  }
   pickerInput(inputId = "select_operation",
               label = "Choose one or more Places / Operations to work with",
-              choices = operations(),
+              choices = choices,
               multiple = TRUE,
               options = list("actions-box" = TRUE,
                              "live-search" = TRUE,
