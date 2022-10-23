@@ -11,14 +11,16 @@ output$overview <- renderPlot({
     need(react_index(), "No project selected.")
   )
 
-
-
-  filter_operation <- uid_by_operation(filter_operation = input$select_operation,
-                                       index = react_index())
-
-  tmp_index <- react_index() %>%
-    filter(UID %in% filter_operation) %>%
+  tmp_index <- react_index()
+  if (!is.null(input$select_operation)) {
+    tmp_index <- react_index() %>%
+      filter(Place %in% input$select_operation)
+  } else {
+    tmp_index <- react_index()
+  }
+  tmp_index <- tmp_index %>%
     select(type, Operation)
+
 
   alpha <- rep(0.3, length(na.omit(unique(tmp_index$Operation))))
 
