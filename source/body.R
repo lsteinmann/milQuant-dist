@@ -7,15 +7,15 @@ body <- dashboardBody(
   tabItems(
     connect_tab,
     # home and find overview content
-    home_tab,
-    allfinds_tab,
+    home_tab#,
+    #allfinds_tab,
     # Pottery tabs content
-    pottery_tab,
-    potteryQA_tab,
-    potteryQB_tab,
+    #pottery_tab,
+    #potteryQA_tab,
+    #potteryQB_tab,
     # loomweights
-    bricks_tab,
-    loomweight_tab
+    #bricks_tab,
+    #loomweight_tab
 
 
 
