@@ -53,6 +53,9 @@ server <- function(input, output, session) {
   source('source/server/potteryQB_serv.R', local = TRUE)
 
   # server code only for loomweights
+  source('source/server/bricks_serv.R', local = TRUE)
+
+  # server code only for loomweights
   source('source/server/loomweight_serv.R', local = TRUE)
 
 
