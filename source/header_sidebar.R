@@ -1,5 +1,9 @@
-header <- dashboardHeader(title = "milQuant")
-
+#header <- dashboardHeader(title = "milQuant")
+header <- dashboardHeader(title = "milQuant",
+           tags$li(class = "dropdown",
+                   actionButton(label = "Quit",
+                                icon = icon("power-off"),
+                                inputId = "close_app")))
 
 sidebar <- dashboardSidebar(
   sidebarMenu(

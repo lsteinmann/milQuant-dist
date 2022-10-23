@@ -85,3 +85,6 @@ output$select_operation <- renderUI({
 #})
 
 
+observeEvent(input$close_app,{
+  stopApp()
+})
