@@ -27,6 +27,7 @@ Plot_Base_Theme <<- theme(panel.background = element_blank(),
 
 
 drop_for_plot_vars <<- c("identifier", "shortDescription", "notes",
+                         "processor",
                         "storagePlaceOther", "measuringPointID",
                         "localizationDescription", "conditionComment",
                         "comparison", "MuseumInventoryNr", "OldInventoryNr",
