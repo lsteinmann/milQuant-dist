@@ -1,3 +1,9 @@
+# milQuant 0.2.2 _2023-02-18_
+
+* uses idaifieldR v0.2.2 (fixing a problem where with an if-condition)
+* rudimentary form for bricks added
+* WIP...
+
 # milQuant 0.2.1 _2022-05-15_
 
 * uses idaifieldR v0.2.1
