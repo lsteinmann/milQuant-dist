@@ -66,10 +66,12 @@ server <- function(input, output, session) {
 
   # uncomment this for distribution
   # close the R session when Chrome closes
-  #session$onSessionEnded(function() {
-  #  stopApp()
-  #  q("no")
-  #})
+  if (!interactive()) {
+    session$onSessionEnded(function() {
+      stopApp()
+      q("no")
+    })
+  }
 
 }
 

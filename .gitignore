@@ -42,3 +42,4 @@ vignettes/*.pdf
 /priv_testing_dir/*
 profile.R
 README.html
+dist/*
