@@ -32,10 +32,10 @@ server <- function(input, output, session) {
 
   # show login dialog box when initiated
   showModal(login_dialog, session = getDefaultReactiveDomain())
-  # server code to handle basic setting, i.e. ip and pwd
+  # server code to handle the connection to field
   source('source/server/connect_serv.R', local = TRUE)
 
-  # server code to handle basic setting, i.e. ip and pwd
+  # server code to handle basic settings, i.e. project, trench/operation
   source('source/server/settings_serv.R', local = TRUE)
   # server code to import database, places etc.
   source('source/server/database_serv.R', local = TRUE)
@@ -51,7 +51,7 @@ server <- function(input, output, session) {
   # server code only for pottery quantification B form
   source('source/server/potteryQB_serv.R', local = TRUE)
 
-  # server code only for loomweights
+  # server code only for bricks
   source('source/server/bricks_serv.R', local = TRUE)
 
   # server code only for loomweights
