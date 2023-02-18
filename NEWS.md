@@ -3,6 +3,7 @@
 * use idaifieldR v0.2.2 (fixing a problem where with an if-condition)
 * rudimentary form for bricks added
 * fix downloading plot in Finds, Loomweights and Bricks
+* fix error handling in connection (now actually displays the error)
 * WIP...
 
 # milQuant 0.2.1 _2022-05-15_
