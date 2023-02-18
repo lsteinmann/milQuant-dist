@@ -4,8 +4,8 @@ The milQuant-Shiny Dashboard provides quick quantitative overviews of the data i
 
 The dashboard has been developed and is meant to be used with the milet-configuration and within the framework of the [Miletus Excavation Project](https://www.miletgrabung.uni-hamburg.de/). While very limited, some functionality and general overviews may also work with other project-configurations. In any case, the App could be adapted to work for different configurations! Feel free to modify it according to your needs. 
 
-![Screenshot from the Dashboard: Finds](readme/03_Finds.png "Screenshot from the Dashboard: Finds"){width=50%}![Screenshot from the Dashboard: Pottery Quantification A](readme/05_Pottery_Quant_A.png "Screenshot from the Dashboard: Pottery Quantification A"){width=50%}
-
+![Screenshot from the Dashboard: Finds](readme/03_Finds.png "Screenshot from the Dashboard: Finds")
+![Screenshot from the Dashboard: Pottery Quantification A](readme/05_Pottery_Quant_A.png "Screenshot from the Dashboard: Pottery Quantification A")
 ![Screenshot from the Dashboard: Loomweights](readme/07_Loomweights.png "Screenshot from the Dashboard: Loomweights")
 
 ## Current Status
