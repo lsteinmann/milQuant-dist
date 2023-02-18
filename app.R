@@ -22,7 +22,6 @@ source("source/tabs/bricks_tab.R")
 source("source/tabs/loomweight_tab.R")
 source("source/tabs/allfinds_tab.R")
 #source("source/tabs/sculpture_tab.R")
-#source("source/tabs/buildings_tab.R")
 
 # body
 source("source/body.R")
@@ -61,7 +60,6 @@ server <- function(input, output, session) {
 
 
   #source('source/server/sculpture_serv.R', local = TRUE)
-  #source('source/server/buildings_serv.R', local = TRUE)
 
 
   # uncomment this for distribution
