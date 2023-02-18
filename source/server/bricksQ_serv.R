@@ -21,7 +21,7 @@ output$bricksQ_layer_selector <- renderUI({
 })
 
 
-bricksQPlot_1 <- function() {
+make_bricksQPlot_1 <- reactive({
   existing_cols <- colnames(bricksQ())
   keep <- existing_cols
   keep <- keep[grepl("count", keep)]
@@ -32,7 +32,7 @@ bricksQPlot_1 <- function() {
   keep <- c(keep, "relation.liesWithinLayer")
 
   plot_data <- bricksQ() %>%
-    filter(relation.liesWithinLayer %in% input$QA_layer_selector) %>%
+    filter(relation.liesWithinLayer %in% input$bricksQ_layer_selector) %>%
     select(all_of(keep)) %>%
     melt(id = "relation.liesWithinLayer") %>%
     mutate(value = ifelse(is.na(value), 0, value)) %>%
@@ -41,19 +41,21 @@ bricksQPlot_1 <- function() {
     # so every object is a row, technically (makes ggplot easier)
     uncount(value)
 
-  bricksQ() %>% ggplot(aes(x = relation.isRecordedIn)) +
+  p <- plot_data %>% ggplot(aes(x = variable)) +
     geom_bar() +
     Plot_Base_Theme
-}
+
+  p
+})
 
 output$bricksQPlot_1 <- renderPlot({
-  bricksQPlot_1()
+  make_bricksQPlot_1()
 })
 
 
-output$bricksQPlot_1_png <- milQuant_dowloadHandler(plot = bricksQPlot_1(),
+output$bricksQPlot_1_png <- milQuant_dowloadHandler(plot = make_bricksQPlot_1(),
                                                 ftype = "png")
-output$bricksQPlot_1_pdf <- milQuant_dowloadHandler(plot = bricksQPlot_1(),
+output$bricksQPlot_1_pdf <- milQuant_dowloadHandler(plot = make_bricksQPlot_1(),
                                                 ftype = "pdf")
 
 
