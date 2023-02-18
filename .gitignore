@@ -41,3 +41,4 @@ vignettes/*.pdf
 # private
 /priv_testing_dir/*
 profile.R
+README.html

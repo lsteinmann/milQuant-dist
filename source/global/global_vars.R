@@ -66,6 +66,3 @@ quant_types <<- c("Quantification", "Brick_Quantification",
                   "Pottery_Quantification_A", "Pottery_Quantification_B",
                   "QuantMollusks", "PlasterQuantification")
 
-unique(db$type)
-
-#all_types <- unique(index$type)

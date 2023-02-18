@@ -61,9 +61,7 @@ output$findPlot_var_selector <- renderUI({
 
 })
 
-
-
-output$allFindsPlot <- renderPlot({
+make_allFindsPlot <- reactive({
   findPlot_tmp <- findPlot_data() %>%
     filter(relation.liesWithinLayer %in% input$findPlot_layer_selector) %>%
     period_filter(is_milet = is_milet, selector = input$findPlot_period_selector)
@@ -102,10 +100,14 @@ output$allFindsPlot <- renderPlot({
          subtitle = input$findPlot_subtitle,
          caption = paste("Total number of objects: ",
                          nrow(findPlot_tmp), sep = ""))
-  return(p)
+  p
 })
 
-output$allFindsPlot_png <- milQuant_dowloadHandler(plot = allFindsPlot(),
+output$allFindsPlot <- renderPlot({
+  make_allFindsPlot()
+})
+
+output$allFindsPlot_png <- milQuant_dowloadHandler(plot = make_allFindsPlot(),
                                                 ftype = "png")
-output$allFindsPlot_pdf <- milQuant_dowloadHandler(plot = allFindsPlot(),
+output$allFindsPlot_pdf <- milQuant_dowloadHandler(plot = make_allFindsPlot(),
                                                 ftype = "pdf")

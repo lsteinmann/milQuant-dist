@@ -51,9 +51,7 @@ output$lw_weight_slider <- renderUI({
 
 })
 
-
-output$lwPlot_1 <- renderPlot({
-
+make_lwPlot_1 <- reactive({
   fill_name <- names(fill_vars[which(fill_vars == input$lwPlot_1_fillvar)])
 
   if (input$lw_condition_filter == "all") {
@@ -62,7 +60,7 @@ output$lwPlot_1 <- renderPlot({
     condition_filter <- input$lw_condition_filter
   }
 
-  loomweights() %>%
+  p <- loomweights() %>%
     # filter by periods from the slider if config is milet
     period_filter(is_milet = is_milet, selector = input$LW_period_selector) %>%
     filter(relation.liesWithinLayer %in% input$LW_layer_selector) %>%
@@ -75,11 +73,15 @@ output$lwPlot_1 <- renderPlot({
                        limits = c(input$lw_weight_slider[1],
                                   input$lw_weight_slider[2])) +
     Plot_Base_Theme
+  p
+})
 
+output$lwPlot_1 <- renderPlot({
+  make_lwPlot_1()
 })
 
 
-output$lwPlot_1_png <- milQuant_dowloadHandler(plot = lwPlot_1(),
+output$lwPlot_1_png <- milQuant_dowloadHandler(plot = make_lwPlot_1(),
                                                 ftype = "png")
-output$lwPlot_1_pdf <- milQuant_dowloadHandler(plot = lwPlot_1(),
+output$lwPlot_1_pdf <- milQuant_dowloadHandler(plot = make_lwPlot_1(),
                                                 ftype = "pdf")

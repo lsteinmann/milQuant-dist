@@ -33,13 +33,10 @@ output$bricks_period_selector <- renderUI({
 #               "manufacturingMethod", "provenance", "specificType")
 
 
-
-
-output$bricksPlot_1 <- renderPlot({
-
+make_bricksPlot_1 <- reactive({
   #fill_name <- names(fill_vars[which(fill_vars == input$lwPlot_1_fillvar)])
 
-  bricks() %>%
+  p <- bricks() %>%
     # filter by periods from the slider if config is milet
     period_filter(is_milet = is_milet, selector = input$bricks_period_selector) %>%
     filter(relation.liesWithinLayer %in% input$bricks_layer_selector) %>%
@@ -49,11 +46,15 @@ output$bricksPlot_1 <- renderPlot({
     scale_y_continuous(name = "number of bricks") +
     scale_x_discrete(name = "bla") +
     Plot_Base_Theme
+  p
+})
 
+output$bricksPlot_1 <- renderPlot({
+  make_bricksPlot_1()
 })
 
 
-output$bricksPlot_1_png <- milQuant_dowloadHandler(plot = bricksPlot_1(),
+output$bricksPlot_1_png <- milQuant_dowloadHandler(plot = make_bricksPlot_1(),
                                                 ftype = "png")
-output$bricksPlot_1_pdf <- milQuant_dowloadHandler(plot = bricksPlot_1(),
+output$bricksPlot_1_pdf <- milQuant_dowloadHandler(plot = make_bricksPlot_1(),
                                                 ftype = "pdf")
