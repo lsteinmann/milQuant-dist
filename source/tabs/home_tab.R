@@ -5,8 +5,12 @@ home_tab <- tabItem(
   fluidPage(
     fluidRow(
       infoBox(
-        title = "Development",
-        value = "This App is still under development. However, just try it!",
+        title = "Info",
+        value = "This plot gives you an overview of all the resources that
+        exist in the Operation and/or Trenches you have selected in the sidebar
+        on the left. All other tabs accesible via the bar on the left will only
+        display resources from the Operation and/or Trenches you
+        have selected.",
         icon = icon("vial"),
         color = "olive",
         width = 10),
