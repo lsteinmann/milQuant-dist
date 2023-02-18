@@ -1,14 +1,20 @@
-packages <- c("shiny", "shinydashboard", "ggplot2", "dplyr", "reshape2",
-              "forcats", "remotes", "idaifieldR", "shinyWidgets", "tidyr",
-              "viridis",
-              #"leaflet", "sp", "rgdal", "rgeos",
-              "shinycssloaders", "shinyjs", "glue")
+packages <- c("shiny", "shinydashboard",
+              "shinycssloaders", "shinyjs", "shinyWidgets",
+              "ggplot2", "dplyr", "reshape2", "viridis", "forcats", "tidyr",
+              "remotes", "idaifieldR",
+              "glue")
+
 for (p in packages) {
-  if(!require(p, character.only = TRUE)) {
+  if (!suppressWarnings(require(p, character.only = TRUE))) {
     if (p == "idaifieldR") {
-      remotes::install_github("lsteinmann/idaifieldR")
+      remotes::install_github("lsteinmann/idaifieldR@v0.2.2")
     } else {
       install.packages(p)
+    }
+  } else if (p == "idaifieldR") {
+    if (packageVersion("idaifieldR") != "0.2.2") {
+      unloadNamespace("idaifieldR")
+      remotes::install_github("lsteinmann/idaifieldR@v0.2.2")
     }
   }
   library(p, character.only = TRUE)
