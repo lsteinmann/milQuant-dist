@@ -25,3 +25,5 @@ R-win-port contains the contents of an R-portable distribution (get it from [Sou
 ## License
 
 [CC0 1.0 (Public Domain)](LICENSE.md)
+
+Icon from [icon-icons.com](https://icon-icons.com/icon/quant-qnt/245484)
