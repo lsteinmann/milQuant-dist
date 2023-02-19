@@ -6,7 +6,7 @@ const path = require('path')
 
 
 const url = require('url')
-const port = "9191"
+const port = "3002"
 const child = require('child_process');
 const WINDOWS = "win32"
 
@@ -18,7 +18,7 @@ var execPath = "RScript"
 if(process.platform == WINDOWS){
   //killStr = "taskkill /im Rscript.exe /f"
   appPath = appPath.replace(/\\/g, "\\\\");
-  execPath = path.join(app.getAppPath(), "R-Portable-Win", "bin", "RScript.exe" )
+  execPath = path.join(app.getAppPath(), "R-win-port", "bin", "RScript.exe" )
 } else {
   console.log("not on windows?")
   throw new Error("not on windows?")
