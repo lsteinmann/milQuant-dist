@@ -1,55 +1,26 @@
-#
-# ----------------------------------------------
+# shiny-electron
 
-***This is the first attempt to combine Electron with [R-Portable](https://sourceforge.net/projects/rportable/files/R-Portable/) (version 3.4.0) and [RStudio Shiny](https://cran.r-project.org/web/packages/shiny/index.html) package to deliver Electron Applications that run standalone with R and Shiny.***
+This is totally hacked together from different tutorials and I do not recommend copying any of it. 
 
-# ----------------------------------------------
+Template from: [electron-quick-start](https://github.com/electron/electron-quick-start)
 
-#
-#
-# electron-quick-start
+Copied main.js from [COVAIL](https://github.com/COVAIL/electron-quick-start/blob/master/main.js), since that is the only approach I could get to work with the current template from electron.
 
-**Clone and run for a quick way to see Electron in action.**
+See some other tutorials and approaches to deploy shiny with electron: 
 
-This is a minimal Electron application based on the [Quick Start Guide](https://electronjs.org/docs/latest/tutorial/quick-start) within the Electron documentation.
+* Using electron quick start, all based on each other:
+    * [COVAIL](https://github.com/COVAIL/electron-quick-start)
+    * [Dirk Schumacher](https://github.com/dirkschumacher/r-shiny-electron)
+    * [Travis Hinkelmann](https://github.com/hinkelman/r-shiny-electron)
+* [How to Make an R Shiny Electron App](https://github.com/lawalter/r-shiny-electron-app)
+* [DesktopDeployR](https://github.com/wleepang/DesktopDeployR)
+* [RInno](https://github.com/ficonsulting/RInno)
 
-A basic Electron application needs just these files:
 
-- `package.json` - Points to the app's main file and lists its details and dependencies.
-- `main.js` - Starts the app and creates a browser window to render HTML. This is the app's **main process**.
-- `index.html` - A web page to render. This is the app's **renderer process**.
-- `preload.js` - A content script that runs before the renderer process loads.
 
-You can learn more about each of these components in depth within the [Tutorial](https://electronjs.org/docs/latest/tutorial/tutorial-prerequisites).
+## Instructions
+R-win-port contains the contents of an R-portable distribution (get it from [SourceForge](https://sourceforge.net/projects/rportable/) and copy only the contents of App/R-Portable/, doc and tests can be deleted to safe space, moderately). I manually installed the needed packages to the local R library before continuing (see `R-win-port/bin/load_packages.R`). 
 
-## To Use
-
-To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
-
-```bash
-# Clone this repository
-git clone https://github.com/ColumbusCollaboratory/electron-quick-start
-# Install Electron Packager (if first time)
-npm install electron-packager -g 
-# Go into the repository
-cd electron-quick-start
-# Install dependencies
-npm install
-# Run the app
-npm start
-# Build the Executable/App
-cd electron-quick-start
-npm run package-win
-OR
-npm run package-mac 
-```
-
-Note: If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
-
-## Resources for Learning Electron
-
-- [electronjs.org/docs](https://electronjs.org/docs) - all of Electron's documentation
-- [Electron Fiddle](https://electronjs.org/fiddle) - Electron Fiddle, an app to test small Electron experiments
 
 ## License
 
