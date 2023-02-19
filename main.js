@@ -10,13 +10,11 @@ const port = "3002"
 const child = require('child_process');
 const WINDOWS = "win32"
 
-var killStr = ""
 var appPath = path.join(app.getAppPath(), "app.R" )
 var execPath = "RScript"
 
 
 if(process.platform == WINDOWS){
-  //killStr = "taskkill /im Rscript.exe /f"
   appPath = appPath.replace(/\\/g, "\\\\");
   execPath = path.join(app.getAppPath(), "R-win-port", "bin", "RScript.exe" )
 } else {
@@ -115,9 +113,6 @@ function cleanUpApplication(){
   app.quit()
   
   if(childProcess){
-    childProcess.kill();
-    if(killStr != "")
-      child.execSync(killStr)      
     childProcess.kill(); 
   }
 }
@@ -126,7 +121,6 @@ function cleanUpApplication(){
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow()
-
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
