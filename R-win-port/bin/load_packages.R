@@ -1,4 +1,4 @@
-packages <- c("automagic", "shiny", "shinydashboard",
+packages <- c("shiny", "shinydashboard",
               "shinycssloaders", "shinyjs", "shinyWidgets",
               "ggplot2", "dplyr", "reshape2", "viridis", "forcats", "tidyr",
               "remotes", "idaifieldR", "sofa",
