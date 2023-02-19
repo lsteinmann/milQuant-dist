@@ -8,10 +8,7 @@ const path = require('path')
 const url = require('url')
 const port = "9191"
 const child = require('child_process');
-const MACOS = "darwin"
 const WINDOWS = "win32"
-//const cmdStr = ".\\R-Portable\\bin\\RScript.exe -e \"shiny::runApp('shinyApp.R', port="+port+")\"";
-//ShinyProjects\MarketSizing\Market_sizing_Cardinal-master-b823f3aa918475f5d56f01aec9763ed860715158\mrktsiz_no_crosstalk
 
 var killStr = ""
 var appPath = path.join(app.getAppPath(), "app.R" )
@@ -22,21 +19,9 @@ if(process.platform == WINDOWS){
   //killStr = "taskkill /im Rscript.exe /f"
   appPath = appPath.replace(/\\/g, "\\\\");
   execPath = path.join(app.getAppPath(), "R-Portable-Win", "bin", "RScript.exe" )
-} else if(process.platform == MACOS){
-  //killStr = 'pkill -9 "R"'
-  //execPath = "export PATH=\""+path.join(app.getAppPath(), "R-Portable-Win")+":$PATH\"
-  var macAbsolutePath = path.join(app.getAppPath(), "R-Portable-Mac")
-  var env_path = macAbsolutePath+((process.env.PATH)?":"+process.env.PATH:"");
-  var env_libs_site = macAbsolutePath+"/library"+((process.env.R_LIBS_SITE)?":"+process.env.R_LIBS_SITE:"");
-  process.env.PATH = env_path
-  process.env.R_LIBS_SITE = env_libs_site
-  process.env.NODE_R_HOME = macAbsolutePath
-  
-  //process.env.R_HOME = macAbsolutePath
-  execPath = path.join(app.getAppPath(), "R-Portable-Mac", "bin", "R" )
 } else {
-  console.log("not on windows or macos?")
-  throw new Error("not on windows or macos?")
+  console.log("not on windows?")
+  throw new Error("not on windows?")
 }
 
 console.log(process.env)
@@ -83,9 +68,6 @@ function createWindow () {
         console.log(new Date().toISOString()+'::mainWindow loaded')
         setTimeout( () => {
           mainWindow.show()
-          if(process.platform==MACOS){
-            mainWindow.reload()
-          }
           loading.hide()
           loading.close()
 
@@ -93,17 +75,9 @@ function createWindow () {
 
       })
       console.log(port)
-      // long loading html
+      // loading shiny url
       mainWindow.loadURL('http://127.0.0.1:'+port)
       
-      /**
-      mainWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'index.html'),
-        protocol: 'file:',
-        slashes: true
-      }))
-      **/
-    
       mainWindow.webContents.on('did-finish-load', function() {
         console.log(new Date().toISOString()+'::did-finish-load')
       });
