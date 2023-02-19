@@ -6,6 +6,7 @@ const path = require('path')
 
 
 const url = require('url')
+// not great to do that, maybe try to choose a random port?
 const port = "3002"
 const child = require('child_process');
 const WINDOWS = "win32"
@@ -39,7 +40,6 @@ let mainWindow
 
 // Create the browser window.
 function createWindow () {
-  //  console.log(process.cwd())
   console.log('create-window')
 
     // open a windows while loading, with a custom loading screen
