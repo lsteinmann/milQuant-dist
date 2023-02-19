@@ -1,17 +1,26 @@
 {
-  "name": "electron-quick-start",
-  "version": "1.0.0",
-  "description": "A minimal Electron application",
-  "repository": "https://github.com/electron/electron-quick-start",
+  "name": "milQuant-dist",
+  "version": "0.0.2",
+  "description": "milQuant (Standalone) - Quantitative Analysis with Data from Field",
+  "homepage": "https://github.com/lsteinmann/milQuant",
+  "displayName": "",
+  "author": { 
+    "name" : "Lisa Steinmann", 
+    "email" : "lisa.steinmann@rub.de", 
+    "url" : "https://lsteinmann.github.io/"
+  },
+  "license": "CC BY-SA 4.0",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/lsteinmann/milQuant-dist"
+  },
+  "private": "true",
   "keywords": [
     "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "Shiny",
+    "r-shiny",
+    "archaeology"
   ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
   "main": "main.js",
   "scripts": {
     "start": "electron-forge start",
