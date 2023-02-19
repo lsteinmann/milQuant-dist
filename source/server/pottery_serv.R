@@ -49,7 +49,7 @@ output$potPlot_1_fill_selector <- renderUI({
               choices = pottery_vars())
 })
 
-potPlot_1 <- function() {
+make_potPlot_1 <- reactive({
 
   if (grepl("period", input$potPlot_1_fillvar) & is_milet) {
     potPlot_1_scale_fill <- scale_fill_period
@@ -65,20 +65,22 @@ potPlot_1 <- function() {
     # filter by periods from the slider if config is milet
     period_filter(is_milet = is_milet, selector = input$potPlot_1_period_selector)
 
-  plot_data %>%
+  p <- plot_data %>%
     ggplot(aes(x = get(input$potPlot_1_xvar),
                fill = get(input$potPlot_1_fillvar))) +
     geom_bar() + Plot_Base_Theme + potPlot_1_scale_fill +
     labs(y = "Number of Objects", x = input$potPlot_1_xvar)
-}
 
-output$potPlot_1 <- renderPlot({
-  potPlot_1()
+    p
 })
 
-output$potPlot_1_png <- milQuant_dowloadHandler(plot = potPlot_1(),
+output$potPlot_1 <- renderPlot({
+  make_potPlot_1()
+})
+
+output$potPlot_1_png <- milQuant_dowloadHandler(plot = make_potPlot_1(),
                                                 ftype = "png")
-output$potPlot_1_pdf <- milQuant_dowloadHandler(plot = potPlot_1(),
+output$potPlot_1_pdf <- milQuant_dowloadHandler(plot = make_potPlot_1(),
                                                 ftype = "pdf")
 
 #"Insula UV/8-9") %>%#
