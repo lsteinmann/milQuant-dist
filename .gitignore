@@ -56,6 +56,11 @@ dist
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 
+# R
+*.Rproj
+*.RData
+*.Rhistory
+
 # R Version
 !R-win-port/
 
