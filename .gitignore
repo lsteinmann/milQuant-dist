@@ -43,12 +43,4 @@ vignettes/*.pdf
 profile.R
 README.html
 dist/*
-bin/*
-nativefier-app/*
-utils/*
-infoafter.txt
-infobefore.txt
-milQuant.bat
-milQuant.iss
-setup.ico
-default.ico
+NEWS.html
