@@ -54,16 +54,14 @@ function createWindow () {
 
     loading.once('show', () => {
       console.log(new Date().toISOString()+'::show loading')
-      mainWindow = new BrowserWindow({webPreferences:{nodeIntegration:false}, show:false, width: 800, height: 600, title:""})
-      /*
-        mainWindow = new BrowserWindow({
-          width: 800,
-          height: 600,
-          webPreferences: {
-            preload: path.join(__dirname, 'preload.js')
-          }
-        })
-      */
+      mainWindow = new BrowserWindow({
+        width: 1400,
+        height: 900,
+        show: false,
+        webPreferences: {
+          nodeIntegration:false
+        }
+      })
       mainWindow.webContents.once('dom-ready', () => {
         console.log(new Date().toISOString()+'::mainWindow loaded')
         setTimeout( () => {
@@ -77,7 +75,7 @@ function createWindow () {
       console.log(port)
       // loading shiny url
       mainWindow.loadURL('http://127.0.0.1:'+port)
-      
+
       mainWindow.webContents.on('did-finish-load', function() {
         console.log(new Date().toISOString()+'::did-finish-load')
       });
