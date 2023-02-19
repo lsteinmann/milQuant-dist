@@ -9,7 +9,7 @@ for (p in packages) {
     if (p == "idaifieldR") {
       remotes::install_github("lsteinmann/idaifieldR@v0.2.2")
     } else {
-      install.packages(p)
+      install.packages(p, repos = "https://cloud.r-project.org")
     }
   } else if (p == "idaifieldR") {
     if (packageVersion("idaifieldR") != "0.2.2") {

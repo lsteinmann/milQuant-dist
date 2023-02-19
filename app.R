@@ -1,6 +1,6 @@
 #setwd("..")
 #getwd()
-## app.R ## Load gloabal parameters and function
+## app.R ## Load global parameters and function
 source("source/global/load_packages.R")
 source("source/global/get_data.R")
 source("source/global/global_vars.R")
@@ -22,6 +22,7 @@ source("source/tabs/bricks_tab.R")
 source("source/tabs/bricksQ_tab.R")
 source("source/tabs/loomweight_tab.R")
 source("source/tabs/allfinds_tab.R")
+# todo
 #source("source/tabs/sculpture_tab.R")
 
 # body
@@ -59,12 +60,9 @@ server <- function(input, output, session) {
   # server code only for loomweights
   source('source/server/loomweight_serv.R', local = TRUE)
 
-
-
+  # server code for future sculpture tab
   #source('source/server/sculpture_serv.R', local = TRUE)
 
-
-  # uncomment this for distribution
   # close the R session when Chrome closes
   if (!interactive()) {
     session$onSessionEnded(function() {
@@ -75,6 +73,3 @@ server <- function(input, output, session) {
 }
 
 shinyApp(ui, server)
-
-
-
