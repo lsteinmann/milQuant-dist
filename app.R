@@ -1,50 +1,81 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
+#setwd("..")
+#getwd()
+## app.R ## Load gloabal parameters and function
+source("source/global/load_packages.R")
+source("source/global/get_data.R")
+source("source/global/global_vars.R")
+source("source/global/helpers.R")
 
-library(shiny)
+#app.title <- 'milQuant - Quantitative Data from iDAI.field'
 
-# Define UI for application that draws a histogram
-ui <- fluidPage(
-   
-   # Application title
-   titlePanel("Old Faithful Geyser Data"),
-   
-   # Sidebar with a slider input for number of bins 
-   sidebarLayout(
-      sidebarPanel(
-         sliderInput("bins",
-                     "Number of bins:",
-                     min = 1,
-                     max = 50,
-                     value = 30)
-      ),
-      
-      # Show a plot of the generated distribution
-      mainPanel(
-         plotOutput("distPlot")
-      )
-   )
-)
+# code for sidebar and header
+source("source/header_sidebar.R")
 
-# Define server logic required to draw a histogram
-server <- function(input, output) {
-   
-   output$distPlot <- renderPlot({
-      # generate bins based on input$bins from ui.R
-      x    <- faithful[, 2] 
-      bins <- seq(min(x), max(x), length.out = input$bins + 1)
-      
-      # draw the histogram with the specified number of bins
-      hist(x, breaks = bins, col = 'darkgray', border = 'white')
-   })
+# code for each tab
+source("source/tabs/connect_tab.R")
+source("source/tabs/home_tab.R")
+source("source/tabs/allfinds_tab.R")
+source("source/tabs/pottery_tab.R")
+source("source/tabs/potteryQA_tab.R")
+source("source/tabs/potteryQB_tab.R")
+source("source/tabs/bricks_tab.R")
+source("source/tabs/bricksQ_tab.R")
+source("source/tabs/loomweight_tab.R")
+source("source/tabs/allfinds_tab.R")
+#source("source/tabs/sculpture_tab.R")
+
+# body
+source("source/body.R")
+
+ui <- dashboardPage(header, sidebar, body)
+
+server <- function(input, output, session) {
+
+  # show login dialog box when initiated
+  showModal(login_dialog, session = getDefaultReactiveDomain())
+  # server code to handle the connection to field
+  source('source/server/connect_serv.R', local = TRUE)
+
+  # server code to handle basic settings, i.e. project, trench/operation
+  source('source/server/settings_serv.R', local = TRUE)
+  # server code to import database, places etc.
+  source('source/server/database_serv.R', local = TRUE)
+
+  # server code only for overview pages
+  source('source/server/home_serv.R', local = TRUE)
+  source('source/server/allfinds_serv.R', local = TRUE)
+
+  # server code only for pottery form (single)
+  source('source/server/pottery_serv.R', local = TRUE)
+  # server code only for pottery quantification A form
+  source('source/server/potteryQA_serv.R', local = TRUE)
+  # server code only for pottery quantification B form
+  source('source/server/potteryQB_serv.R', local = TRUE)
+
+  # server code only for bricks
+  source('source/server/bricks_serv.R', local = TRUE)
+  source('source/server/bricksQ_serv.R', local = TRUE)
+
+  # server code only for loomweights
+  source('source/server/loomweight_serv.R', local = TRUE)
+
+
+
+  #source('source/server/sculpture_serv.R', local = TRUE)
+
+
+  # uncomment this for distribution
+  # close the R session when Chrome closes
+  if (!interactive()) {
+    session$onSessionEnded(function() {
+      stopApp()
+      q("no")
+    })
+  }
+
 }
 
-# Run the application 
-shinyApp(ui = ui, server = server)
+shinyApp(ui, server)
+
+
 

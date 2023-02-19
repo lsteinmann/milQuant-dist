@@ -10,13 +10,11 @@ const port = "3002"
 const child = require('child_process');
 const WINDOWS = "win32"
 
-var killStr = ""
 var appPath = path.join(app.getAppPath(), "app.R" )
 var execPath = "RScript"
 
 
 if(process.platform == WINDOWS){
-  //killStr = "taskkill /im Rscript.exe /f"
   appPath = appPath.replace(/\\/g, "\\\\");
   execPath = path.join(app.getAppPath(), "R-win-port", "bin", "RScript.exe" )
 } else {
@@ -38,25 +36,24 @@ childProcess.stderr.on('data', (data) => {
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+
+// Create the browser window.
 function createWindow () {
-  // Create the browser window.
-  //  mainWindow = new BrowserWindow({webPreferences:{nodeIntegration:false},width: 800, height: 600})
   //  console.log(process.cwd())
   console.log('create-window')
 
-
+    // open a windows while loading, with a custom loading screen
     let loading = new BrowserWindow({show: false, frame: false})
-    //let loading = new BrowserWindow()
     console.log(new Date().toISOString()+'::showing loading');
-    loading.loadURL("data:text/html;charset=utf-8;base64,PGh0bWw+DQo8c3R5bGU+DQpib2R5ew0KICBwYWRkaW5nOiAxZW07DQogIGNvbG9yOiAjNzc3Ow0KICB0ZXh0LWFsaWduOiBjZW50ZXI7DQogIGZvbnQtZmFtaWx5OiAiR2lsbCBzYW5zIiwgc2Fucy1zZXJpZjsNCiAgd2lkdGg6IDgwJTsNCiAgbWFyZ2luOiAwIGF1dG87DQp9DQpoMXsNCiAgbWFyZ2luOiAxZW0gMDsNCiAgYm9yZGVyLWJvdHRvbTogMXB4IGRhc2hlZDsNCiAgcGFkZGluZy1ib3R0b206IDFlbTsNCiAgZm9udC13ZWlnaHQ6IGxpZ2h0ZXI7DQp9DQpwew0KICBmb250LXN0eWxlOiBpdGFsaWM7DQp9DQoubG9hZGVyew0KICBtYXJnaW46IDAgMCAyZW07DQogIGhlaWdodDogMTAwcHg7DQogIHdpZHRoOiAyMCU7DQogIHRleHQtYWxpZ246IGNlbnRlcjsNCiAgcGFkZGluZzogMWVtOw0KICBtYXJnaW46IDAgYXV0byAxZW07DQogIGRpc3BsYXk6IGlubGluZS1ibG9jazsNCiAgdmVydGljYWwtYWxpZ246IHRvcDsNCn0NCg0KLyoNCiAgU2V0IHRoZSBjb2xvciBvZiB0aGUgaWNvbg0KKi8NCnN2ZyBwYXRoLA0Kc3ZnIHJlY3R7DQogIGZpbGw6ICNGRjY3MDA7DQp9DQo8L3N0eWxlPg0KPGJvZHk+PCEtLSAzICAtLT4NCjxkaXYgY2xhc3M9ImxvYWRlciBsb2FkZXItLXN0eWxlMyIgdGl0bGU9IjIiPg0KICA8c3ZnIHZlcnNpb249IjEuMSIgaWQ9ImxvYWRlci0xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCINCiAgICAgd2lkdGg9IjgwcHgiIGhlaWdodD0iODBweCIgdmlld0JveD0iMCAwIDUwIDUwIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MCA1MDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KICA8cGF0aCBmaWxsPSIjMDAwIiBkPSJNNDMuOTM1LDI1LjE0NWMwLTEwLjMxOC04LjM2NC0xOC42ODMtMTguNjgzLTE4LjY4M2MtMTAuMzE4LDAtMTguNjgzLDguMzY1LTE4LjY4MywxOC42ODNoNC4wNjhjMC04LjA3MSw2LjU0My0xNC42MTUsMTQuNjE1LTE0LjYxNWM4LjA3MiwwLDE0LjYxNSw2LjU0MywxNC42MTUsMTQuNjE1SDQzLjkzNXoiPg0KICAgIDxhbmltYXRlVHJhbnNmb3JtIGF0dHJpYnV0ZVR5cGU9InhtbCINCiAgICAgIGF0dHJpYnV0ZU5hbWU9InRyYW5zZm9ybSINCiAgICAgIHR5cGU9InJvdGF0ZSINCiAgICAgIGZyb209IjAgMjUgMjUiDQogICAgICB0bz0iMzYwIDI1IDI1Ig0KICAgICAgZHVyPSIwLjZzIg0KICAgICAgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiLz4NCiAgICA8L3BhdGg+DQogIDwvc3ZnPg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+");
-    //loading.loadURL("http://www.google.com")
-    ///loading.toggleDevTools()
+    loading.loadFile('loading.html')
 
+    // the actual browser window of the app
     loading.once('show', () => {
       console.log(new Date().toISOString()+'::show loading')
       mainWindow = new BrowserWindow({
         width: 1400,
         height: 900,
+        frame: true,
         show: false,
         webPreferences: {
           nodeIntegration:false
@@ -68,7 +65,6 @@ function createWindow () {
           mainWindow.show()
           loading.hide()
           loading.close()
-
         }, 2000)
 
       })
@@ -111,9 +107,7 @@ function cleanUpApplication(){
   app.quit()
   
   if(childProcess){
-    childProcess.kill();
-    if(killStr != "")
-      child.execSync(killStr)      
+    childProcess.kill(); 
   }
 }
 // This method will be called when Electron has finished
@@ -121,11 +115,11 @@ function cleanUpApplication(){
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow()
-
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    // mainWindow.reload();
   })
 })
 
