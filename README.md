@@ -6,6 +6,8 @@ Template from: [electron-quick-start](https://github.com/electron/electron-quick
 
 Copied main.js from [COVAIL](https://github.com/COVAIL/electron-quick-start/blob/master/main.js), since that is the only approach I could get to work with the current template from electron.
 
+I merged the updates from [electron-quick-start](https://github.com/electron/electron-quick-start) into the fork from [COVAIL/electron-quick-start](https://github.com/COVAIL/electron-quick-start) to get a fork that is not outdated.
+
 See some other tutorials and approaches to deploy shiny with electron: 
 
 * Using electron quick start, all based on each other:
@@ -18,8 +20,8 @@ See some other tutorials and approaches to deploy shiny with electron:
 
 
 
-## Instructions
-R-win-port contains the contents of an R-portable distribution (get it from [SourceForge](https://sourceforge.net/projects/rportable/) and copy only the contents of App/R-Portable/, doc and tests can be deleted to safe space, moderately). I manually installed the needed packages to the local R library before continuing (see `R-win-port/bin/load_packages.R`). 
+## Instructions for importing R portable
+The directory R-win-port contains the contents of an R-portable distribution (you can get it from [SourceForge](https://sourceforge.net/projects/rportable/)). I copied only the contents of `App/R-Portable/`; directories `doc` and `tests` can be deleted to safe a little bit of space). I manually installed the needed packages to the local R library before continuing (see `R-win-port/load_packages.R`). 
 
 
 ## License
