@@ -23,6 +23,15 @@ See some other tutorials and approaches to deploy shiny with electron:
 ## Instructions for importing R portable
 The directory R-win-port contains the contents of an R-portable distribution (you can get it from [SourceForge](https://sourceforge.net/projects/rportable/)). I copied only the contents of `App/R-Portable/`; directories `doc` and `tests` can be deleted to safe a little bit of space). I manually installed the needed packages to the local R library before continuing (see `R-win-port/load_packages.R`). Take care to install the neccessary dependencies as well! It might be tricky and you may need to run it isolated a few times to get all needed packages. Be aware that R will use your library if you try this on a computer where R is actually present.
 
+Also: Remember to include 
+
+``` r
+session$onSessionEnded(function() {
+      stopApp()
+    })
+```
+
+in your app, or you will run into some problems.
 
 ## License
 
