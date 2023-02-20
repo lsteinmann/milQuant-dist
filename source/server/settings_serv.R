@@ -1,3 +1,17 @@
+observeEvent(input$tab_connect.connect, {
+  validate(
+    need(exists("projects"), "Project list not available.")
+  )
+  output$select_project <- renderUI({
+    selectizeInput(inputId = "select_project",
+                   label = "Choose a Project to work with",
+                   choices = projects, multiple = FALSE,
+                   options = list(
+                     placeholder = 'Please select an option below',
+                     onInitialize = I('function() { this.setValue(""); }')
+                   ))
+  })
+})
 
 
 react_db <- reactiveVal(value = NULL)
