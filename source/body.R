@@ -19,7 +19,8 @@ body <- dashboardBody(
     bricksQ_tab,
 
     # loomweights
-    loomweight_tab
+    loomweight_tab#,
+    #tabItem("readme", includeHTML("README.html"))
 
 
 

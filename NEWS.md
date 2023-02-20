@@ -7,6 +7,7 @@
 * proper label in period selector
 * custom titles and subtitles for all plots
 * add logo/icon and custom spinner
+* restructure directories and connect/home/overview pages
 * WIP...
 
 # milQuant 0.2.1 _2022-05-15_

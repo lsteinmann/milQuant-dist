@@ -1,7 +1,6 @@
 
 loomweight_tab <- tabItem(
   tabName = "loomweights",
-  fluidPage(
     h1("Charts from Form: Loomweight"),
     fluidRow(
       infoBox(title = "Info", value = textOutput("loomweight_overview"),
@@ -9,7 +8,7 @@ loomweight_tab <- tabItem(
               color = "olive", width = 12),
     ),
     fluidRow(
-      box(width = 3, height = 600,
+      box(width = 3,
           htmlOutput("LW_layer_selector"),
           textInput(inputId = "lwPlot_1_title", label = "Title",
                     placeholder = "Enter title here"),
@@ -32,13 +31,12 @@ loomweight_tab <- tabItem(
           downloadButton("lwPlot_1_pdf", label = "Download plot (pdf)")
       ),
       box(
-        width = 9, height = 600,
+        width = 9,
         plotOutput("lwPlot_1", height = 570) %>% mq_spinner()
       )
 
 
     )
 
-  )
 
 )
