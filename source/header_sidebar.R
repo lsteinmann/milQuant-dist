@@ -1,5 +1,7 @@
 #header <- dashboardHeader(title = "milQuant")
-header <- dashboardHeader(title = "milQuant",
+header <- dashboardHeader(title = tags$a(href = "https://www.miletgrabung.uni-hamburg.de/",
+                                         tags$img(src = "milquant-logo.png",
+                                                  height = 44)),#"milQuant",
            tags$li(class = "dropdown",
                    actionButton(label = "Quit",
                                 icon = icon("power-off"),
