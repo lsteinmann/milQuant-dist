@@ -9,13 +9,28 @@ The dashboard has been developed and is meant to be used with the milet-configur
 ![Screenshot from the Dashboard: Pottery Quantification A](readme/05_Pottery_Quant_A.png "Screenshot from the Dashboard: Pottery Quantification A")
 ![Screenshot from the Dashboard: Loomweights](readme/07_Loomweights.png "Screenshot from the Dashboard: Loomweights")
 
-## Current Status
+## Usage
 
-The main functionality of the dashboard is currently operational. On load, a login screen asks the user to input the address for synchronization and the password. Projects can be switched while the app is running. 
+This distribution is meant for the team of the Miletus Excavation. If you encounter a white screen after startup, select View > Reload. On load, a login screen asks the user to input the address for synchronization and the password. The preset adress will usually work. The password is the password recorded in your Field Desktop app under "settings". After connecting, select a project in the main screen and click "Load Database".
 
-Please note that in many cases, the app will simply shut down if it encounters an error, as I have implemented virtually no error handling. Currently, you just need to restart it in those cases. It may happen when the app cannot connect, e.g. because Field Desktop is not running. 
+### Places, Operations, Trenches
+Then, in the sidebar to the left, select an 'Operation' (meaning a Place or a Group of Trenches) to work with, e.g. 'Insula UV/8-9' for our current project. You also need to select the trenches you want to work with in the field popping up below the Place-selector. I do not recommend always selecting everything, as it may take a long time to load. 
 
-## Dependencies
+#### Home (Project)
+
+#### Finds (Overview)
+
+#### Pottery
+
+#### Bricks and Tiles
+
+#### Loomweights
+
+
+
+
+
+## Dependencies and other info
 
 This app uses the [idaifieldR](https://github.com/lsteinmann/idaifieldR) package at version 0.2.2. The package is currently only available on GitHub, and is used to import data from Field Desktop / iDAI.field into R. You can install it using `devtools` or `remotes`, but running milQuant should take care of that automatically.
 
@@ -29,9 +44,3 @@ This repository contains a distributable version of milQuant built with electron
 The directory R-win-port (locally) contains an R-portable distribution for windows.
 
 Icon from [icon-icons.com](https://icon-icons.com/icon/quant-qnt/245484).
-
-## Adaptation
-
-If you wish to try the app, you only need to clone the repository, open the project in R-Studio and click on "Run App" with "app.R" from the main directory open. Make sure to enter your local IP address and the password your client uses for synchronization. You can find this info in the settings of your Field Desktop Client. The app can only work if the client is running. 
-
-As stated, this app will not be very useful with configurations other than "milet". I would be more than happy is you wanted to adapt this for other configurations, though it may not be easy, as I admit the code is a bit of a mess. But still, feel free to clone and change this to your own needs or contact me if you want to discuss about it.
