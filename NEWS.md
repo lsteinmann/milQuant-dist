@@ -1,4 +1,9 @@
-# milQuant 0.2.2 _2023-02-18_
+# milQuant 1.0.0 _2023-02-21_
+* first "release" (version number changed to be same as the standalone version)
+* no more fluidPage()
+* fixed if-condition for trench selection
+
+# milQuant 0.2.3 _2023-02-18_
 
 * use idaifieldR v0.2.2 (fixing a problem where with an if-condition)
 * rudimentary form for bricks and brick quantification added
@@ -8,7 +13,6 @@
 * custom titles and subtitles for all plots
 * add logo/icon and custom spinner
 * restructure directories and connect/home/overview pages
-* WIP...
 
 # milQuant 0.2.1 _2022-05-15_
 

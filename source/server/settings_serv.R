@@ -81,7 +81,7 @@ trenches <- reactive({
   validate(
     need(input$select_operation, "No operation selected.")
   )
-  if (input$select_operation == "select everything") {
+  if (input$select_operation[1] == "select everything") {
     tmp_trenches <- react_index() %>%
       pull(isRecordedIn) %>%
       unique()
