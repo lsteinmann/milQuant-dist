@@ -39,7 +39,7 @@ observeEvent(input$loadDatabase, {
     newIndex <- get_index(source = react_db())
     react_index(newIndex)
     rm(newDB, newIndex)
-    output$load.success_msg <- renderText(paste("Project selected! You are currently using the project:",
+    output$load.success_msg <- renderText(paste("Using project:",
                                                 isolate(input$select_project)))
     shinyjs::show("load.success_msg")
     output$current_project <- renderText({input$select_project})

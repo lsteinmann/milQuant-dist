@@ -1,15 +1,21 @@
 #header <- dashboardHeader(title = "milQuant")
-header <- dashboardHeader(title = tags$a(href = "https://www.miletgrabung.uni-hamburg.de/",
-                                         tags$img(src = "milquant-logo.png",
-                                                  height = 44)),#"milQuant",
-           tags$li(class = "dropdown",
-                   actionButton(label = "Quit",
-                                icon = icon("power-off"),
-                                inputId = "close_app")))
+header <- dashboardHeader(
+  #title = tags$a(href = "https://www.miletgrabung.uni-hamburg.de/",
+  #               tags$img(src = "milquant-logo.png",
+  #                        height = 44)),
+  title = "milQuant",
+  tags$li(class = "dropdown",
+          actionButton(label = "Quit",
+                       icon = icon("power-off"),
+                       inputId = "close_app")))
 
 sidebar <- dashboardSidebar(
   sidebarMenu(
     menuItem("Home", tabName = "home", icon = icon("right-to-bracket")),
+    shinyjs::hidden(tags$div(id = "tab_connect.success-div",
+                             class = "success-text",
+                             textOutput("load.success_msg",
+                                        container = tags$p))),
     uiOutput("select_operation"),
     uiOutput("select_trench"),
     menuItem("Overview (DB-Project)", tabName = "overview", icon = icon("graduation-cap")),
@@ -34,7 +40,9 @@ sidebar <- dashboardSidebar(
     #menuItem("Buildings", tabName = "buildings", icon = icon("landmark"),
     #         badgeLabel = "wip", badgeColor = "yellow"),
     menuItem("Issues / Contact", icon = icon("file-contract"),
-             href = "https://github.com/lsteinmann/milQuant")
+             href = "https://github.com/lsteinmann/milQuant")#,
+    #menuItem("ReadMe", icon = icon("file-contract"),
+    #         tabName = "readme")
   )
 )
 
