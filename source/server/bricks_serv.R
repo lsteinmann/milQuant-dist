@@ -45,6 +45,7 @@ make_bricksPlot_1 <- reactive({
     scale_fill_discrete() +#name = fill_name) +
     scale_y_continuous(name = "number of bricks") +
     scale_x_discrete(name = "bla") +
+    labs(title = input$bricksPlot_1_title, subtitle = input$bricksPlot_1_subtitle) +
     Plot_Base_Theme
   p
 })

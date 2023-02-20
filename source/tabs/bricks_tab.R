@@ -10,6 +10,10 @@ bricks_tab <- tabItem(
     ),
     fluidRow(
       box(width = 3, height = 600,
+          textInput(inputId = "bricksPlot_1_title", label = "Title",
+                    placeholder = "Enter title here"),
+          textInput(inputId = "bricksPlot_1_subtitle", label = "Subtitle",
+                    placeholder = "Enter subtitle here"),
           htmlOutput("bricks_layer_selector"),
           #sliderInput(inputId = "bins", label = "Number of bins:",
           #            min = 1,
