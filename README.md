@@ -63,7 +63,7 @@ session$onSessionEnded(function() {
       stopApp()
     })
 ```
-in your app, or R/shiny might not stop correctly and block resources untill you force it to quit. For your own custom icon, replace `quant-icon.ico`.
+in the server function of your app, or R/shiny might not stop correctly and block resources untill you force it to quit. For your own custom icon, replace `quant-icon.ico`.
 
 ## License
 
