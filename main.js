@@ -2,8 +2,8 @@
 
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron')
-const path = require('path')
 
+const path = require('path')
 
 const url = require('url')
 // not great to do that, maybe try to choose a random port?
@@ -12,6 +12,7 @@ const child = require('child_process');
 const WINDOWS = "win32"
 
 var appPath = path.join(app.getAppPath(), "app.R" )
+// try path.join(__dirname, 'preload.js')
 var execPath = "RScript"
 
 
@@ -22,6 +23,60 @@ if(process.platform == WINDOWS){
   console.log("not on windows?")
   throw new Error("not on windows?")
 }
+
+var handleSquirrelEvent = function() {
+  if (process.platform != 'win32') {
+     return false;
+  }
+
+  function executeSquirrelCommand(args, done) {
+     var updateDotExe = path.resolve(path.dirname(process.execPath), 
+        '..', 'update.exe');
+     var sqchild = child.spawn(updateDotExe, args, { detached: true });
+
+     sqchild.on('close', function(code) {
+        done();
+     });
+  };
+
+  function install(done) {
+     var target = path.basename(process.execPath);
+     executeSquirrelCommand(["--createShortcut", target], done);
+  };
+
+  function uninstall(done) {
+     var target = path.basename(process.execPath);
+     executeSquirrelCommand(["--removeShortcut", target], done);
+  };
+
+  var squirrelEvent = process.argv[1];
+
+  switch (squirrelEvent) {
+
+     case '--squirrel-install':
+        install(app.quit);
+        return true;
+
+     case '--squirrel-updated':
+        install(app.quit);
+        return true;
+
+     case '--squirrel-obsolete':
+        app.quit();
+        return true;
+
+     case '--squirrel-uninstall':
+        uninstall(app.quit);
+        return true;
+  }
+
+  return false;
+};
+
+if (handleSquirrelEvent()) {
+  return;
+}
+
 
 console.log(process.env)
 

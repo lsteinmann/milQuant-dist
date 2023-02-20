@@ -6,7 +6,11 @@ module.exports = {
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {},
+      config: {
+        loadingGif: './www/quant-spinner-smooth.gif',
+        icon: './quant-icon.ico',
+        setupIcon: './quant-icon-setup.ico'
+      },
     },
     {
       name: '@electron-forge/maker-zip'
