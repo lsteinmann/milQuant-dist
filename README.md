@@ -1,4 +1,5 @@
-# milQuant - Quantitative Analysis with Data from Field Desktop (Standalone electron app)
+# milQuant -- Quantitative Analysis with Data from Field Desktop (Standalone electron app) <a href='https://www.miletgrabung.uni-hamburg.de/'><img src='www/quant-icon.png' align="right" height="139" /></a>
+
 
 The milQuant-Shiny Dashboard provides quick quantitative overviews of the data in a [Field Desktop](https://github.com/dainst/idai-field)-project. It connects to the database automatically (when running on the same machine) and can plot various graphs to provide quantitative visualizations for the project focused on find-resources. 
 
