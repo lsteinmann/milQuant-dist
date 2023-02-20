@@ -35,6 +35,8 @@ output$potPlot_1_period_selector <- renderUI({
 pottery_vars <- reactive({
   pottery_vars <- colnames(pottery())
   pottery_vars <- pottery_vars[!pottery_vars %in% drop_for_plot_vars]
+  pottery_vars <- pottery_vars[!grepl("dimension", pottery_vars)]
+  pottery_vars <- pottery_vars[!grepl("amount.*", pottery_vars)]
 })
 
 output$potPlot_1_x_selector <- renderUI({
@@ -67,7 +69,7 @@ make_potPlot_1 <- reactive({
 
   p <- plot_data %>%
     ggplot(aes(x = get(input$potPlot_1_xvar),
-               fill = get(input$potPlot_1_fillvar))) +
+               fill = factor(get(input$potPlot_1_fillvar)))) +
     geom_bar() + Plot_Base_Theme + potPlot_1_scale_fill +
     labs(y = "Number of Objects", x = input$potPlot_1_xvar,
          title = input$potPlot_title,
