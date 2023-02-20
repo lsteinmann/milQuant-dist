@@ -9,6 +9,10 @@ bricksQ_tab <- tabItem(
   fluidRow(
     box(
       width = 3, height = 600,
+      textInput(inputId = "bricksQPlot_1_title", label = "Title",
+                placeholder = "Enter title here"),
+      textInput(inputId = "bricksQPlot_1_subtitle", label = "Subtitle",
+                placeholder = "Enter subtitle here"),
       htmlOutput("bricksQ_layer_selector"),
       downloadButton("bricksQPlot_1_png", label = "Download plot (png)"),
       downloadButton("bricksQPlot_1_pdf", label = "Download plot (pdf)")
