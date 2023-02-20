@@ -1,7 +1,7 @@
 # milQuant -- Quantitative Analysis with Data from Field Desktop <a href='https://www.miletgrabung.uni-hamburg.de/'><img src='www/quant-icon.png' align="right" height="139" /></a>
 
 
-The milQuant-Shiny Dashboard provides quick quantitative overviews of the data in a [Field Desktop](https://github.com/dainst/idai-field)-project. It connects to the database automatically (when running on the same machine) and can plot various graphs to provide quantitative visualizations for the project focused on find-resources. 
+The milQuant-Shiny Dashboard provides quick quantitative overviews of the data in a [Field Desktop](https://github.com/dainst/idai-field)-project. It connects to the database automatically (when running on the same machine) and can plot various graphs to provide quantitative visualizations for the project focused on find-resources. See also the standalone app version at [lsteinmann/milQuant-dist](https://github.com/lsteinmann/milQuant-dist).
 
 The dashboard has been developed and is meant to be used with the milet-configuration and within the framework of the [Miletus Excavation Project](https://www.miletgrabung.uni-hamburg.de/). While very limited, some functionality and general overviews may also work with other project-configurations. In any case, the App could be adapted to work for different configurations! Feel free to modify it according to your needs. 
 
@@ -26,6 +26,6 @@ require("shiny", "shinydashboard", "shinycssloaders", "shinyjs", "ggplot2", "dpl
 
 ## Adaptation
 
-If you wish to try the app, you only need to clone the repository, open the project in R-Studio and click on "Run App" with "app.R" from the main directory open. Make sure to enter your local IP address and the password your client uses for synchronization. You can find this info in the settings of your Field Desktop Client. The app can only work if the client is running. 
+If you wish to try the app, you only need to clone the repository, open the project in R-Studio and click on "Run App" with "app.R" from the main directory open. You could also install the standalone app version at [lsteinmann/milQuant-dist](https://github.com/lsteinmann/milQuant-dist), but is is not easily customizable. Make sure to enter your local IP address and the password your client uses for synchronization. You can find this info in the settings of your Field Desktop Client. The app can only work if the client is running. 
 
 As stated, this app will not be very useful with configurations other than "milet". I would be more than happy is you wanted to adapt this for other configurations, though it may not be easy, as I admit the code is a bit of a mess. But still, feel free to clone and change this to your own needs or contact me if you want to discuss about it.
