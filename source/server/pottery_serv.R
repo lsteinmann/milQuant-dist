@@ -69,7 +69,10 @@ make_potPlot_1 <- reactive({
     ggplot(aes(x = get(input$potPlot_1_xvar),
                fill = get(input$potPlot_1_fillvar))) +
     geom_bar() + Plot_Base_Theme + potPlot_1_scale_fill +
-    labs(y = "Number of Objects", x = input$potPlot_1_xvar)
+    labs(y = "Number of Objects", x = input$potPlot_1_xvar,
+         title = input$potPlot_title,
+         subtitle = input$potPlot_subtitle,
+         caption = paste("Total:", nrow(plot_data)))
 
     p
 })

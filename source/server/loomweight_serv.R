@@ -72,6 +72,7 @@ make_lwPlot_1 <- reactive({
     scale_x_continuous(name = "distribution of weight",
                        limits = c(input$lw_weight_slider[1],
                                   input$lw_weight_slider[2])) +
+    labs(title = input$lwPlot_1_title, subtitle = inpute$lwPlot_1_subtitle) +
     Plot_Base_Theme
   p
 })

@@ -56,25 +56,29 @@ QBpotPlot_1 <- function() {
     uncount(value) %>%
     period_filter(is_milet = is_milet, selector = input$QBpotPlot_1_period_selector)
 
+  if (input$QBpotPlot_1_title == "") {
+    plot_title <- paste("Vessel Forms from ", input$select_operation,
+                        " in Context: ",
+                        paste(input$QB_layer_selector, collapse = ", "),
+                        sep = "")
+  } else {
+    plot_title <- input$QBpotPlot_1_title
+  }
 
-  plot_title <- paste("Vessel Forms from ", input$select_operation,
-                      " in Context: ",
-                      paste(input$QB_layer_selector, collapse = ", "),
-                      sep = "")
 
   if (input$QBpotPlot_2_display == "function") {
     p <- ggplot(plot_data, aes(x = fct_infreq(variable),
                                fill = period)) +
       geom_bar(position = input$QBpotPlot_1_bars) +
       Plot_Base_Theme +
-      labs(x = "Vessel Forms", y = "count", title = plot_title) +
+      labs(x = "Vessel Forms", y = "count") +
       scale_fill_period
   } else if (input$QBpotPlot_2_display == "period") {
     p <- ggplot(plot_data, aes(x = period,
                                fill = fct_infreq(variable))) +
       geom_bar(position = input$QBpotPlot_1_bars) +
       Plot_Base_Theme +
-      labs(x = "Period", y = "count", title = plot_title)
+      labs(x = "Period", y = "count")
   }
 
 
@@ -82,6 +86,9 @@ QBpotPlot_1 <- function() {
     p <- p + facet_wrap(~ relation.liesWithinLayer, ncol = 2)
   }
 
+  p <- p +
+    labs(title = plot_title,
+         subtitle = input$QBpotPlot_1_subtitle)
   p
 }
 
