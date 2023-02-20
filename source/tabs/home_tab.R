@@ -1,29 +1,43 @@
 home_tab <- tabItem(
   tabName = "home",
-  title = "Home",
-
+  title = "Home", # name of the tab
+  # hide the welcome message at the first place
   fluidPage(
     fluidRow(
-      infoBox(
-        title = "Info",
-        value = "This plot gives you an overview of all the resources that
-        exist in the Operation and/or Trenches you have selected in the sidebar
-        on the left. All other tabs accesible via the bar on the left will only
-        display resources from the Operation and/or Trenches you
-        have selected.",
-        icon = icon("vial"),
-        color = "olive",
-        width = 10),
-      valueBox(
-        uiOutput("overview_n"),
-        "Total Resources",
-        icon = icon("file"),
-        color = "olive",
-        width = 2)),
+      box(width = 9,
+          div(
+            shinyjs::hidden(tags$div(id = "tab_connect.welcome_div",
+                                     class = "login-text",
+                                     textOutput("tab_connect.welcome_text",
+                                                container = tags$h1))))),
+      infoBox(width = 3, title = "Version", subtitle = "date: 20.02.2023",
+              icon = icon("code-branch"), value = "v.0.2.3", color = "olive")
+    ),
     fluidRow(
-      box(title = "Overview", status = "primary",
-          solidHeader = TRUE, collapsible = FALSE,
-          width = 12, height = 600,
-          plotOutput("overview") %>% mq_spinner()))
+      box(width = 6,
+          p("With this App, you can view and download various plots of data from
+      an iDAI.field/Field Desktop-Database. In order for the App to work,
+      you need to have iDAI.field 2 or Field Desktop running on your computer.
+      Choose a project from your Field Client from the selection below."),
+          p("The app is meant to be used with the milet-configuration and most
+            plots will only work with this configuration.")),
+      box(title = "Please note", status = "warning",
+          p("Large projects may take a while to load. Be prepared to wait
+            after clicking 'Load Database'."))
+    ),
+    fluidRow(
+      box(width = 6, height = 200, title = "Select a project to work with",
+          div(class = "welcome-row-div",
+              uiOutput("select_project"),
+              actionButton(inputId = "loadDatabase",
+                           label = "Load Database")))
+    ),
+    fluidRow(
+      box(width = 12,
+          shinyjs::hidden(tags$div(id = "tab_connect.success-div",
+                                   class = "success-text",
+                                   textOutput("load.success_msg",
+                                              container = tags$h3))))
+    )
   )
 )

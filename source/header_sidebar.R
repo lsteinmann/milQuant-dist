@@ -7,11 +7,11 @@ header <- dashboardHeader(title = "milQuant",
 
 sidebar <- dashboardSidebar(
   sidebarMenu(
-    menuItem("Connect", tabName = "connect", icon = icon("right-to-bracket")),
+    menuItem("Home", tabName = "home", icon = icon("right-to-bracket")),
     uiOutput("select_operation"),
     uiOutput("select_trench"),
-    menuItem("Home (Project)", tabName = "home", icon = icon("graduation-cap")),
-    menuItem("Finds (Overview)", tabName = "allfinds", icon = icon("chart-bar")),
+    menuItem("Overview (DB-Project)", tabName = "overview", icon = icon("graduation-cap")),
+    menuItem("All Finds", tabName = "allfinds", icon = icon("chart-bar")),
     menuItem("Pottery", tabName = "pottery_all", icon = icon("trophy"),
           menuSubItem("Pottery (single)", tabName = "pottery",
                       icon = icon("martini-glass-empty")),

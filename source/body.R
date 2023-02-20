@@ -5,9 +5,9 @@ body <- dashboardBody(
     tags$link(rel = "stylesheet", type = "text/css", href = "main.css")
   ),
   tabItems(
-    connect_tab,
-    # home and find overview content
     home_tab,
+    # home and find overview content
+    overview_tab,
     allfinds_tab,
     # Pottery tabs content
     pottery_tab,

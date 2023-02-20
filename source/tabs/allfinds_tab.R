@@ -41,7 +41,11 @@ allfinds_tab <- tabItem(
       ),
       box(
         width = 9, height = 700,
-        plotOutput("allFindsPlot", height = 670) %>% mq_spinner())
+        plotOutput("allFindsPlot", height = 670, click = "allFindsPlot_click") %>% mq_spinner())
+    ),
+    fluidRow(
+      htmlOutput("allFindsPlot_value"),
+      verbatimTextOutput("allFindsPlot_selected_rows")
     )
   )
 )

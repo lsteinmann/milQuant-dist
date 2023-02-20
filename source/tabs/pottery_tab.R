@@ -10,6 +10,10 @@ pottery_tab <- tabItem(
         fluidRow(
                 box(
                         width = 3, height = 600,
+                        textInput(inputId = "potPlot_title", label = "Title",
+                                  placeholder = "Enter title here"),
+                        textInput(inputId = "potPlot_subtitle", label = "Subtitle",
+                                  placeholder = "Enter subtitle here"),
                         htmlOutput("POT_layer_selector"),
                         htmlOutput("potPlot_1_x_selector"),
                         htmlOutput("potPlot_1_fill_selector"),

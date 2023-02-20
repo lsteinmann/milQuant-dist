@@ -11,9 +11,10 @@ source("source/global/helpers.R")
 # code for sidebar and header
 source("source/header_sidebar.R")
 
-# code for each tab
-source("source/tabs/connect_tab.R")
+# code for each tab / ui element group
 source("source/tabs/home_tab.R")
+source("source/tabs/modals_ui.R")
+source("source/tabs/overview_tab.R")
 source("source/tabs/allfinds_tab.R")
 source("source/tabs/pottery_tab.R")
 source("source/tabs/potteryQA_tab.R")
@@ -34,16 +35,17 @@ server <- function(input, output, session) {
 
   # show login dialog box when initiated
   showModal(login_dialog, session = getDefaultReactiveDomain())
-  # server code to handle the connection to field
-  source('source/server/connect_serv.R', local = TRUE)
+  # server code to handle the connection to field in the modal
+  source('source/server/modal_serv.R', local = TRUE)
 
   # server code to handle basic settings, i.e. project, trench/operation
+  # seen on home_tab and sidebar
   source('source/server/settings_serv.R', local = TRUE)
   # server code to import database, places etc.
   source('source/server/database_serv.R', local = TRUE)
 
   # server code only for overview pages
-  source('source/server/home_serv.R', local = TRUE)
+  source('source/server/overview_serv.R', local = TRUE)
   source('source/server/allfinds_serv.R', local = TRUE)
 
   # server code only for pottery form (single)

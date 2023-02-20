@@ -19,7 +19,6 @@ output$QA_layer_selector <- renderUI({
                       inputId = "QA_layer_selector")
 })
 
-
 QApotPlot_1 <- function() {
   existing_cols <- colnames(potteryQA())
   keep <- existing_cols
@@ -57,16 +56,23 @@ QApotPlot_1 <- function() {
     legend_title <- "none"
     x_axis_title <- "Vessel Forms"
   }
-  plot_title <- paste("Vessel Forms from ", input$operation,
-                      " in Context: ",
-                      paste(input$QA_layer_selector, collapse = ", "),
-                      sep = "")
+
+  if (input$QApotPlot_1_title == "") {
+    plot_title <- paste("Vessel Forms from ", input$select_operation,
+                        " in Context: ",
+                        paste(input$QA_layer_selector, collapse = ", "),
+                        sep = "")
+  } else {
+    plot_title <- input$QApotPlot_1_title
+  }
 
   p +
     geom_bar(position = input$QApotPlot_1_bars) +
     Plot_Base_Theme +
     scale_fill_discrete(name = legend_title) +
-    labs(x = x_axis_title, y = "count", title = plot_title,
+    labs(x = x_axis_title, y = "count",
+         title = plot_title,
+         subtitle = input$QApotPlot_1_subtitle,
          caption = paste("Total Number of Fragments:", nrow(plot_data)))
 }
 
