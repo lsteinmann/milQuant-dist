@@ -1,17 +1,14 @@
-#setwd("..")
-#getwd()
 ## app.R ## Load global parameters and function
 source("source/global/load_packages.R")
 source("source/global/get_data.R")
 source("source/global/global_vars.R")
 source("source/global/helpers.R")
 
-#app.title <- 'milQuant - Quantitative Data from iDAI.field'
 
-# code for sidebar and header
+# sidebar and header
 source("source/header_sidebar.R")
 
-# code for each tab / ui element group
+# each tab / ui element group
 source("source/tabs/home_tab.R")
 source("source/tabs/modals_ui.R")
 source("source/tabs/overview_tab.R")

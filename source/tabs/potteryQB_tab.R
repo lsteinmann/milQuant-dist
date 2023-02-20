@@ -38,5 +38,4 @@ potteryQB_tab <- tabItem(
       plotOutput("QBpotPlot_1", height = 570) %>% mq_spinner()
     )
   )
-
 )

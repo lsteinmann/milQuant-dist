@@ -47,10 +47,15 @@ background-color: #e2001a;
   padding: 10px;
 }
 
+.shiny-output-error-validation {
+  margin-left: 12px;
+  padding: 5px;
+}
+
 .success-text {
   color: #b7b8bc;
   font-style: bold;
-  margin: 2px;
+  margin-left: 12px;
   padding: 5px;
 
 }

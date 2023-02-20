@@ -33,5 +33,4 @@ potteryQA_tab <- tabItem(
       plotOutput("QApotPlot_1", height = 570) %>% mq_spinner()
     )
   )
-
 )
