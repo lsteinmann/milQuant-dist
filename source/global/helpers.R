@@ -119,7 +119,7 @@ make_layer_selector <<- function(data_all, inputId,
 }
 
 make_period_selector <<- function(inputId,
-                                 label = "Choose one or many contexts") {
+                                 label = "Select objects by periods") {
   sliderTextInput(
     inputId = inputId,
     label = label,
