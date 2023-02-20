@@ -13,8 +13,11 @@ login_dialog <- modalDialog(
 busy_dialog <- modalDialog(
   title = "Loading Project, please wait...",
   div(class = "warn-text", textOutput("load.error_msg") %>%
-        withSpinner(type = 3, proxy.height = "100px",
-                    color = "#e2001a", color.background = "#ffffff")),
+        withSpinner(image = "quant-spinner-smooth.gif",
+                    image.width = 120,
+                    image.height = 120,
+                    proxy.height = "100px",
+                    color.background = "#ffffff")),
   footer = shinyjs::hidden(actionButton(inputId = "close_busy_dialog", "Close"))
 )
 

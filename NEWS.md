@@ -5,6 +5,8 @@
 * fix downloading plot in Finds, Loomweights and Bricks
 * fix error handling in connection (now actually displays the error)
 * proper label in period selector
+* custom titles and subtitles for all plots
+* add logo/icon and custom spinner
 * WIP...
 
 # milQuant 0.2.1 _2022-05-15_
