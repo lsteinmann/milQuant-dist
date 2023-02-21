@@ -1,5 +1,6 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron')
+const path = require('path')
 
 // not great to do that, maybe try to choose a random port?
 const port = "3002"
