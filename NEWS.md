@@ -2,6 +2,7 @@
 * first "release" (version number changed to be same as the standalone version)
 * no more fluidPage()
 * fixed if-condition for trench selection
+* proper installer for standalone app
 
 # milQuant 0.2.3 _2023-02-18_
 
