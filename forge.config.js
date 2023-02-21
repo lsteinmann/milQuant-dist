@@ -1,12 +1,15 @@
 module.exports = {
   packagerConfig: {
-    icon: 'quant-icon.ico' // no file extension required
+    icon: 'images/quant-icon.ico'
   },
   rebuildConfig: {},
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
-      config: {},
+      // https://js.electronforge.io/interfaces/_electron_forge_maker_squirrel.InternalOptions.Options.html
+      config: {
+        setupIcon: 'images/quant-icon.ico'
+      },
     },
     {
       name: '@electron-forge/maker-zip'

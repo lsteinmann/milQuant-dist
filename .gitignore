@@ -66,3 +66,7 @@ R-win-port/*
 R-win-port/bin/*
 R-win-port/library/*
 !R-win-port/load_packages.R
+
+
+# testing stuff
+tests/*

@@ -14,6 +14,7 @@ See some other tutorials and approaches to deploy shiny with electron:
 * [How to Make an R Shiny Electron App](https://github.com/lawalter/r-shiny-electron-app)
 * [DesktopDeployR](https://github.com/wleepang/DesktopDeployR)
 * [RInno](https://github.com/ficonsulting/RInno)
+* [chasemc/electricShine](https://github.com/chasemc/electricShine)
 
 I just put this together as a reminer for myself and in the hopes that someone might be able to use it. But I don't actually know javascript, so while this all seems to work just fine, please take it with a grain of salt.
 
@@ -29,7 +30,7 @@ source("load_packages.R")
 Choose a mirror. This will install a bunch of packages into the local library. Check if they are actually in the right place, i.e. in `./R-win-port/library/`. R should now work. You can try it by setting the working directory to your app directory and running the app, a browser windows with the sample app should open:
 
 ```r
-setwd("../")
+setwd("../shiny")
 # check to see if the working directory is 'your-app-dir/'
 getwd()
 source("app.R")
@@ -48,14 +49,14 @@ npm start
 
 If you want to produce a setup and other executables for you app, you need to run:
 ```bash
-# Run the app
+# Produce executables etc. of the app
 npm make
 ```
 It is configured for windows only, but changing some things in `main.js` again, you should be able to easily make this work for other operating systems. Just make sure to have the correct R-Portable versions available for every OS and have `main.js` point at the correct R-executable. 
 
 ## Using your own app
 
-If you want to include your own app, list your apps dependencies in `./R-win-port/load_packages.R` and run it again as explained above. Replace `app.R` with your own app. You can have `app.R` point to other directories within `your-app-dir/`. 
+If you want to include your own app, list your apps dependencies in `./R-win-port/load_packages.R` and run it again as explained above. Replace `app.R` in the `shiny`-folder with your own app. You can have `app.R` point to other directories within `your-app-dir/shiny/`. 
 
 Also, though `main.js` kills the R-process on exit: Remember to include 
 ``` r
@@ -63,7 +64,7 @@ session$onSessionEnded(function() {
       stopApp()
     })
 ```
-in the server function of your app, or R/shiny might not stop correctly and block resources untill you force it to quit. For your own custom icon, replace `quant-icon.ico`.
+in the server function of your app, or R/shiny might not stop correctly and block resources untill you force it to quit. For your own custom icon, replace `images/quant-icon.ico`.
 
 ## License
 
