@@ -11,6 +11,8 @@ const port = "3002"
 const child = require('child_process');
 const WINDOWS = "win32"
 
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
 var appPath = path.join(app.getAppPath(), "app.R" )
 // try path.join(__dirname, 'preload.js')
 var execPath = "RScript"
@@ -81,6 +83,7 @@ if (handleSquirrelEvent()) {
 console.log(process.env)
 
 const childProcess = child.spawn(execPath, ["-e", "shiny::runApp(file.path('"+appPath+"'), port="+port+")"])
+
 childProcess.stdout.on('data', (data) => {
   console.log(`stdout:${data}`)
 })
@@ -92,6 +95,12 @@ childProcess.stderr.on('data', (data) => {
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+const delayedLoad = async () => {
+  mainWindow.loadFile('loading.html')
+  await delay(3000);
+  mainWindow.loadURL('http://127.0.0.1:'+port)
+};
+
 
 // Create the browser window.
 function createWindow () {
@@ -100,7 +109,7 @@ function createWindow () {
     // open a windows while loading, with a custom loading screen
     let loading = new BrowserWindow({show: false, frame: false})
     console.log(new Date().toISOString()+'::showing loading');
-    loading.loadFile('loading.html')
+    loading.loadFile('preload.html')
 
     // the actual browser window of the app
     loading.once('show', () => {
@@ -124,8 +133,9 @@ function createWindow () {
 
       })
       console.log(port)
-      // loading shiny url
-      mainWindow.loadURL('http://127.0.0.1:'+port)
+      // loading shiny url, but 3 seconds later to avoid white screen
+      // if the windows loads before shiny is actually ready
+      delayedLoad()
 
       mainWindow.webContents.on('did-finish-load', function() {
         console.log(new Date().toISOString()+'::did-finish-load')
