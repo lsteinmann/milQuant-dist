@@ -9,11 +9,11 @@ loomweight_tab <- tabItem(
     ),
     fluidRow(
       box(width = 3,
-          htmlOutput("LW_layer_selector"),
           textInput(inputId = "lwPlot_1_title", label = "Title",
                     placeholder = "Enter title here"),
           textInput(inputId = "lwPlot_1_subtitle", label = "Subtitle",
                     placeholder = "Enter subtitle here"),
+          htmlOutput("LW_layer_selector"),
           sliderInput(inputId = "bins", label = "Number of bins:",
                       min = 1,
                       max = 100,
