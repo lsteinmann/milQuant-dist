@@ -1,6 +1,6 @@
 module.exports = {
   packagerConfig: {
-    icon: 'quant-icon.ico' // no file extension required
+    icon: 'images/quant-icon.ico'
   },
   rebuildConfig: {},
   makers: [
