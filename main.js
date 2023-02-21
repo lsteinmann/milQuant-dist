@@ -1,5 +1,3 @@
-
-
 // Modules to control application life and create native browser window
 const {app, BrowserWindow} = require('electron')
 const path = require('path')
@@ -9,21 +7,18 @@ const url = require('url')
 // not great to do that, maybe try to choose a random port?
 const port = "3002"
 const child = require('child_process');
-const WINDOWS = "win32"
-
-var appPath = path.join(app.getAppPath(), "app.R" )
-var execPath = "RScript"
 
 
-if(process.platform == WINDOWS){
-  appPath = appPath.replace(/\\/g, "\\\\");
-  execPath = path.join(app.getAppPath(), "R-win-port", "bin", "RScript.exe" )
-} else {
-  console.log("not on windows?")
-  throw new Error("not on windows?")
-}
 
-console.log(process.env)
+// (remodel) change forward slashes to escaped backslashes to hand the path to R/shiny
+// anything else but windows is not supported here at all and this part has to be redone
+// if you want to distribute to something other than windows
+var appPath = path.join(app.getAppPath(), "app.R" ).replace(/\\/g, "\\\\")
+var execPath = path.join(app.getAppPath(), "R-win-port", "bin", "RScript.exe" )
+
+// console.log(appPath)
+// console.log(execPath)
+// console.log(process.env)
 
 const childProcess = child.spawn(execPath, ["-e", "shiny::runApp(file.path('"+appPath+"'), port="+port+")"])
 childProcess.stdout.on('data', (data) => {
