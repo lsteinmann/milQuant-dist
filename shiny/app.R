@@ -60,6 +60,7 @@ server <- function(input, output, session) {
   source('source/server/loomweight_serv.R', local = TRUE)
 
   # server code for future sculpture tab
+  # test commit
   #source('source/server/sculpture_serv.R', local = TRUE)
 
   # close the R session when Chrome closes
