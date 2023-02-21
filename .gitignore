@@ -71,6 +71,10 @@ R-win-port/*
 R-win-port/bin/*
 R-win-port/library/*
 !R-win-port/bin/load_packages.R
+
+# random stuff
+tests/*
+
 # History files
 .Rhistory
 .Rapp.history
