@@ -52,7 +52,7 @@ If you want to produce a setup and other executables for you app, you need to ru
 # Produce executables etc. of the app
 npm make
 ```
-It is configured for windows only, but changing some things in `main.js` again, you should be able to easily make this work for other operating systems. Just make sure to have the correct R-Portable versions available for every OS and have `main.js` point at the correct R-executable. 
+It is configured for windows only, but changing some things in `main.js` again, you should be able to easily make this work for other operating systems. Just make sure to have the correct R-Portable versions available for every OS and have `main.js` point at the correct R-executable. `electron-squirrel-startup`, when making the distributables, will ensure that a desktop shortcut and proper icons are made for the app (on windows; see the [relevant documentation](https://js.electronforge.io/interfaces/_electron_forge_maker_squirrel.InternalOptions.Options.html) for options in `forge.config.js`). 
 
 ## Using your own app
 
