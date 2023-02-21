@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <style>
+
+    /* https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div */
+    html {
+        height:100%;
+    }
+    body { 
+        height:100%;
+        background-color: #fcfcfc;
+    }
+    .center {
+        position: absolute;
+        margin: auto;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 212px;
+        height: 212px;
+        border-radius: 3px;
+    }
+    
+    /* from: https://www.w3schools.com/howto/howto_css_loader.asp */
+    .loader {
+        border: 16px solid #f3f3f3; /* Light grey */
+        border-top: 16px solid #e2001a; /* Blue */
+        border-radius: 50%;
+        width: 180px;
+        height: 180px;
+        animation: spin 2s linear infinite;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
+    <head>
+        <title>Your App is Loading...</title>
+    </head>
+    <body>
+        <div class="center">
+            <div class="loader"></div>
+        </div>
+    </body>
+</html>
