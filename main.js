@@ -28,6 +28,13 @@ childProcess.stderr.on('data', (data) => {
   console.log(`stderr:${data}`)
 })
 
+const delay = ms => new Promise(res => setTimeout(res, ms));
+const delayedLoad = async () => {
+  mainWindow.loadFile('loading.html')
+  await delay(3000);
+  mainWindow.loadURL('http://127.0.0.1:'+port)
+};
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -61,8 +68,9 @@ function createWindow () {
 
       })
       console.log(port)
-      // loading shiny url
-      mainWindow.loadURL('http://127.0.0.1:'+port)
+      // loading shiny url, but 3 seconds later to avoid white screen
+      // if the windows loads before shiny is actually ready
+      delayedLoad()
 
       mainWindow.webContents.on('did-finish-load', function() {
         console.log(new Date().toISOString()+'::did-finish-load')
