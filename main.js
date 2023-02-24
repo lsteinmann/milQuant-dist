@@ -118,6 +118,16 @@ function createWindow() {
   delayedLoad()
   // actually shows the mainWindow
   mainWindow.show()
+
+
+  mainWindow.on('closed', function () {
+    console.log(new Date().toISOString() + '::mainWindow.closed()')
+    cleanUpApplication()
+  })
+
+
+  // this will build the custom top menu bar
+  require('./imports/topmenu')
 }
 
 // quit the app, and if a child exists, kill it
