@@ -35,15 +35,7 @@ QBpotPlot_1 <- function() {
   keep <- c("identifier", keep, "relation.liesWithinLayer", "period", "period.start", "period.end")
 
   plot_data <- potteryQB() %>%
-    select(all_of(keep)) %>%
-    mutate(period = ifelse(is.na(period),
-                           #as.character(period.end),
-                           paste(period.start, "-", period.end, sep = ""),
-                           as.character(period))) %>%
-    mutate(period = ifelse(#is.na(period),
-                           period == "NA-NA",
-                         NA,
-                        period))
+    select(all_of(keep))
 
 
   plot_data <- plot_data %>%
@@ -72,12 +64,13 @@ QBpotPlot_1 <- function() {
       geom_bar(position = input$QBpotPlot_1_bars) +
       Plot_Base_Theme +
       labs(x = "Vessel Forms", y = "count") +
-      scale_fill_period
+      scale_fill_period(ncol = 9)
   } else if (input$QBpotPlot_2_display == "period") {
     p <- ggplot(plot_data, aes(x = period,
                                fill = fct_infreq(variable))) +
       geom_bar(position = input$QBpotPlot_1_bars) +
-      Plot_Base_Theme +
+      Plot_Base_Theme + Plot_Base_Guide +
+      scale_fill_discrete(name = "Function", guide = "legend") +
       labs(x = "Period", y = "count")
   }
 

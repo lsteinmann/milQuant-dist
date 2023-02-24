@@ -68,8 +68,8 @@ QApotPlot_1 <- function() {
 
   p +
     geom_bar(position = input$QApotPlot_1_bars) +
-    Plot_Base_Theme +
-    scale_fill_discrete(name = legend_title) +
+    Plot_Base_Theme + Plot_Base_Guide +
+    scale_fill_discrete(name = legend_title, guide = "legend") +
     labs(x = x_axis_title, y = "count",
          title = plot_title,
          subtitle = input$QApotPlot_1_subtitle,

@@ -41,12 +41,12 @@ make_bricksPlot_1 <- reactive({
     period_filter(is_milet = is_milet, selector = input$bricks_period_selector) %>%
     filter(relation.liesWithinLayer %in% input$bricks_layer_selector) %>%
     ggplot(aes(x = brickForm)) +#, fill = get(input$bricksPlot_1_fillvar))) +
-    geom_bar() +
-    scale_fill_discrete() +#name = fill_name) +
+    geom_bar() +#name = fill_name) +
     scale_y_continuous(name = "number of bricks") +
-    scale_x_discrete(name = "bla") +
+    scale_x_discrete(name = "type of brick") +
     labs(title = input$bricksPlot_1_title, subtitle = input$bricksPlot_1_subtitle) +
-    Plot_Base_Theme
+    Plot_Base_Theme +
+    Plot_Base_Guide
   p
 })
 

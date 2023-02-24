@@ -21,6 +21,9 @@ output$overview <- renderPlot({
   tmp_index <- tmp_index %>%
     select(type, Operation)
 
+  nrow <- length(unique(tmp_index$Operation))
+  nrow <- floor(nrow / 12)
+
 
   alpha <- rep(0.3, length(na.omit(unique(tmp_index$Operation))))
 
@@ -32,8 +35,8 @@ output$overview <- renderPlot({
     mutate(Var1 = fct_reorder(Var1, -freq_group)) %>%
     ggplot(aes(x = Var1, fill = Var2, y = Freq)) +
     geom_bar(stat = "identity") +
-    scale_fill_discrete(name = "Places / Projects",
-                        guide = guide_legend(nrow = 3)) +
+    scale_fill_discrete(name = "Places / Operations",
+                        guide = guide_legend(byrow = TRUE, nrow = nrow)) +
     labs(x = "Resources in iDAI.field", y = "Count") +
     Plot_Base_Theme
 }, height = 530)

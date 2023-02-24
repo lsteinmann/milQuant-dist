@@ -67,13 +67,14 @@ make_lwPlot_1 <- reactive({
     filter(conditionAmount %in% condition_filter) %>%
     ggplot(aes(x = weightTotal, fill = get(input$lwPlot_1_fillvar))) +
     geom_histogram(bins = input$bins) +
-    scale_fill_discrete(name = fill_name) +
+    scale_fill_discrete(name = fill_name, guide = "legend") +
     scale_y_continuous(name = "number of loomweights") +
     scale_x_continuous(name = "distribution of weight",
                        limits = c(input$lw_weight_slider[1],
                                   input$lw_weight_slider[2])) +
     labs(title = input$lwPlot_1_title, subtitle = input$lwPlot_1_subtitle) +
-    Plot_Base_Theme
+    Plot_Base_Theme +
+    Plot_Base_Guide
   p
 })
 
