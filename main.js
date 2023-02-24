@@ -2,67 +2,14 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const fs = require('fs');
+const child = require('child_process');
+
+const { readDefaultSettings, settingsFileName } = require('./imports/settings');
+const { handleSquirrelEvent } = require('./imports/squirrel-handler')
 
 
 // not great to do that, maybe try to choose a random port?
 const port = "3002"
-const child = require('child_process');
-
-// this will ensure that squirrel does a few things, such as 
-// make the setup produce a desktop shortcut after install and register
-// the program to be found by windows
-// you can configure icons, authors etc. in the forge.config.js
-// for options see: 
-// https://www.electronforge.io/config/makers/squirrel.windows
-// https://js.electronforge.io/interfaces/_electron_forge_maker_squirrel.InternalOptions.Options.html
-var handleSquirrelEvent = function () {
-  if (process.platform != 'win32') {
-    return false;
-  }
-
-  function executeSquirrelCommand(args, done) {
-    var updateDotExe = path.resolve(path.dirname(process.execPath),
-      '..', 'update.exe');
-    var sqchild = child.spawn(updateDotExe, args, { detached: true });
-
-    sqchild.on('close', function (code) {
-      done();
-    });
-  };
-
-  function install(done) {
-    var target = path.basename(process.execPath);
-    executeSquirrelCommand(["--createShortcut", target], done);
-  };
-
-  function uninstall(done) {
-    var target = path.basename(process.execPath);
-    executeSquirrelCommand(["--removeShortcut", target], done);
-  };
-
-  var squirrelEvent = process.argv[1];
-
-  switch (squirrelEvent) {
-
-    case '--squirrel-install':
-      install(app.quit);
-      return true;
-
-    case '--squirrel-updated':
-      install(app.quit);
-      return true;
-
-    case '--squirrel-obsolete':
-      app.quit();
-      return true;
-
-    case '--squirrel-uninstall':
-      uninstall(app.quit);
-      return true;
-  }
-
-  return false;
-};
 
 
 if (handleSquirrelEvent()) {
@@ -73,14 +20,13 @@ if (handleSquirrelEvent()) {
 // (remodel) change forward slashes to escaped backslashes to hand the path to R/shiny
 // anything else but windows is not supported here at all and this part has to be redone
 // if you want to distribute to something other than windows
-var appPath = path.join(app.getAppPath(), "shiny/app.R").replace(/\\/g, "\\\\")
+var shinyPath = path.join(app.getAppPath(), "shiny/app.R").replace(/\\/g, "\\\\")
 var execPath = path.join(app.getAppPath(), "R-win-port", "bin", "RScript.exe")
-var settingsFileName = path.join(app.getAppPath(), 'shiny/defaults/settings.R').replace(/\\/g, '\\\\')
 
 
 // creates the childProcess const that will start R and tell it to run the Shiny App as app.R from the 
 // app directory of the electron app
-const childProcess = child.spawn(execPath, ["-e", "shiny::runApp(file.path('" + appPath + "'), port=" + port + ")"])
+const childProcess = child.spawn(execPath, ["-e", "shiny::runApp(file.path('" + shinyPath + "'), port=" + port + ")"])
 
 // this starts the childProcess and also
 // repeats everything R tells us to the console
@@ -143,64 +89,6 @@ function cleanUpApplication() {
 }
 
 
-// This app does not need a gpu
-// app.disableHardwareAcceleration()
-
-
-function showDefaultSettingsModal() {
-  const settingsModal = new BrowserWindow({
-    parent: mainWindow, // Set the parent window (if you have one)
-    modal: true, // Set the window to be modal
-    alwaysOnTop: true,
-    show: false,
-    useContentSize: true,
-    width: 375,
-    height: 225,
-    resizable: false,
-    movable: false,
-    frame: false,
-    webPreferences: {
-        nodeIntegration: false, // Enable Node.js integration
-        contextIsolation: true,
-        preload: path.join(app.getAppPath(), 'modal-preload.js')
-    }
-  });
-  // Load the HTML content into the window
-  settingsModal.loadFile('settings.html');
-
-  // Show the window when it's ready
-  settingsModal.once('ready-to-show', () => {
-    settingsModal.show();
-  });
-}
-
-// Section for the Settings modal
-function readDefaultSettings() {
-  // Read the contents of the default settings file
-  var fileContents = fs.readFileSync(settingsFileName, 'utf-8');
-
-  // Define a regular expression to extract the data from the R-list
-  const listRregex = /list\((.*)\)/;
-  const rawSettings = fileContents.match(listRregex);
-
-  // If there is a match, extract the data
-  if (rawSettings) {
-    var data = rawSettings[1]
-      .replace(/"/g, '') // Remove any quotes
-      .split(', ') // Split into an array of key-value pairs
-      .map(pair => {
-        var [key, value] = pair.split('=');
-        return [key.trim(), value.trim()];
-      });
-
-    var defaultAppSettings = Object.fromEntries(data);
-
-    console.log(defaultAppSettings);
-
-    return defaultAppSettings;
-  }
-}
-
 // get the settings from the file in shiny/defaults
 var defaultAppSettings = readDefaultSettings()
 // requested by modal-preload.js and sent back
@@ -227,11 +115,6 @@ ipcMain.on('default-settings', (event, data) => {
 });
 
 
-
-// Export the mainWindow variable so I can use it in topmenu
-module.exports = { showDefaultSettingsModal };
-
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -252,3 +135,7 @@ app.on('window-all-closed', function () {
   console.log('EVENT::window-all-closed')
   cleanUpApplication()
 })
+
+
+// export mainWindow so it can be used in the modules in ./imports/
+module.exports = { mainWindow };
