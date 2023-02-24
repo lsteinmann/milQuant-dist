@@ -1,4 +1,5 @@
 const { Menu, app, dialog } = require('electron')
+const { showDefaultSettingsModal } = require('../main');
 
 
 
@@ -37,6 +38,15 @@ const template = [
             },
             {
                 role: 'close'
+            }
+        ]
+    },
+    {
+        label: 'Settings',
+        submenu: [
+            {
+                label: 'Change connection settings',
+                click: showDefaultSettingsModal
             }
         ]
     },

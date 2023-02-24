@@ -1,6 +1,7 @@
 # milQuant 1.0.1 _tba_
 * clean up main.js a lot, restructure directory
 * restructure the menu bar at the top and add links to GitHub, the Miletus Excavation Homepage, and an about-window
+* add a modal for default settings to the topmenu so users can skip the connection settings somewhere in the future
 
 # milQuant 1.0.0 _2023-02-21_
 * first "release" (version number changed to be same as the standalone version)

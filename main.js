@@ -1,6 +1,8 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
+const fs = require('fs');
+
 
 // not great to do that, maybe try to choose a random port?
 const port = "3002"
@@ -73,6 +75,7 @@ if (handleSquirrelEvent()) {
 // if you want to distribute to something other than windows
 var appPath = path.join(app.getAppPath(), "shiny/app.R").replace(/\\/g, "\\\\")
 var execPath = path.join(app.getAppPath(), "R-win-port", "bin", "RScript.exe")
+var settingsFileName = path.join(app.getAppPath(), 'shiny/defaults/settings.R').replace(/\\/g, '\\\\')
 
 
 // creates the childProcess const that will start R and tell it to run the Shiny App as app.R from the 
@@ -142,6 +145,91 @@ function cleanUpApplication() {
 
 // This app does not need a gpu
 // app.disableHardwareAcceleration()
+
+
+function showDefaultSettingsModal() {
+  const settingsModal = new BrowserWindow({
+    parent: mainWindow, // Set the parent window (if you have one)
+    modal: true, // Set the window to be modal
+    alwaysOnTop: true,
+    show: false,
+    useContentSize: true,
+    width: 375,
+    height: 165,
+    resizable: false,
+    movable: false,
+    frame: false,
+    webPreferences: {
+        nodeIntegration: false, // Enable Node.js integration
+        contextIsolation: false,
+        preload: path.join(app.getAppPath(), 'modal-preload.js')
+    }
+  });
+  // Load the HTML content into the window
+  settingsModal.loadFile('settings.html');
+
+  // Show the window when it's ready
+  settingsModal.once('ready-to-show', () => {
+    settingsModal.show();
+  });
+}
+
+// Section for the Settings modal
+function readDefaultSettings() {
+  // Read the contents of the default settings file
+  var fileContents = fs.readFileSync(settingsFileName, 'utf-8');
+
+  // Define a regular expression to extract the data from the R-list
+  const listRregex = /list\((.*)\)/;
+  const rawSettings = fileContents.match(listRregex);
+
+  // If there is a match, extract the data
+  if (rawSettings) {
+    var data = rawSettings[1]
+      .replace(/"/g, '') // Remove any quotes
+      .split(', ') // Split into an array of key-value pairs
+      .map(pair => {
+        var [key, value] = pair.split('=');
+        return [key.trim(), value.trim()];
+      });
+
+    var defaultAppSettings = Object.fromEntries(data);
+
+    console.log(defaultAppSettings);
+
+    return defaultAppSettings;
+  }
+}
+
+// get the settings from the file in shiny/defaults
+var defaultAppSettings = readDefaultSettings()
+// requested by modal-preload.js and sent back
+ipcMain.on('variable-request', function (event, arg) {
+  event.sender.send('variable-reply', [defaultAppSettings[arg[0]], defaultAppSettings[arg[1]], , defaultAppSettings[arg[3]]]);
+});
+
+// get the settings from the form in the modal that you can load
+// from the top menu
+ipcMain.on('default-settings', (event, data) => {
+  const { username, synchpw } = data;
+
+  var settings = `list("username" = "${username}", "synchpw" = "${synchpw}")`;
+
+  // Save the form data to a file or database:
+  fs.writeFile(settingsFileName, settings, (err) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    console.log('Data saved successfully!');
+    console.log(settingsFileName)
+  });
+});
+
+
+
+// Export the mainWindow variable so I can use it in topmenu
+module.exports = { showDefaultSettingsModal };
 
 
 // This method will be called when Electron has finished
