@@ -45,7 +45,7 @@ drop_for_plot_vars <<- c("identifier", "shortDescription", "notes",
                         "analysisMethod", "localization")
 
 
-periods <- jsonlite::fromJSON("external/periods.json")
+periods <- readRDS("external/milet-periods.RDS")
 periods <- c(names(periods[[1]]), "multiple", "unbestimmt")
 periods <<- factor(periods,
                   levels = periods,
