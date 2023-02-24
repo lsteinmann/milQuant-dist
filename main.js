@@ -161,7 +161,7 @@ function showDefaultSettingsModal() {
     frame: false,
     webPreferences: {
         nodeIntegration: false, // Enable Node.js integration
-        contextIsolation: false,
+        contextIsolation: true,
         preload: path.join(app.getAppPath(), 'modal-preload.js')
     }
   });
