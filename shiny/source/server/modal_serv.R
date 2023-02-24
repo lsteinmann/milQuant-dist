@@ -1,3 +1,8 @@
+default.username <- source("defaults/settings.R")$value$username
+updateTextInput(session, "tab_connect.user", value = default.username)
+
+default.password <- source("defaults/settings.R")$value$synchpw
+updateTextInput(session, "tab_connect.pwd", value = default.password)
 
 
 observeEvent(input$tab_connect.connect, {
