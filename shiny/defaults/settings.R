@@ -1,1 +1,1 @@
-list("username" = "Firstname Lastname", "synchpw" = "password")
+list("username" = "Testnutzer", "synchpw" = "hallo")

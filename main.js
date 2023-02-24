@@ -155,7 +155,7 @@ function showDefaultSettingsModal() {
     show: false,
     useContentSize: true,
     width: 375,
-    height: 165,
+    height: 225,
     resizable: false,
     movable: false,
     frame: false,
