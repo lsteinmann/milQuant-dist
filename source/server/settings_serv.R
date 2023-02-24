@@ -147,5 +147,6 @@ output$select_trench <- renderUI({
 
 
 observeEvent(input$close_app,{
+  print("Shiny: EXIT")
   stopApp()
 })
