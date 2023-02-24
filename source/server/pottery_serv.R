@@ -54,9 +54,10 @@ output$potPlot_1_fill_selector <- renderUI({
 make_potPlot_1 <- reactive({
 
   if (grepl("period", input$potPlot_1_fillvar) & is_milet) {
-    potPlot_1_scale_fill <- scale_fill_period
+    potPlot_1_scale_fill <- scale_fill_period()
   } else {
-    potPlot_1_scale_fill <- scale_fill_discrete(name = input$potPlot_1_fillvar)
+    potPlot_1_scale_fill <- scale_fill_discrete(name = input$potPlot_1_fillvar,
+                                                guide = "legend")
   }
 
 
@@ -70,7 +71,8 @@ make_potPlot_1 <- reactive({
   p <- plot_data %>%
     ggplot(aes(x = get(input$potPlot_1_xvar),
                fill = factor(get(input$potPlot_1_fillvar)))) +
-    geom_bar() + Plot_Base_Theme + potPlot_1_scale_fill +
+    geom_bar() + Plot_Base_Theme + Plot_Base_Guide +
+    potPlot_1_scale_fill +
     labs(y = "Number of Objects", x = input$potPlot_1_xvar,
          title = input$potPlot_title,
          subtitle = input$potPlot_subtitle,

@@ -19,6 +19,8 @@ Plot_Base_Theme <<- theme(panel.background = element_blank(),
                          axis.title = element_text(size = 16),
                          legend.position = "bottom")
 
+Plot_Base_Guide <<- guides(fill = guide_legend(ncol = 10, byrow = TRUE))
+
 
 
 ## Global Variables
@@ -55,10 +57,14 @@ periods <<- factor(periods,
 period_colors <- viridis::viridis_pal(option = "D")(length(periods)-2)
 period_colors <<- c(period_colors, "#cd2436", "#a6a6a6")
 
-scale_fill_period <<- scale_fill_manual(name = "Period",
-                                       values = period_colors,
-                                       breaks = periods,
-                                       limits = periods)
+scale_fill_period <<- function(ncol = 9) {
+  scale_fill_manual(values = period_colors,
+                    breaks = periods,
+                    limits = periods,
+                    guide = guide_legend(name = "Period",
+                                         ncol = ncol,
+                                         byrow = TRUE))
+  }
 
 find_types <<- c("Find", "Pottery", "Lamp", "Loomweight", "Terracotta", "Brick",
                  "Bone", "Glass", "Metal", "Stone", "Wood", "Coin",

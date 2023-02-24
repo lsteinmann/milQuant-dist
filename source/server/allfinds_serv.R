@@ -75,7 +75,7 @@ make_allFindsPlot <- reactive({
       labs(fill = input$findPlot_PlotVar,
            x = "Type of Find")
     if (input$findPlot_PlotVar == "period") {
-      p <- p + scale_fill_period
+      p <- p + scale_fill_period()
     }
   } else if (input$findPlot_axis == "var_is_x") {
     if (input$findPlot_PlotVar == "date") {
@@ -95,7 +95,8 @@ make_allFindsPlot <- reactive({
   }
 
 
-  p <- p + geom_bar(position = input$findPlot_bars) + Plot_Base_Theme +
+  p <- p + geom_bar(position = input$findPlot_bars) +
+    Plot_Base_Theme + Plot_Base_Guide +
     labs(title = input$findPlot_title,
          subtitle = input$findPlot_subtitle,
          caption = paste("Total number of objects: ",
