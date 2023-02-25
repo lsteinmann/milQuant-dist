@@ -80,7 +80,7 @@ make_allFindsPlot <- reactive({
   } else if (input$findPlot_axis == "var_is_x") {
     if (input$findPlot_PlotVar == "date") {
       p <- findPlot_tmp %>%
-        ggplot(aes(x = get(input$findPlot_PlotVar),
+        ggplot(aes(x = date,
                    fill = type)) +
         scale_x_date(name = "Date of Processing")
     } else {

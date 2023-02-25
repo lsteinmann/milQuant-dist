@@ -8,14 +8,21 @@ prep_for_shiny <<- function(data, reorder_periods = reorder_periods) {
     remove_na_cols() %>%
     type.convert(as.is = FALSE)
 
-  if ("beginningDate" %in% colnames(data)) {
+  tryCatch({
     data <- data %>%
-      mutate_at(c("beginningDate", "endDate", "date"), as.character) %>%
-      #select(!any_of(drop_for_plot_vars)) %>% # no, dont do that, stupid
-      mutate(beginningDate = as.Date(beginningDate, format = "%d.%m.%Y")) %>%
-      mutate(endDate = as.Date(endDate, format = "%d.%m.%Y")) %>%
-      mutate(date = as.Date(date, format = "%d.%m.%Y"))
-  }
+      mutate(date = as.Date(as.character(date), format = "%d.%m.%Y"))
+  }, error = function(e) print(paste("prep_for_shiny(): ", e)))
+
+  tryCatch({
+    data <- data %>%
+      mutate(beginningDate = as.Date(as.character(beginningDate), format = "%d.%m.%Y"))
+  }, error = function(e) print(paste("prep_for_shiny(): ", e)))
+
+  tryCatch({
+    data <- data %>%
+      mutate(endDate = as.Date(as.character(endDate), format = "%d.%m.%Y"))
+  }, error = function(e) print(paste("prep_for_shiny(): ", e)))
+
 
   if(reorder_periods) {
     data <- data %>%
