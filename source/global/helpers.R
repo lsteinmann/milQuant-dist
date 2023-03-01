@@ -93,7 +93,8 @@ milQuant_dowloadHandler <<- function(plot = "plot", ftype = "png") {
     filename = paste(format(Sys.Date(), "%Y%m%d"),
                      "_milQuant_plot.", ftype, sep = ""),
     content <- function(file) {
-      ggsave(file, plot = plot, device = ftype,
+      ggsave(file, plot = plot + Plot_Base_Theme + Plot_Base_Guide,
+             device = ftype,
              width = 25, height = 15, units = "cm")
     }
   )
@@ -154,4 +155,23 @@ mq_spinner <<- function(object) {
 }
 
 
+
+convert_to_Plotly <<- function(ggplot_p) {
+  # add theme
+  ggplot_p <- ggplot_p + Plot_Base_Theme
+
+  plot_ly <- ggplotly(ggplot_p) %>%
+    layout(title = list(text = paste0(ggplot_p$labels$title, "<br>",
+                                      "<sup>", ggplot_p$labels$subtitle, "</sup>")),
+           annotations = list(text = ggplot_p$labels$caption,
+                              xref = "paper", yref = "paper",
+                              xanchor="right", yanchor="top",
+                              x = 1, y = 1,
+                              showarrow = FALSE,
+                              bgcolor = "white",
+                              font = list(size = 10)),
+           showlegend = TRUE) %>% # TODO: legend = list(orientation = "h")
+    config(displaylogo = FALSE)
+  return(plot_ly)
+}
 

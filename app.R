@@ -19,7 +19,6 @@ source("source/tabs/potteryQB_tab.R")
 source("source/tabs/bricks_tab.R")
 source("source/tabs/bricksQ_tab.R")
 source("source/tabs/loomweight_tab.R")
-source("source/tabs/allfinds_tab.R")
 # todo
 #source("source/tabs/sculpture_tab.R")
 

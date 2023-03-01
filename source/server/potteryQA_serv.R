@@ -68,7 +68,6 @@ QApotPlot_1 <- function() {
 
   p +
     geom_bar(position = input$QApotPlot_1_bars) +
-    Plot_Base_Theme + Plot_Base_Guide +
     scale_fill_discrete(name = legend_title, guide = "legend") +
     labs(x = x_axis_title, y = "count",
          title = plot_title,
@@ -76,8 +75,8 @@ QApotPlot_1 <- function() {
          caption = paste("Total Number of Fragments:", nrow(plot_data)))
 }
 
-output$QApotPlot_1 <- renderPlot({
-  QApotPlot_1()
+output$QApotPlot_1 <- renderPlotly({
+  convert_to_Plotly(QApotPlot_1())
 })
 
 

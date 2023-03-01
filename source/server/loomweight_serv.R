@@ -72,14 +72,12 @@ make_lwPlot_1 <- reactive({
     scale_x_continuous(name = "distribution of weight",
                        limits = c(input$lw_weight_slider[1],
                                   input$lw_weight_slider[2])) +
-    labs(title = input$lwPlot_1_title, subtitle = input$lwPlot_1_subtitle) +
-    Plot_Base_Theme +
-    Plot_Base_Guide
+    labs(title = input$lwPlot_1_title, subtitle = input$lwPlot_1_subtitle)
   p
 })
 
-output$lwPlot_1 <- renderPlot({
-  make_lwPlot_1()
+output$lwPlot_1 <- renderPlotly({
+  convert_to_Plotly(make_lwPlot_1())
 })
 
 

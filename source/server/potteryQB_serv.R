@@ -62,14 +62,12 @@ QBpotPlot_1 <- function() {
     p <- ggplot(plot_data, aes(x = fct_infreq(variable),
                                fill = period)) +
       geom_bar(position = input$QBpotPlot_1_bars) +
-      Plot_Base_Theme +
       labs(x = "Vessel Forms", y = "count") +
       scale_fill_period(ncol = 9)
   } else if (input$QBpotPlot_2_display == "period") {
     p <- ggplot(plot_data, aes(x = period,
                                fill = fct_infreq(variable))) +
       geom_bar(position = input$QBpotPlot_1_bars) +
-      Plot_Base_Theme + Plot_Base_Guide +
       scale_fill_discrete(name = "Function", guide = "legend") +
       labs(x = "Period", y = "count")
   }
@@ -85,8 +83,8 @@ QBpotPlot_1 <- function() {
   p
 }
 
-output$QBpotPlot_1 <- renderPlot({
-  QBpotPlot_1()
+output$QBpotPlot_1 <- renderPlotly({
+  convert_to_Plotly(QBpotPlot_1())
 })
 
 

@@ -98,7 +98,6 @@ make_allFindsPlot <- reactive({
 
 
   p <- p + geom_bar(position = input$findPlot_bars) +
-    Plot_Base_Theme + Plot_Base_Guide +
     labs(title = input$findPlot_title,
          subtitle = input$findPlot_subtitle,
          caption = paste("Total number of objects: ",
@@ -107,37 +106,13 @@ make_allFindsPlot <- reactive({
 })
 
 output$allFindsPlot <- renderPlotly({
-  plotly::ggplotly(make_allFindsPlot()) %>%
-    layout(title = list(text = paste0(input$findPlot_title,
-                                      '<br>',
-                                      '<sup>',
-                                      input$findPlot_subtitle,
-                                      '</sup>')))
+  convert_to_Plotly(make_allFindsPlot())
 })
 
 
-output$allfinds_plotinfo <- renderText({
 
 
 
-  xy_str <- function(e) {
-    if(is.null(e)) return("NULL\n")
-    paste0("x=", round(e$x, 1), " y=", round(e$y, 1), "\n")
-  }
-  xy_range_str <- function(e) {
-    if(is.null(e)) return("NULL\n")
-    paste0("xmin=", round(e$xmin, 1), " xmax=", round(e$xmax, 1),
-           " ymin=", round(e$ymin, 1), " ymax=", round(e$ymax, 1))
-  }
-
-  paste0(
-    "click: ", xy_str(input$allFindsPlot_click),
-    "hover: ", xy_str(input$allFindsPlot_hover),
-    "brush: ", xy_range_str(input$allFindsPlot_brush)
-  )
-
-
-})
 
 output$allFindsPlot_png <- milQuant_dowloadHandler(plot = make_allFindsPlot(),
                                                 ftype = "png")

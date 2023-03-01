@@ -71,7 +71,7 @@ make_potPlot_1 <- reactive({
   p <- plot_data %>%
     ggplot(aes(x = get(input$potPlot_1_xvar),
                fill = factor(get(input$potPlot_1_fillvar)))) +
-    geom_bar() + Plot_Base_Theme + Plot_Base_Guide +
+    geom_bar() +
     potPlot_1_scale_fill +
     labs(y = "Number of Objects", x = input$potPlot_1_xvar,
          title = input$potPlot_title,
@@ -81,8 +81,8 @@ make_potPlot_1 <- reactive({
     p
 })
 
-output$potPlot_1 <- renderPlot({
-  make_potPlot_1()
+output$potPlot_1 <- renderPlotly({
+  convert_to_Plotly(make_potPlot_1())
 })
 
 output$potPlot_1_png <- milQuant_dowloadHandler(plot = make_potPlot_1(),
