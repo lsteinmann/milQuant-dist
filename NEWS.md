@@ -2,6 +2,7 @@
 * clean up main.js a lot, restructure directory
 * restructure the menu bar at the top and add links to GitHub, the Miletus Excavation Homepage, and an about-window
 * add a modal for default settings to the topmenu so users have custom default connection settingson their computer and don't need to reenter password
+* remove bug where app would exit on every output from shiny
 
 # milQuant 1.0.0 _2023-02-21_
 * first "release" (version number changed to be same as the standalone version)

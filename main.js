@@ -32,9 +32,9 @@ const childProcess = child.spawn(execPath, ["-e", "shiny::runApp(file.path('" + 
 // repeats everything R tells us to the console
 childProcess.stdout.on('data', (data) => {
   console.log(`stdout:${data}`)
-  data.includes("Shiny: EXIT", 
+  if (data.includes("Shiny: EXIT")) {
     cleanUpApplication()
-  )
+  }
 })
 childProcess.stderr.on('data', (data) => {
   console.log(`stderr:${data}`)
