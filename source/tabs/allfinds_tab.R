@@ -40,7 +40,7 @@ allfinds_tab <- tabItem(
     ),
     box(
       width = 9, height = 700,
-      plotOutput("allFindsPlot", height = 670, click = "allFindsPlot_click") %>% mq_spinner())
+      plotlyOutput("allFindsPlot", height = 670) %>% mq_spinner())
   ),
   fluidRow(
     htmlOutput("allFindsPlot_value"),

@@ -2,7 +2,7 @@ packages <- c("shiny", "shinydashboard",
               "shinycssloaders", "shinyjs", "shinyWidgets",
               "ggplot2", "dplyr", "reshape2", "viridis", "forcats", "tidyr",
               "remotes", "idaifieldR",
-              "glue")
+              "glue", "plotly") ## TODO!!!
 
 for (p in packages) {
   if (!suppressWarnings(require(p, character.only = TRUE))) {
