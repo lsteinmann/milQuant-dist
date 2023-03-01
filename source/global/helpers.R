@@ -156,11 +156,11 @@ mq_spinner <<- function(object) {
 
 
 
-convert_to_Plotly <<- function(ggplot_p) {
+convert_to_Plotly <<- function(ggplot_p, tooltip = c("text")) {
   # add theme
   ggplot_p <- ggplot_p + Plot_Base_Theme
 
-  plot_ly <- ggplotly(ggplot_p) %>%
+  plot_ly <- ggplotly(ggplot_p) %>% # TODO: , tooltip = c("text")
     layout(title = list(text = paste0(ggplot_p$labels$title, "<br>",
                                       "<sup>", ggplot_p$labels$subtitle, "</sup>")),
            annotations = list(text = ggplot_p$labels$caption,
