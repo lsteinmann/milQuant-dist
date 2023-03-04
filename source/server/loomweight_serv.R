@@ -1,4 +1,8 @@
 loomweights <- reactive({
+  validate(
+    need(is.data.frame(selected_db()), "No Trenches and/or Places selected.")
+  )
+
   loomweights <- selected_db() %>%
     filter(type == "Loomweight") %>%
     remove_na_cols()

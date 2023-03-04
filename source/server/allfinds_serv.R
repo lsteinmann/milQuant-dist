@@ -1,4 +1,9 @@
 findPlot_base_data <- reactive({
+
+  validate(
+    need(is.data.frame(selected_db()), "No Trenches and/or Places selected.")
+  )
+
   findPlot_base_data <- selected_db() %>%
     filter(type %in% find_types) %>%
     remove_na_cols() %>%
@@ -57,17 +62,22 @@ output$findPlot_var_selector <- renderUI({
 
 })
 
-make_allFindsPlot <- reactive({
-
+current_plotData <- reactive({
+  validate(
+    need(is.character(input$findPlot_PlotVar), "No variable selected.")
+  )
   current_plotData <- findPlot_base_data() %>%
     filter(relation.liesWithinLayer %in% input$findPlot_layer_selector) %>%
     period_filter(is_milet = is_milet, selector = input$findPlot_period_selector) %>%
     mutate(var = fct_infreq(get(input$findPlot_PlotVar))) %>%
     select(type, var) %>%
     mutate(type = fct_infreq(type))
+  return(current_plotData)
+})
 
+make_allFindsPlot <- reactive({
   if (input$findPlot_axis == "var_is_fill") {
-    p <- current_plotData %>%
+    p <- current_plotData() %>%
       ggplot(aes(x = type,
                  fill = var)) +
       labs(fill = input$findPlot_PlotVar,
@@ -78,12 +88,12 @@ make_allFindsPlot <- reactive({
     }
   } else if (input$findPlot_axis == "var_is_x") {
     if (input$findPlot_PlotVar == "date") {
-      p <- current_plotData %>%
+      p <- current_plotData() %>%
         ggplot(aes(x = date,
                    fill = type)) +
         scale_x_date(name = "Date of Processing")
     } else {
-      p <- current_plotData %>%
+      p <- current_plotData() %>%
         ggplot(aes(x = var,
                    fill = type)) +
         labs(fill = "Type of Find",
@@ -96,7 +106,7 @@ make_allFindsPlot <- reactive({
     labs(title = input$findPlot_title,
          subtitle = input$findPlot_subtitle,
          caption = paste("Total number of objects: ",
-                         nrow(current_plotData), sep = ""))
+                         nrow(current_plotData()), sep = ""))
   p
 })
 

@@ -1,4 +1,8 @@
 bricks <- reactive({
+  validate(
+    need(is.data.frame(selected_db()), "No Trenches and/or Places selected.")
+  )
+
   bricks <- selected_db() %>%
     filter(type == "Brick") %>%
     remove_na_cols()

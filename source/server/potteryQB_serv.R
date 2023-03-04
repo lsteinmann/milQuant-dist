@@ -1,4 +1,8 @@
 potteryQB <- reactive({
+  validate(
+    need(is.data.frame(selected_db()), "No Trenches and/or Places selected.")
+  )
+
   potteryQB <- selected_db() %>%
     filter(type == "Pottery_Quantification_B") %>%
     remove_na_cols()

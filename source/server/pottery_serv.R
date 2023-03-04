@@ -1,4 +1,8 @@
 pottery <- reactive({
+  validate(
+    need(is.data.frame(selected_db()), "No Trenches and/or Places selected.")
+  )
+
   pottery <- selected_db() %>%
     filter(type == "Pottery") %>%
     remove_na_cols()
@@ -52,6 +56,10 @@ output$potPlot_1_fill_selector <- renderUI({
 })
 
 make_potPlot_1 <- reactive({
+  validate(
+    need(is.character(input$potPlot_1_fillvar), "No variables selected.")
+  )
+
 
   if (grepl("period", input$potPlot_1_fillvar) & is_milet) {
     potPlot_1_scale_fill <- scale_fill_period()
