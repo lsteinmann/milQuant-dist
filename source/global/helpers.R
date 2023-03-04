@@ -170,9 +170,14 @@ convert_to_Plotly <<- function(ggplot_p, tooltip = c("text")) {
                               showarrow = FALSE,
                               bgcolor = "white",
                               font = list(size = 10)),
-           showlegend = TRUE) %>% # TODO: legend = list(orientation = "h")
+           yaxis = list(tickmode = "auto", showline = FALSE, gridwidth = 3,
+                        gridcolor = "grey20"),
+           xaxis = list(gridcolor = "grey60"),
+           showlegend = TRUE) %>%
     config(displaylogo = FALSE,
            modeBarButtonsToRemove = c("select2d", "lasso2d"))
   return(plot_ly)
 }
+#ggplot_p$coordinates
 
+#convert_to_Plotly(ggplot_p)
