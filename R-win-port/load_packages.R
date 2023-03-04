@@ -1,7 +1,6 @@
-packages <- c("shiny", "shinydashboard",
-              "shinycssloaders", "shinyjs", "shinyWidgets",
+packages <- c("shiny", "shinydashboard", "shinycssloaders", "shinyjs", "shinyWidgets",
               "ggplot2", "dplyr", "reshape2", "viridis", "forcats", "tidyr",
-              "remotes", "idaifieldR", "sofa",
+              "remotes", "idaifieldR", "sofa", "plotly",
               "glue")
 for (p in packages) {
     if (p == "idaifieldR") {
