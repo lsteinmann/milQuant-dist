@@ -5,6 +5,10 @@
 // for options see: 
 // https://www.electronforge.io/config/makers/squirrel.windows
 // https://js.electronforge.io/interfaces/_electron_forge_maker_squirrel.InternalOptions.Options.html
+const { app } = require('electron')
+const path = require('path')
+
+
 var handleSquirrelEvent = function () {
     if (process.platform != 'win32') {
       return false;
