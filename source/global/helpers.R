@@ -171,7 +171,8 @@ convert_to_Plotly <<- function(ggplot_p, tooltip = c("text")) {
                               bgcolor = "white",
                               font = list(size = 10)),
            showlegend = TRUE) %>% # TODO: legend = list(orientation = "h")
-    config(displaylogo = FALSE)
+    config(displaylogo = FALSE,
+           modeBarButtonsToRemove = c("select2d", "lasso2d"))
   return(plot_ly)
 }
 
