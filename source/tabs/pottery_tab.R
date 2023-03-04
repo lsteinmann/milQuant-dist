@@ -33,5 +33,12 @@ pottery_tab <- tabItem(
                         width = 9, height = 650,
                         plotlyOutput("potPlot_1", height = 620) %>% mq_spinner()
                 )
+        ),
+        fluidRow(
+          box(width = 12,
+              h1("Click a bar to display object table"),
+              htmlOutput("potPlot_1_clickData_check"),
+              dataTableOutput("potPlot_1_clickData")
+          )
         )
 )

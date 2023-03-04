@@ -55,20 +55,10 @@ output$potPlot_1_fill_selector <- renderUI({
               choices = pottery_vars())
 })
 
-make_potPlot_1 <- reactive({
+potPlot_1_data <- reactive({
   validate(
     need(is.character(input$potPlot_1_fillvar), "No variables selected.")
   )
-
-
-  if (grepl("period", input$potPlot_1_fillvar) & is_milet) {
-    potPlot_1_scale_fill <- scale_fill_period()
-  } else {
-    potPlot_1_scale_fill <- scale_fill_discrete(name = input$potPlot_1_fillvar,
-                                                guide = "legend")
-  }
-
-
 
   plot_data <- pottery() %>%
     # filter the layers selected in the layer selector
@@ -77,24 +67,34 @@ make_potPlot_1 <- reactive({
     period_filter(is_milet = is_milet,
                   selector = input$potPlot_1_period_selector) %>%
     mutate(x = get(input$potPlot_1_xvar),
-           fill = get(input$potPlot_1_fillvar)) %>%
-    select(x, fill)
+           fill = get(input$potPlot_1_fillvar))
+  plot_data
+})
 
-  p <- plot_data %>%
+make_potPlot_1 <- reactive({
+  if (grepl("period", input$potPlot_1_fillvar) & is_milet) {
+    potPlot_1_scale_fill <- scale_fill_period()
+  } else {
+    potPlot_1_scale_fill <- scale_fill_discrete(name = input$potPlot_1_fillvar,
+                                                guide = "legend")
+  }
+
+  p <- potPlot_1_data() %>%
     ggplot(aes(x = x,
-               fill = fill)) +
+               fill = fill,
+               customdata = fill)) +
     geom_bar(position = input$potPlot_1_bars) +
     potPlot_1_scale_fill +
     labs(y = "Number of Objects", x = input$potPlot_1_xvar,
          title = input$potPlot_title,
          subtitle = input$potPlot_subtitle,
-         caption = paste("Total:", nrow(plot_data)))
+         caption = paste("Total:", nrow(potPlot_1_data())))
 
     p
 })
 
 output$potPlot_1 <- renderPlotly({
-  convert_to_Plotly(make_potPlot_1())
+  convert_to_Plotly(make_potPlot_1(), source = "potPlot_1")
 })
 
 output$potPlot_1_png <- milQuant_dowloadHandler(plot = make_potPlot_1(),
@@ -103,3 +103,39 @@ output$potPlot_1_pdf <- milQuant_dowloadHandler(plot = make_potPlot_1(),
                                                 ftype = "pdf")
 
 #"Insula UV/8-9") %>%#
+
+
+
+output$potPlot_1_clickData_check <- renderUI({
+  choices <- colnames(potPlot_1_data())
+  choices <- choices[-which(choices %in% c("identifier", "x", "fill"))]
+
+  pickerInput(
+    inputId = "potPlot_1_clickData_columns",
+    label = "Choose columns to display:",
+    choices = choices,
+    selected = c("date", "period.start", "period.end", "shortDescription", "processor"),
+    multiple = TRUE,
+    options = list("actions-box" = TRUE,
+                   "live-search" = TRUE,
+                   "live-search-normalize" = TRUE,
+                   "live-search-placeholder" = "Search here...")
+  )
+})
+
+output$potPlot_1_clickData <- renderDataTable({
+  click_data <- event_data("plotly_click", source = "potPlot_1")
+
+  if (is.null(click_data)) {
+    return("Click a bar")
+  }
+
+  x_vars <- sort(unique(potPlot_1_data()$x))
+
+  potPlot_1_data() %>%
+    filter(fill %in% click_data$customdata) %>%
+    filter(x %in% x_vars[click_data$x]) %>%
+    select(any_of(c("identifier", input$potPlot_1_clickData_columns)))
+})
+
+
