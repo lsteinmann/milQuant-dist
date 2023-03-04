@@ -44,7 +44,9 @@ make_bricksQPlot_1 <- reactive({
 
   p <- plot_data %>% ggplot(aes(x = variable)) +
     geom_bar() +
-    labs(title = input$bricksQPlot_1_title, subtitle = input$bricksQPlot_1_subtitle)
+    labs(title = input$bricksQPlot_1_title,
+         subtitle = input$bricksQPlot_1_subtitle,
+         caption = paste("Total Number of Fragments:", nrow(plot_data)))
 
   p
 })

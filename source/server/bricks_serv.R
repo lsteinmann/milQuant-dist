@@ -36,15 +36,19 @@ output$bricks_period_selector <- renderUI({
 make_bricksPlot_1 <- reactive({
   #fill_name <- names(fill_vars[which(fill_vars == input$lwPlot_1_fillvar)])
 
-  p <- bricks() %>%
+  plot_data <- bricks() %>%
     # filter by periods from the slider if config is milet
     period_filter(is_milet = is_milet, selector = input$bricks_period_selector) %>%
-    filter(relation.liesWithinLayer %in% input$bricks_layer_selector) %>%
+    filter(relation.liesWithinLayer %in% input$bricks_layer_selector)
+
+  p <- plot_data  %>%
     ggplot(aes(x = brickForm)) +#, fill = get(input$bricksPlot_1_fillvar))) +
     geom_bar() +#name = fill_name) +
     scale_y_continuous(name = "number of bricks") +
     scale_x_discrete(name = "type of brick") +
-    labs(title = input$bricksPlot_1_title, subtitle = input$bricksPlot_1_subtitle)
+    labs(title = input$bricksPlot_1_title,
+         subtitle = input$bricksPlot_1_subtitle,
+         caption = paste("Total Number of Objects:", nrow(plot_data)))
   p
 })
 

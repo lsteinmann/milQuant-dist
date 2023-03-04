@@ -79,7 +79,8 @@ QBpotPlot_1 <- function() {
 
   p <- p +
     labs(title = plot_title,
-         subtitle = input$QBpotPlot_1_subtitle) +
+         subtitle = input$QBpotPlot_1_subtitle,
+         caption = paste("Total Number of Fragments:", nrow(plot_data))) +
     geom_bar(position = input$QBpotPlot_1_bars)
   p
 }

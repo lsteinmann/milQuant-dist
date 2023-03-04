@@ -22,7 +22,7 @@ loomweight_tab <- tabItem(
           radioButtons("lw_condition_filter",
                        label = "Filter for condition:",
                        choices = list("complete" = "intakt",
-                                      "75% to complete" = "Fragmentarisch_75-100",
+                                      "75% to complete" = "75-100",
                                       "display all objects" = "all"),
                        selected = "all", inline = TRUE),
           htmlOutput("lw_weight_slider"),
