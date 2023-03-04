@@ -28,7 +28,10 @@ output$QBpotPlot_1_period_selector <- renderUI({
   make_period_selector(inputId = "QBpotPlot_1_period_selector")
 })
 
-QBpotPlot_1 <- function() {
+QBpotPlot_1_data <- reactive({
+  validate(
+    need(is.data.frame(potteryQB()), "Data not available.")
+  )
   existing_cols <- colnames(potteryQB())
   keep <- existing_cols
   keep <- keep[grepl("count", keep)]
@@ -53,10 +56,16 @@ QBpotPlot_1 <- function() {
     mutate(variable = gsub("Rim|Base|Handle|Wall", "", variable)) %>%
     uncount(value) %>%
     mutate(variable = fct_infreq(variable))
+  return(plot_data)
+})
+
+QBpotPlot_1 <- reactive({
+  validate(
+    need(is.data.frame(QBpotPlot_1_data()), "Data not available.")
+  )
 
   if (input$QBpotPlot_1_title == "") {
-    plot_title <- paste("Vessel Forms from ", input$select_operation,
-                        " in Context: ",
+    plot_title <- paste("Vessel Forms from Context: ",
                         paste(input$QB_layer_selector, collapse = ", "),
                         sep = "")
   } else {
@@ -65,12 +74,12 @@ QBpotPlot_1 <- function() {
 
 
   if (input$QBpotPlot_2_display == "function") {
-    p <- ggplot(plot_data, aes(x = variable,
+    p <- ggplot(QBpotPlot_1_data(), aes(x = variable,
                                fill = period)) +
       labs(x = "Vessel Forms", y = "count") +
       scale_fill_period(ncol = 9)
   } else if (input$QBpotPlot_2_display == "period") {
-    p <- ggplot(plot_data, aes(x = period,
+    p <- ggplot(QBpotPlot_1_data(), aes(x = period,
                                fill = variable)) +
       scale_fill_discrete(name = "Function", guide = "legend") +
       labs(x = "Period", y = "count")
@@ -84,10 +93,10 @@ QBpotPlot_1 <- function() {
   p <- p +
     labs(title = plot_title,
          subtitle = input$QBpotPlot_1_subtitle,
-         caption = paste("Total Number of Fragments:", nrow(plot_data))) +
+         caption = paste("Total Number of Fragments:", nrow(QBpotPlot_1_data()))) +
     geom_bar(position = input$QBpotPlot_1_bars)
   p
-}
+})
 
 output$QBpotPlot_1 <- renderPlotly({
   convert_to_Plotly(QBpotPlot_1())
