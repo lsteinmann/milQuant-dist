@@ -28,9 +28,10 @@ source("source/body.R")
 ui <- dashboardPage(header, sidebar, body)
 
 server <- function(input, output, session) {
+  #session <- getDefaultReactiveDomain()
 
   # show login dialog box when initiated
-  showModal(login_dialog, session = getDefaultReactiveDomain())
+  showModal(login_dialog, session = session)
   # server code to handle the connection to field in the modal
   source('source/server/modal_serv.R', local = TRUE)
 
