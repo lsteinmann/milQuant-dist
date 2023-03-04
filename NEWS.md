@@ -4,6 +4,7 @@
 * fixed period order in pottery & quant B plots
 * fixed issue with dates
 * use plotly for all graphs
+* add a workflow overview to allfinds plot
 
 # milQuant 1.0.0 _2023-02-21_
 * first "release" (version number changed to be same as the standalone version)
