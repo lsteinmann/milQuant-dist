@@ -23,11 +23,14 @@ output$QA_layer_selector <- renderUI({
                       inputId = "QA_layer_selector")
 })
 
-QApotPlot_1 <- function() {
+QApotPlot_data <- reactive({
+  validate(
+    need(is.data.frame(potteryQA()), "Data not available.")
+  )
   existing_cols <- colnames(potteryQA())
   keep <- existing_cols
   keep <- keep[grepl("count", keep)]
-  keep
+  #keep
   # remove "countTotal" as well
   keep <- keep[!grepl("countTotal", keep)]
   # needed for melt id
@@ -45,21 +48,28 @@ QApotPlot_1 <- function() {
     # sorting factors by frequency here to make plotly tooltip nicer
     mutate(variable = fct_infreq(variable),
            relation.liesWithinLayer = fct_infreq(relation.liesWithinLayer))
+  return(plot_data)
+})
+
+#QApotPlot_data <- function() { return(plot_data)}
+
+QApotPlot_1 <- reactive({
+
 
   if (input$QApotPlot_1_display == "fill") {
-    p <- ggplot(plot_data, aes(x = variable,
+    p <- ggplot(QApotPlot_data(), aes(x = variable,
                                fill = relation.liesWithinLayer))
     legend_title <- "Context"
     x_axis_title <- "functional category"
   } else if (input$QApotPlot_1_display == "x") {
-    p <- ggplot(plot_data, aes(x = relation.liesWithinLayer,
+    p <- ggplot(QApotPlot_data(), aes(x = relation.liesWithinLayer,
                                fill = variable))
     legend_title <- "functional category"
     x_axis_title <- "Context"
 
   } else if (input$QApotPlot_1_display == "none") {
 
-    p <- ggplot(plot_data, aes(x = variable))
+    p <- ggplot(QApotPlot_data(), aes(x = variable))
     legend_title <- "none"
     x_axis_title <- "Vessel Forms"
   }
@@ -73,14 +83,15 @@ QApotPlot_1 <- function() {
     plot_title <- input$QApotPlot_1_title
   }
 
-  p +
+  p <- p +
     geom_bar(position = input$QApotPlot_1_bars) +
     scale_fill_discrete(name = legend_title, guide = "legend") +
     labs(x = x_axis_title, y = "count",
          title = plot_title,
          subtitle = input$QApotPlot_1_subtitle,
-         caption = paste("Total Number of Fragments:", nrow(plot_data)))
-}
+         caption = paste("Total Number of Fragments:", nrow(QApotPlot_data())))
+  p
+})
 
 output$QApotPlot_1 <- renderPlotly({
   convert_to_Plotly(QApotPlot_1())
