@@ -3,9 +3,13 @@
 * restructure the menu bar at the top and add links to GitHub, the Miletus Excavation Homepage, and an about-window
 * add a modal for default settings to the topmenu so users have custom default connection settingson their computer and don't need to reenter password
 * remove bug where app would exit on every output from shiny
-* improved plot legends
-* fixed period order in pottery & quant B plots
-* fixed issue with dates
+* from milQuant: 
+    * the connection settings (name/pw) are reusable (with milQuant-dist)
+    * improved plot legends and added bar plot display options
+    * fixed period order in pottery & quant B plots
+    * fixed issue with dates
+    * use plotly for all graphs
+    * add a workflow overview to allfinds plot
 
 # milQuant 1.0.0 _2023-02-21_
 * first "release" (version number changed to be same as the standalone version)

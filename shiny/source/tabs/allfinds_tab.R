@@ -43,7 +43,6 @@ allfinds_tab <- tabItem(
       plotlyOutput("allFindsPlot", height = 670) %>% mq_spinner())
   ),
   fluidRow(
-    htmlOutput("allFindsPlot_value"),
-    verbatimTextOutput("allFindsPlot_selected_rows")
+    uiOutput("allfinds_workflow")
   )
 )

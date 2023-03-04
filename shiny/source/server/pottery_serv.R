@@ -1,4 +1,8 @@
 pottery <- reactive({
+  validate(
+    need(is.data.frame(selected_db()), "No Trenches and/or Places selected.")
+  )
+
   pottery <- selected_db() %>%
     filter(type == "Pottery") %>%
     remove_na_cols()
@@ -52,6 +56,10 @@ output$potPlot_1_fill_selector <- renderUI({
 })
 
 make_potPlot_1 <- reactive({
+  validate(
+    need(is.character(input$potPlot_1_fillvar), "No variables selected.")
+  )
+
 
   if (grepl("period", input$potPlot_1_fillvar) & is_milet) {
     potPlot_1_scale_fill <- scale_fill_period()
@@ -66,11 +74,15 @@ make_potPlot_1 <- reactive({
     # filter the layers selected in the layer selector
     filter(relation.liesWithinLayer %in% input$POT_layer_selector) %>%
     # filter by periods from the slider if config is milet
-    period_filter(is_milet = is_milet, selector = input$potPlot_1_period_selector)
+    period_filter(is_milet = is_milet,
+                  selector = input$potPlot_1_period_selector) %>%
+    mutate(x = get(input$potPlot_1_xvar),
+           fill = get(input$potPlot_1_fillvar)) %>%
+    select(x, fill)
 
   p <- plot_data %>%
-    ggplot(aes(x = get(input$potPlot_1_xvar),
-               fill = factor(get(input$potPlot_1_fillvar)))) +
+    ggplot(aes(x = x,
+               fill = fill)) +
     geom_bar(position = input$potPlot_1_bars) +
     potPlot_1_scale_fill +
     labs(y = "Number of Objects", x = input$potPlot_1_xvar,
