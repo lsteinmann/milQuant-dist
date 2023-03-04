@@ -65,8 +65,7 @@ QBpotPlot_1 <- reactive({
   )
 
   if (input$QBpotPlot_1_title == "") {
-    plot_title <- paste("Vessel Forms from ", input$select_operation,
-                        " in Context: ",
+    plot_title <- paste("Vessel Forms from Context: ",
                         paste(input$QB_layer_selector, collapse = ", "),
                         sep = "")
   } else {
