@@ -44,14 +44,12 @@ make_bricksPlot_1 <- reactive({
     geom_bar() +#name = fill_name) +
     scale_y_continuous(name = "number of bricks") +
     scale_x_discrete(name = "type of brick") +
-    labs(title = input$bricksPlot_1_title, subtitle = input$bricksPlot_1_subtitle) +
-    Plot_Base_Theme +
-    Plot_Base_Guide
+    labs(title = input$bricksPlot_1_title, subtitle = input$bricksPlot_1_subtitle)
   p
 })
 
-output$bricksPlot_1 <- renderPlot({
-  make_bricksPlot_1()
+output$bricksPlot_1 <- renderPlotly({
+  convert_to_Plotly(make_bricksPlot_1())
 })
 
 

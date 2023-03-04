@@ -35,7 +35,7 @@ This app uses the [idaifieldR](https://github.com/lsteinmann/idaifieldR) package
 
 Apart from that there is a variety of other packages used in the dashboard, all of which can be found on CRAN and are automatically installed when trying to run the app: 
 ```
-require("shiny", "shinydashboard", "shinycssloaders", "shinyjs", "ggplot2", "dplyr", "reshape2", "forcats", "remotes", "idaifieldR", "shinyWidgets", "tidyr", "viridis", "glue")
+require("shiny", "shinydashboard", "shinycssloaders", "shinyjs", "ggplot2", "plotly", "dplyr", "reshape2", "forcats", "remotes", "idaifieldR", "shinyWidgets", "tidyr", "viridis", "glue")
 ```
 
 This repository contains a distributable version of milQuant built with electron and based off [electron-quick-start](https://github.com/electron/electron-quick-start) and [COVAIL](https://github.com/COVAIL/electron-quick-start/blob/master/main.js) (see also: [lsteinmann/shiny-electron](https://github.com/lsteinmann/shiny-electron).) The directory R-win-port (locally) contains an R-portable distribution for windows.

@@ -5,6 +5,7 @@
 * remove bug where app would exit on every output from shiny
 * improved plot legends
 * fixed period order in pottery & quant B plots
+* fixed issue with dates
 
 # milQuant 1.0.0 _2023-02-21_
 * first "release" (version number changed to be same as the standalone version)

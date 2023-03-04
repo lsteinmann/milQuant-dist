@@ -43,14 +43,13 @@ make_bricksQPlot_1 <- reactive({
 
   p <- plot_data %>% ggplot(aes(x = variable)) +
     geom_bar() +
-    labs(title = input$bricksQPlot_1_title, subtitle = input$bricksQPlot_1_subtitle) +
-    Plot_Base_Theme
+    labs(title = input$bricksQPlot_1_title, subtitle = input$bricksQPlot_1_subtitle)
 
   p
 })
 
-output$bricksQPlot_1 <- renderPlot({
-  make_bricksQPlot_1()
+output$bricksQPlot_1 <- renderPlotly({
+  convert_to_Plotly(make_bricksQPlot_1())
 })
 
 

@@ -8,7 +8,7 @@ bricksQ_tab <- tabItem(
   ),
   fluidRow(
     box(
-      width = 3, height = 600,
+      width = 3, height = 650,
       textInput(inputId = "bricksQPlot_1_title", label = "Title",
                 placeholder = "Enter title here"),
       textInput(inputId = "bricksQPlot_1_subtitle", label = "Subtitle",
@@ -18,8 +18,8 @@ bricksQ_tab <- tabItem(
       downloadButton("bricksQPlot_1_pdf", label = "Download plot (pdf)")
     ),
     box(
-      width = 9, height = 600,
-      plotOutput("bricksQPlot_1", height = 570) %>% mq_spinner()
+      width = 9, height = 650,
+      plotlyOutput("bricksQPlot_1", height = 620) %>% mq_spinner()
     )
   )
 )
