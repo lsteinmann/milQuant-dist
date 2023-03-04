@@ -10,6 +10,7 @@
     * fixed issue with dates
     * use plotly for all graphs
     * add a workflow overview to allfinds plot
+    * add object table to pottery plot
 
 # milQuant 1.0.0 _2023-02-21_
 * first "release" (version number changed to be same as the standalone version)

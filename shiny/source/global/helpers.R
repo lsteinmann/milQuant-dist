@@ -117,9 +117,9 @@ make_layer_selector <<- function(data_all, inputId,
   # produce the selectInput object that will be displayed
   pickerInput(inputId = inputId,
               label = label,
-              choices = sort(selectable_layers),
+              choices = selectable_layers,
               multiple = TRUE,
-              selected = sort(selectable_layers),
+              selected = selectable_layers,
               options = list("actions-box" = TRUE,
                              "live-search" = TRUE,
                              "live-search-normalize" = TRUE,
@@ -156,11 +156,13 @@ mq_spinner <<- function(object) {
 
 
 
-convert_to_Plotly <<- function(ggplot_p, tooltip = c("text")) {
+convert_to_Plotly <<- function(ggplot_p,
+                               source = "ggplot_source",
+                               tooltip = c("y", "x", "fill")) {
   # add theme
   ggplot_p <- ggplot_p + Plot_Base_Theme
 
-  plot_ly <- ggplotly(ggplot_p) %>% # TODO: , tooltip = c("text")
+  plot_ly <- ggplotly(ggplot_p, source = source, tooltip = tooltip) %>%
     layout(title = list(text = paste0(ggplot_p$labels$title, "<br>",
                                       "<sup>", ggplot_p$labels$subtitle, "</sup>")),
            annotations = list(text = ggplot_p$labels$caption,
@@ -170,8 +172,14 @@ convert_to_Plotly <<- function(ggplot_p, tooltip = c("text")) {
                               showarrow = FALSE,
                               bgcolor = "white",
                               font = list(size = 10)),
-           showlegend = TRUE) %>% # TODO: legend = list(orientation = "h")
-    config(displaylogo = FALSE)
+           yaxis = list(tickmode = "auto", showline = FALSE, gridwidth = 3,
+                        gridcolor = "grey20"),
+           xaxis = list(gridcolor = "grey60"),
+           showlegend = TRUE) %>%
+    config(displaylogo = FALSE,
+           modeBarButtonsToRemove = c("select2d", "lasso2d"))
   return(plot_ly)
 }
+#ggplot_p$coordinates
 
+#convert_to_Plotly(ggplot_p)
