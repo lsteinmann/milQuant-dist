@@ -39,7 +39,8 @@ make_bricksQPlot_1 <- reactive({
     mutate(value = as.numeric(value)) %>%
     mutate(variable = gsub("count", "", variable)) %>%
     # so every object is a row, technically (makes ggplot easier)
-    uncount(value)
+    uncount(value) %>%
+    mutate(variable = fct_infreq(variable))
 
   p <- plot_data %>% ggplot(aes(x = variable)) +
     geom_bar() +

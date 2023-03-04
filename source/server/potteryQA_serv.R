@@ -37,22 +37,25 @@ QApotPlot_1 <- function() {
     mutate(value = as.numeric(value)) %>%
     mutate(variable = gsub("count", "", variable)) %>%
     # so every object is a row, technically (makes ggplot easier)
-    uncount(value)
+    uncount(value) %>%
+    # sorting factors by frequency here to make plotly tooltip nicer
+    mutate(variable = fct_infreq(variable),
+           relation.liesWithinLayer = fct_infreq(relation.liesWithinLayer))
 
   if (input$QApotPlot_1_display == "fill") {
-    p <- ggplot(plot_data, aes(x = fct_infreq(variable),
-                               fill = fct_infreq(relation.liesWithinLayer)))
+    p <- ggplot(plot_data, aes(x = variable,
+                               fill = relation.liesWithinLayer))
     legend_title <- "Context"
     x_axis_title <- "functional category"
   } else if (input$QApotPlot_1_display == "x") {
-    p <- ggplot(plot_data, aes(x = fct_infreq(relation.liesWithinLayer),
-                               fill = fct_infreq(variable)))
+    p <- ggplot(plot_data, aes(x = relation.liesWithinLayer,
+                               fill = variable))
     legend_title <- "functional category"
     x_axis_title <- "Context"
 
   } else if (input$QApotPlot_1_display == "none") {
 
-    p <- ggplot(plot_data, aes(x = fct_infreq(variable)))
+    p <- ggplot(plot_data, aes(x = variable))
     legend_title <- "none"
     x_axis_title <- "Vessel Forms"
   }

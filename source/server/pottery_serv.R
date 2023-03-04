@@ -66,11 +66,15 @@ make_potPlot_1 <- reactive({
     # filter the layers selected in the layer selector
     filter(relation.liesWithinLayer %in% input$POT_layer_selector) %>%
     # filter by periods from the slider if config is milet
-    period_filter(is_milet = is_milet, selector = input$potPlot_1_period_selector)
+    period_filter(is_milet = is_milet,
+                  selector = input$potPlot_1_period_selector) %>%
+    mutate(x = get(input$potPlot_1_xvar),
+           fill = get(input$potPlot_1_fillvar)) %>%
+    select(x, fill)
 
   p <- plot_data %>%
-    ggplot(aes(x = get(input$potPlot_1_xvar),
-               fill = factor(get(input$potPlot_1_fillvar)))) +
+    ggplot(aes(x = x,
+               fill = fill)) +
     geom_bar(position = input$potPlot_1_bars) +
     potPlot_1_scale_fill +
     labs(y = "Number of Objects", x = input$potPlot_1_xvar,

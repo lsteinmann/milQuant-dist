@@ -65,7 +65,8 @@ make_lwPlot_1 <- reactive({
     period_filter(is_milet = is_milet, selector = input$LW_period_selector) %>%
     filter(relation.liesWithinLayer %in% input$LW_layer_selector) %>%
     filter(conditionAmount %in% condition_filter) %>%
-    ggplot(aes(x = weightTotal, fill = get(input$lwPlot_1_fillvar))) +
+    mutate(fill = get(input$lwPlot_1_fillvar)) %>%
+    ggplot(aes(x = weightTotal, fill = fill)) +
     geom_histogram(bins = input$bins) +
     scale_fill_discrete(name = fill_name, guide = "legend") +
     scale_y_continuous(name = "number of loomweights") +

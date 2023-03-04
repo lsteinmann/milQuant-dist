@@ -1,8 +1,9 @@
 # milQuant 1.0.1 _tba_
 * the connection settings (name/pw) are reusable (with milQuant-dist)
-* improved plot legends
+* improved plot legends and added bar plot display options
 * fixed period order in pottery & quant B plots
 * fixed issue with dates
+* use plotly for all graphs
 
 # milQuant 1.0.0 _2023-02-21_
 * first "release" (version number changed to be same as the standalone version)

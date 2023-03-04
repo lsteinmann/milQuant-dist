@@ -35,11 +35,7 @@ output$findPlot_layer_selector <- renderUI({
 
 output$findPlot_var_selector <- renderUI({
   all_cols <- colnames(findPlot_base_data())
-  findPlot_vars <- c("type")
-  findPlot_vars <- c(findPlot_vars, "storagePlace")
-  findPlot_vars <- c(findPlot_vars, "date")
-  findPlot_vars <- c(findPlot_vars, "Operation")
-  findPlot_vars <- c(findPlot_vars, "Place")
+  findPlot_vars <- c("type", "storagePlace", "date", "Operation", "Place")
   findPlot_vars <- c(findPlot_vars, all_cols[grepl("relation", all_cols)])
   findPlot_vars <- c(findPlot_vars, all_cols[grepl("workflow", all_cols)])
   findPlot_vars <- c(findPlot_vars, all_cols[grepl("period", all_cols)])
@@ -61,35 +57,34 @@ output$findPlot_var_selector <- renderUI({
 
 })
 
-findPlot_selected_data <- reactive({
-  findPlot_base_data() %>%
-    filter(relation.liesWithinLayer %in% input$findPlot_layer_selector) %>%
-    period_filter(is_milet = is_milet, selector = input$findPlot_period_selector)
-})
-
 make_allFindsPlot <- reactive({
+
+  current_plotData <- findPlot_base_data() %>%
+    filter(relation.liesWithinLayer %in% input$findPlot_layer_selector) %>%
+    period_filter(is_milet = is_milet, selector = input$findPlot_period_selector) %>%
+    mutate(var = fct_infreq(get(input$findPlot_PlotVar))) %>%
+    select(type, var) %>%
+    mutate(type = fct_infreq(type))
+
   if (input$findPlot_axis == "var_is_fill") {
-    p <- findPlot_selected_data() %>%
-      ggplot(aes(x = reorder(type,
-                             type,
-                             function(x)-length(x)),
-                 fill = get(input$findPlot_PlotVar))) +
+    p <- current_plotData %>%
+      ggplot(aes(x = type,
+                 fill = var)) +
       labs(fill = input$findPlot_PlotVar,
            x = "Type of Find")
+    p
     if (input$findPlot_PlotVar == "period") {
       p <- p + scale_fill_period()
     }
   } else if (input$findPlot_axis == "var_is_x") {
     if (input$findPlot_PlotVar == "date") {
-      p <- findPlot_selected_data() %>%
+      p <- current_plotData %>%
         ggplot(aes(x = date,
                    fill = type)) +
         scale_x_date(name = "Date of Processing")
     } else {
-      p <- findPlot_selected_data() %>%
-        ggplot(aes(x = reorder(get(input$findPlot_PlotVar),
-                               get(input$findPlot_PlotVar),
-                               function(x)-length(x)),
+      p <- current_plotData %>%
+        ggplot(aes(x = var,
                    fill = type)) +
         labs(fill = "Type of Find",
              x = input$findPlot_PlotVar)
@@ -101,7 +96,7 @@ make_allFindsPlot <- reactive({
     labs(title = input$findPlot_title,
          subtitle = input$findPlot_subtitle,
          caption = paste("Total number of objects: ",
-                         nrow(findPlot_selected_data()), sep = ""))
+                         nrow(current_plotData), sep = ""))
   p
 })
 
