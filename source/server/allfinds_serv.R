@@ -62,22 +62,33 @@ output$findPlot_var_selector <- renderUI({
 
 })
 
-current_plotData <- reactive({
+allFindsPlot_data <- reactive({
   validate(
     need(is.character(input$findPlot_PlotVar), "No variable selected.")
   )
-  current_plotData <- findPlot_base_data() %>%
+  data <- findPlot_base_data() %>%
     filter(relation.liesWithinLayer %in% input$findPlot_layer_selector) %>%
     period_filter(is_milet = is_milet, selector = input$findPlot_period_selector) %>%
-    mutate(var = fct_infreq(get(input$findPlot_PlotVar))) %>%
+    mutate(var = get(input$findPlot_PlotVar)) %>%
     select(type, var) %>%
     mutate(type = fct_infreq(type))
-  return(current_plotData)
+
+  if (is.logical(data$var)) {
+    data <- data %>%
+      mutate(var = ifelse(is.na(var),
+                          FALSE,
+                          TRUE))
+  } else {
+    data <- data %>%
+      mutate(var = fct_infreq(var))
+  }
+
+  return(data)
 })
 
 make_allFindsPlot <- reactive({
   if (input$findPlot_axis == "var_is_fill") {
-    p <- current_plotData() %>%
+    p <- allFindsPlot_data() %>%
       ggplot(aes(x = type,
                  fill = var)) +
       labs(fill = input$findPlot_PlotVar,
@@ -88,12 +99,12 @@ make_allFindsPlot <- reactive({
     }
   } else if (input$findPlot_axis == "var_is_x") {
     if (input$findPlot_PlotVar == "date") {
-      p <- current_plotData() %>%
+      p <- allFindsPlot_data() %>%
         ggplot(aes(x = date,
                    fill = type)) +
         scale_x_date(name = "Date of Processing")
     } else {
-      p <- current_plotData() %>%
+      p <- allFindsPlot_data() %>%
         ggplot(aes(x = var,
                    fill = type)) +
         labs(fill = "Type of Find",
@@ -106,7 +117,7 @@ make_allFindsPlot <- reactive({
     labs(title = input$findPlot_title,
          subtitle = input$findPlot_subtitle,
          caption = paste("Total number of objects: ",
-                         nrow(current_plotData()), sep = ""))
+                         nrow(allFindsPlot_data()), sep = ""))
   p
 })
 
