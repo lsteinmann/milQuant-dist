@@ -73,3 +73,14 @@ quant_types <<- c("Quantification", "Brick_Quantification",
                   "Pottery_Quantification_A", "Pottery_Quantification_B",
                   "QuantMollusks", "PlasterQuantification")
 
+
+read_settings <- function() {
+  result <- try(readRDS("defaults/selection_settings.RDS"), silent = TRUE)
+  if (inherits(result, "try-error")) {
+    result <- list("select_project" = NULL,
+                   "select_operation" = NULL,
+                   "select_trench" = NULL)
+  }
+  return(result)
+}
+selection_settings <<- read_settings()

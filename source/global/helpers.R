@@ -180,6 +180,3 @@ convert_to_Plotly <<- function(ggplot_p,
            modeBarButtonsToRemove = c("select2d", "lasso2d"))
   return(plot_ly)
 }
-#ggplot_p$coordinates
-
-#convert_to_Plotly(ggplot_p)

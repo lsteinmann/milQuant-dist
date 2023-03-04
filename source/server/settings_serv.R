@@ -1,3 +1,5 @@
+
+
 observeEvent(input$tab_connect.connect, {
   validate(
     need(exists("projects"), "Project list not available.")
@@ -6,9 +8,10 @@ observeEvent(input$tab_connect.connect, {
     selectizeInput(inputId = "select_project",
                    label = "Choose a Project to work with",
                    choices = projects, multiple = FALSE,
+                   selected = selection_settings$select_project,
                    options = list(
-                     placeholder = 'Please select an option below',
-                     onInitialize = I('function() { this.setValue(""); }')
+                     placeholder = 'Please select an option below'#,
+                     #onInitialize = I('function() { this.setValue(""); }')
                    ))
   })
 })
@@ -114,6 +117,7 @@ output$select_operation <- renderUI({
   pickerInput(inputId = "select_operation",
               label = "Choose one or more Places / Operations to work with",
               choices = choices,
+              selected = selection_settings$select_operation,
               multiple = TRUE,
               options = list("actions-box" = TRUE,
                              "live-search" = TRUE,
@@ -128,6 +132,7 @@ output$select_trench <- renderUI({
   pickerInput(inputId = "select_trench",
               label = "Choose one or more Trenches to work with",
               choices = trenches(),
+              selected = selection_settings$select_trench,
               multiple = TRUE,
               options = list("actions-box" = TRUE,
                              "live-search" = TRUE,
@@ -147,6 +152,10 @@ output$select_trench <- renderUI({
 
 
 observeEvent(input$close_app,{
+  selection_settings <- list("select_project" = input$select_project,
+                             "select_operation" = input$select_operation,
+                             "select_trench" = input$select_trench)
+  saveRDS(selection_settings, "defaults/selection_settings.RDS")
   print("Shiny: EXIT")
   stopApp()
 })

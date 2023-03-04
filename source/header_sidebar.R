@@ -5,7 +5,7 @@ header <- dashboardHeader(
   #                        height = 44)),
   title = "milQuant",
   tags$li(class = "dropdown",
-          actionButton(label = "Quit",
+          actionButton(label = "Save and Quit",
                        icon = icon("power-off"),
                        inputId = "close_app")))
 
