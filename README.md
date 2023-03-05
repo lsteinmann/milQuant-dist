@@ -21,7 +21,7 @@ This app uses the [idaifieldR](https://github.com/lsteinmann/idaifieldR) package
 
 Apart from that there is a variety of other packages used in the dashboard, all of which can be found on CRAN and are automatically installed when trying to run the app: 
 ```
-require("shiny", "shinydashboard", "shinycssloaders", "shinyjs", "ggplot2", "plotly", "dplyr", "reshape2", "forcats", "remotes", "idaifieldR", "shinyWidgets", "tidyr", "viridis", "glue")
+require("shiny", "shinydashboard", "shinycssloaders", "shinyjs", "ggplot2", "plotly", "dplyr", "reshape2", "forcats", "DT", "remotes", "idaifieldR", "shinyWidgets", "tidyr", "viridis", "glue")
 ```
 
 ## Adaptation
