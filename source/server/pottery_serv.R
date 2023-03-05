@@ -127,7 +127,7 @@ output$potPlot_1_clickData <- renderDataTable({
   click_data <- event_data("plotly_click", source = "potPlot_1")
 
   if (is.null(click_data)) {
-    return("Click a bar")
+    return(as.data.frame("Click a bar"))
   }
 
   x_vars <- sort(unique(potPlot_1_data()$x))
