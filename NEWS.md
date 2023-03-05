@@ -1,10 +1,10 @@
-# milQuant 1.0.1 _tba_
+# milQuant 1.0.1 _2023-03-05_
 * the connection settings (name/pw) are reusable (with milQuant-dist)
 * improved plot legends and added bar plot display options
 * fixed period order in pottery & quant B plots
 * fixed issue with dates
 * use plotly for all graphs
-* add a workflow overview to allfinds plot
+* add a workflow overview
 * add object table to pottery plot
 
 # milQuant 1.0.0 _2023-02-21_
