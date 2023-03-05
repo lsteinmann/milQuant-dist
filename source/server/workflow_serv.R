@@ -48,7 +48,7 @@ output$workflow_tabs <- renderUI({
                                    fluidRow(
                                      infoBox(width = 8, color = col,
                                              title = title,
-                                             value = p("Applies to", strong(length(res)),
+                                             value = p("Applies to", strong(n),
                                                        "out of", strong(total),
                                                        "objects (",
                                                        perc, "%).")),
