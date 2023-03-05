@@ -6,6 +6,7 @@
 * use plotly for all graphs
 * add a workflow overview
 * add object table to pottery plot
+* project, operation and trench(es) are saved and restored on exit by button
 
 # milQuant 1.0.0 _2023-02-21_
 * first "release" (version number changed to be same as the standalone version)
