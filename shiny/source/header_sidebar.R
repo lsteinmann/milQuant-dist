@@ -5,7 +5,7 @@ header <- dashboardHeader(
   #                        height = 44)),
   title = "milQuant",
   tags$li(class = "dropdown",
-          actionButton(label = "Quit",
+          actionButton(label = "Save and Quit",
                        icon = icon("power-off"),
                        inputId = "close_app")))
 
@@ -19,6 +19,7 @@ sidebar <- dashboardSidebar(
     uiOutput("select_operation"),
     uiOutput("select_trench"),
     menuItem("Overview (Place)", tabName = "overview", icon = icon("graduation-cap")),
+    menuItem("Workflow", tabName = "workflow", icon = icon("gear")),
     menuItem("All Finds", tabName = "allfinds", icon = icon("chart-bar")),
     menuItem("Pottery", tabName = "pottery_all", icon = icon("trophy"),
           menuSubItem("Pottery (single)", tabName = "pottery",

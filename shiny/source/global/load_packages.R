@@ -1,7 +1,7 @@
 packages <- c("shiny", "shinydashboard",
               "shinycssloaders", "shinyjs", "shinyWidgets",
               "ggplot2", "plotly", "viridis",
-              "dplyr", "reshape2", "forcats", "tidyr",
+              "dplyr", "reshape2", "forcats", "tidyr", "DT",
               "remotes", "idaifieldR",
               "glue")
 

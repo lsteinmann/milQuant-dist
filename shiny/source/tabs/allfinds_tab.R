@@ -41,8 +41,5 @@ allfinds_tab <- tabItem(
     box(
       width = 9, height = 700,
       plotlyOutput("allFindsPlot", height = 670) %>% mq_spinner())
-  ),
-  fluidRow(
-    uiOutput("allfinds_workflow")
   )
 )

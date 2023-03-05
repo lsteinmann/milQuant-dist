@@ -12,6 +12,7 @@ source("source/header_sidebar.R")
 source("source/tabs/home_tab.R")
 source("source/tabs/modals_ui.R")
 source("source/tabs/overview_tab.R")
+source("source/tabs/workflow_tab.R")
 source("source/tabs/allfinds_tab.R")
 source("source/tabs/pottery_tab.R")
 source("source/tabs/potteryQA_tab.R")
@@ -28,9 +29,10 @@ source("source/body.R")
 ui <- dashboardPage(header, sidebar, body)
 
 server <- function(input, output, session) {
+  #session <- getDefaultReactiveDomain()
 
   # show login dialog box when initiated
-  showModal(login_dialog, session = getDefaultReactiveDomain())
+  showModal(login_dialog, session = session)
   # server code to handle the connection to field in the modal
   source('source/server/modal_serv.R', local = TRUE)
 
@@ -42,6 +44,7 @@ server <- function(input, output, session) {
 
   # server code only for overview pages
   source('source/server/overview_serv.R', local = TRUE)
+  source('source/server/workflow_serv.R', local = TRUE)
   source('source/server/allfinds_serv.R', local = TRUE)
 
   # server code only for pottery form (single)
