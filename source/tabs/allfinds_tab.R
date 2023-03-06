@@ -21,29 +21,25 @@ allfinds_tab <- tabItem(
                 placeholder = "Enter subtitle here"),
       htmlOutput("findPlot_layer_selector"),
       htmlOutput("findPlot_var_selector"),
-      radioButtons(inputId = "findPlot_axis",
+      prettyRadioButtons(inputId = "findPlot_axis",
                    label = "Choose how to display the selected variable",
                    choices = list("as Colour" = "var_is_fill",
                                   "on X-Axis" = "var_is_x"),
-                   selected = "var_is_fill",
-                   inline = TRUE),
-      radioButtons(inputId = "findPlot_bars",
+                   icon = icon("check"),
+                   inline = TRUE, animation = "jelly"),
+      prettyRadioButtons(inputId = "findPlot_bars",
                    label = "Choose how to display the bars",
                    choices = list("stacked" = "stack",
                                   "dodging" = "dodge",
                                   "percentage" = "fill"),
-                   selected = "stack",
-                   inline = TRUE),
+                   icon = icon("check"),
+                   inline = TRUE, animation = "jelly"),
       htmlOutput("findPlot_period_selector"),
       downloadButton("allFindsPlot_png", label = "Download plot (png)"),
       downloadButton("allFindsPlot_pdf", label = "Download plot (pdf)")
     ),
     box(
       width = 9, height = 700,
-      plotOutput("allFindsPlot", height = 670) %>% mq_spinner())
-  ),
-  fluidRow(
-    htmlOutput("allFindsPlot_value"),
-    verbatimTextOutput("allFindsPlot_selected_rows")
+      plotlyOutput("allFindsPlot", height = 670) %>% mq_spinner())
   )
 )

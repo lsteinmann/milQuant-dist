@@ -1,6 +1,7 @@
 # build second selected db from complete react_db() when changing the place
 # in the input
 selected_db <- reactiveVal()
+
 observeEvent(input$select_trench, {
 
   selected <- react_db() %>%

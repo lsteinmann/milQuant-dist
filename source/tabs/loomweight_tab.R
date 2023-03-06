@@ -8,7 +8,7 @@ loomweight_tab <- tabItem(
               color = "olive", width = 12),
     ),
     fluidRow(
-      box(width = 3,
+      box(width = 3, height = 750,
           textInput(inputId = "lwPlot_1_title", label = "Title",
                     placeholder = "Enter title here"),
           textInput(inputId = "lwPlot_1_subtitle", label = "Subtitle",
@@ -19,20 +19,22 @@ loomweight_tab <- tabItem(
                       max = 100,
                       value = 30),
           htmlOutput("lwplot_1_fill_selector"),
-          radioButtons("lw_condition_filter",
+          prettyRadioButtons("lw_condition_filter",
                        label = "Filter for condition:",
+                       icon = icon("check"),
+                       inline = TRUE, animation = "jelly",
                        choices = list("complete" = "intakt",
-                                      "75% to complete" = "Fragmentarisch_75-100",
+                                      "75% to complete" = "75-100",
                                       "display all objects" = "all"),
-                       selected = "all", inline = TRUE),
+                       selected = "intakt"),
           htmlOutput("lw_weight_slider"),
           htmlOutput("LW_period_selector"),
           downloadButton("lwPlot_1_png", label = "Download plot (png)"),
           downloadButton("lwPlot_1_pdf", label = "Download plot (pdf)")
       ),
       box(
-        width = 9,
-        plotOutput("lwPlot_1", height = 570) %>% mq_spinner()
+        width = 9, height = 750,
+        plotlyOutput("lwPlot_1", height = 720) %>% mq_spinner()
       )
 
 

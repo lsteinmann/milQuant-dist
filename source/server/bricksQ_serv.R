@@ -1,4 +1,8 @@
 bricksQ <- reactive({
+  validate(
+    need(is.data.frame(selected_db()), "No Trenches and/or Places selected.")
+  )
+
   bricksQ <- selected_db() %>%
     filter(type == "Brick_Quantification") %>%
     remove_na_cols()
@@ -39,18 +43,20 @@ make_bricksQPlot_1 <- reactive({
     mutate(value = as.numeric(value)) %>%
     mutate(variable = gsub("count", "", variable)) %>%
     # so every object is a row, technically (makes ggplot easier)
-    uncount(value)
+    uncount(value) %>%
+    mutate(variable = fct_infreq(variable))
 
   p <- plot_data %>% ggplot(aes(x = variable)) +
     geom_bar() +
-    labs(title = input$bricksQPlot_1_title, subtitle = input$bricksQPlot_1_subtitle) +
-    Plot_Base_Theme
+    labs(title = input$bricksQPlot_1_title,
+         subtitle = input$bricksQPlot_1_subtitle,
+         caption = paste("Total Number of Fragments:", nrow(plot_data)))
 
   p
 })
 
-output$bricksQPlot_1 <- renderPlot({
-  make_bricksQPlot_1()
+output$bricksQPlot_1 <- renderPlotly({
+  convert_to_Plotly(make_bricksQPlot_1())
 })
 
 

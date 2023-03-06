@@ -8,7 +8,7 @@ potteryQA_tab <- tabItem(
   ),
   fluidRow(
     box(
-      width = 3, height = 600,
+      width = 3, height = 650,
       textInput(inputId = "QApotPlot_1_title", label = "Title",
                 value = "", placeholder = "Enter title here"),
       textInput(inputId = "QApotPlot_1_subtitle", label = "Subtitle",
@@ -29,8 +29,8 @@ potteryQA_tab <- tabItem(
       downloadButton("QApotPlot_1_pdf", label = "Download plot (pdf)")
     ),
     box(
-      width = 9, height = 600,
-      plotOutput("QApotPlot_1", height = 570) %>% mq_spinner()
+      width = 9, height = 650,
+      plotlyOutput("QApotPlot_1", height = 620) %>% mq_spinner()
     )
   )
 )

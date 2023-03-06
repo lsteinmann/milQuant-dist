@@ -8,6 +8,7 @@ body <- dashboardBody(
     home_tab,
     # home and find overview content
     overview_tab,
+    workflow_tab,
     allfinds_tab,
     # Pottery tabs content
     pottery_tab,

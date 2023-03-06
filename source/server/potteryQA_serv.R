@@ -1,4 +1,8 @@
 potteryQA <- reactive({
+  validate(
+    need(is.data.frame(selected_db()), "No Trenches and/or Places selected.")
+  )
+
   potteryQA <- selected_db() %>%
     filter(type == "Pottery_Quantification_A") %>%
     remove_na_cols()
@@ -19,11 +23,14 @@ output$QA_layer_selector <- renderUI({
                       inputId = "QA_layer_selector")
 })
 
-QApotPlot_1 <- function() {
+QApotPlot_data <- reactive({
+  validate(
+    need(is.data.frame(potteryQA()), "Data not available.")
+  )
   existing_cols <- colnames(potteryQA())
   keep <- existing_cols
   keep <- keep[grepl("count", keep)]
-  keep
+  #keep
   # remove "countTotal" as well
   keep <- keep[!grepl("countTotal", keep)]
   # needed for melt id
@@ -37,47 +44,56 @@ QApotPlot_1 <- function() {
     mutate(value = as.numeric(value)) %>%
     mutate(variable = gsub("count", "", variable)) %>%
     # so every object is a row, technically (makes ggplot easier)
-    uncount(value)
+    uncount(value) %>%
+    # sorting factors by frequency here to make plotly tooltip nicer
+    mutate(variable = fct_infreq(variable),
+           relation.liesWithinLayer = fct_infreq(relation.liesWithinLayer))
+  return(plot_data)
+})
+
+#QApotPlot_data <- function() { return(plot_data)}
+
+QApotPlot_1 <- reactive({
+
 
   if (input$QApotPlot_1_display == "fill") {
-    p <- ggplot(plot_data, aes(x = fct_infreq(variable),
-                               fill = fct_infreq(relation.liesWithinLayer)))
+    p <- ggplot(QApotPlot_data(), aes(x = variable,
+                               fill = relation.liesWithinLayer))
     legend_title <- "Context"
     x_axis_title <- "functional category"
   } else if (input$QApotPlot_1_display == "x") {
-    p <- ggplot(plot_data, aes(x = fct_infreq(relation.liesWithinLayer),
-                               fill = fct_infreq(variable)))
+    p <- ggplot(QApotPlot_data(), aes(x = relation.liesWithinLayer,
+                               fill = variable))
     legend_title <- "functional category"
     x_axis_title <- "Context"
 
   } else if (input$QApotPlot_1_display == "none") {
 
-    p <- ggplot(plot_data, aes(x = fct_infreq(variable)))
+    p <- ggplot(QApotPlot_data(), aes(x = variable))
     legend_title <- "none"
     x_axis_title <- "Vessel Forms"
   }
 
   if (input$QApotPlot_1_title == "") {
-    plot_title <- paste("Vessel Forms from ", input$select_operation,
-                        " in Context: ",
+    plot_title <- paste("Vessel Forms from Context: ",
                         paste(input$QA_layer_selector, collapse = ", "),
                         sep = "")
   } else {
     plot_title <- input$QApotPlot_1_title
   }
 
-  p +
+  p <- p +
     geom_bar(position = input$QApotPlot_1_bars) +
-    Plot_Base_Theme + Plot_Base_Guide +
     scale_fill_discrete(name = legend_title, guide = "legend") +
     labs(x = x_axis_title, y = "count",
          title = plot_title,
          subtitle = input$QApotPlot_1_subtitle,
-         caption = paste("Total Number of Fragments:", nrow(plot_data)))
-}
+         caption = paste("Total Number of Fragments:", nrow(QApotPlot_data())))
+  p
+})
 
-output$QApotPlot_1 <- renderPlot({
-  QApotPlot_1()
+output$QApotPlot_1 <- renderPlotly({
+  convert_to_Plotly(QApotPlot_1())
 })
 
 

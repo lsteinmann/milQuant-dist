@@ -6,7 +6,7 @@ output$overview_n <- renderText({
   prettyNum(nrow(react_index()), big.mark = ",")
 })
 
-output$overview <- renderPlot({
+output$overview <- renderPlotly({
   validate(
     need(react_index(), "No project selected.")
   )
@@ -21,22 +21,24 @@ output$overview <- renderPlot({
   tmp_index <- tmp_index %>%
     select(type, Operation)
 
-  nrow <- length(unique(tmp_index$Operation))
-  nrow <- floor(nrow / 12)
+  # nrow <- length(unique(tmp_index$Operation))
+  # nrow <- floor(nrow / 12)
 
-
-  alpha <- rep(0.3, length(na.omit(unique(tmp_index$Operation))))
-
-  table(tmp_index$type, tmp_index$Operation) %>%
+  plotdata <- table(tmp_index$type, tmp_index$Operation) %>%
     as.data.frame() %>%
     group_by(Var1) %>%
     mutate(freq_group = sum(Freq)) %>%
     ungroup() %>%
-    mutate(Var1 = fct_reorder(Var1, -freq_group)) %>%
-    ggplot(aes(x = Var1, fill = Var2, y = Freq)) +
+    mutate(Var1 = fct_reorder(Var1, -freq_group))
+
+  colnames(plotdata) <- c("type", "trench", "count")
+
+  p <- ggplot(plotdata, aes(x = type, fill = trench, y = count)) +
     geom_bar(stat = "identity") +
-    scale_fill_discrete(name = "Places / Operations",
-                        guide = guide_legend(byrow = TRUE, nrow = nrow)) +
-    labs(x = "Resources in iDAI.field", y = "Count") +
-    Plot_Base_Theme
-}, height = 530)
+    scale_fill_discrete(name = "Trenches / Operations") +
+                        #guide = guide_legend(byrow = TRUE, nrow = nrow)) +
+    labs(x = "resources in the selected database", y = "count",
+         caption = paste("Total: ", sum(plotdata$count)))
+
+  convert_to_Plotly(p)
+})
