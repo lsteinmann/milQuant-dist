@@ -1,15 +1,16 @@
-# milQuant 1.0.1 _tba_
+# milQuant 1.0.1 _2023-03-05_
 * clean up main.js a lot, restructure directory
 * restructure the menu bar at the top and add links to GitHub, the Miletus Excavation Homepage, and an about-window
 * add a modal for default settings to the topmenu so users have custom default connection settingson their computer and don't need to reenter password
 * remove bug where app would exit on every output from shiny
+* add electron-updater/autoUpdater
 * from milQuant: 
     * the connection settings (name/pw) are reusable (with milQuant-dist)
     * improved plot legends and added bar plot display options
     * fixed period order in pottery & quant B plots
     * fixed issue with dates
     * use plotly for all graphs
-    * add a workflow overview to allfinds plot
+    * add a workflow overview
     * add object table to pottery plot
 
 # milQuant 1.0.0 _2023-02-21_
