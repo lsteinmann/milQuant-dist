@@ -1,4 +1,4 @@
-# milQuant 1.0.1 _2023-03-05_
+# milQuant 1.0.1 _2023-03-08_
 * clean up main.js a lot, restructure directory
 * restructure the menu bar at the top and add links to GitHub, the Miletus Excavation Homepage, and an about-window
 * add a modal for default settings to the topmenu so users have custom default connection settingson their computer and don't need to reenter password
