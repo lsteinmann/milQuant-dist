@@ -1,3 +1,5 @@
+# milQuant 1.0.2 _tba_
+
 # milQuant 1.0.1 _2023-03-08_
 * clean up main.js a lot, restructure directory
 * restructure the menu bar at the top and add links to GitHub, the Miletus Excavation Homepage, and an about-window
