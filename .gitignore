@@ -115,6 +115,10 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 
+# Settings that should not be uploaded
+shiny/defaults/selection_settings.RDS
+shiny/defaults/settings.R
+
 # private
 /priv_testing_dir/*
 profile.R
