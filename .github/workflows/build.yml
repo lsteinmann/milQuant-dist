@@ -1,0 +1,31 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+jobs:
+  Build: 
+    name: Build (${{ matrix.os.name }})
+    strategy:
+      matrix:
+        os:
+          - { name: 'Windows', version: 'windows-latest' }
+      fail-fast: false
+    runs-on: ${{ matrix.os.version }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+    - name: Install
+      run: npm install
+    - name: Forge 
+      run: npm run make
