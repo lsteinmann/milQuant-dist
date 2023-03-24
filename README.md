@@ -17,7 +17,7 @@ Please note that in many cases, the app will simply shut down if it encounters a
 
 ## Dependencies
 
-This app uses the [idaifieldR](https://github.com/lsteinmann/idaifieldR) package at version 0.2.2. The package is currently only available on GitHub, and is used to import data from Field Desktop / iDAI.field into R. You can install it using `devtools` or `remotes`, but running milQuant should take care of that automatically.
+This app uses the [idaifieldR](https://github.com/lsteinmann/idaifieldR) package at version 0.2.3. The package is currently only available on GitHub, and is used to import data from Field Desktop / iDAI.field into R. You can install it using `devtools` or `remotes`, but running milQuant should take care of that automatically.
 
 Apart from that there is a variety of other packages used in the dashboard, all of which can be found on CRAN and are automatically installed when trying to run the app: 
 ```
