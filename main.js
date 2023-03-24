@@ -6,11 +6,6 @@ const child = require('child_process');
 
 const { readDefaultSettings, settingsFileName } = require('./imports/settings');
 
-const { autoUpdater } = require('electron-updater')
-autoUpdater.checkForUpdatesAndNotify()
-
-console.log(autoUpdater.getFeedURL())
-
 // not great to do that, maybe try to choose a random port?
 const port = "3002"
 

@@ -11,10 +11,20 @@ module.exports = {
         icon: 'images/quant-icon.ico',
         setupIcon: 'images/quant-icon-setup.ico'
       },
-    },
+    }
+  ],
+  publishers: [
     {
-      name: '@electron-forge/maker-zip'
-    },
+      name: '@electron-forge/publisher-github',
+      config: {
+        repository: {
+          owner: 'lsteinmann',
+          name: 'milQuant-dist'
+        },
+        prerelease: false,
+        draft: true
+      }
+    }
   ],
   hooks: {
     postPackage: async (forgeConfig, options) => {
