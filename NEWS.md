@@ -1,4 +1,5 @@
 # milQuant 1.0.2 _tba_
+* use [idaifieldR 0.2.4](https://github.com/lsteinmann/idaifieldR/releases/tag/v0.2.4)
 
 # milQuant 1.0.1 _2023-03-08_
 * clean up main.js a lot, restructure directory

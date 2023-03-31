@@ -5,8 +5,8 @@ home_tab <- tabItem(
   fluidRow(
     box(width = 10,
         div(img(src="milQuant-logo.png", height=100, align="center"))),
-    infoBox(width = 2, title = "Version", subtitle = "date: 20.02.2023",
-            icon = icon("code-branch"), value = "v.1.0.1", color = "black",
+    infoBox(width = 2, title = "Version", subtitle = "date: 31.03.2023",
+            icon = icon("code-branch"), value = "v.1.0.2", color = "black",
             href = "https://github.com/lsteinmann/milQuant")
   ),
   fluidRow(
