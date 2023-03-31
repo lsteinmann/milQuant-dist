@@ -1,3 +1,7 @@
+# milQuant 1.0.2 _tba_
+* use [idaifieldR 0.2.4](https://github.com/lsteinmann/idaifieldR/releases/tag/v0.2.4)
+
+
 # milQuant 1.0.1 _2023-03-05_
 * the connection settings (name/pw) are reusable (with milQuant-dist)
 * improved plot legends and added bar plot display options
