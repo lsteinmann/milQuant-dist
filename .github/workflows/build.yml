@@ -10,14 +10,8 @@ env:
 
 jobs:
   Build: 
-    name: Build (${{ matrix.os.name }})
-    strategy:
-      matrix:
-        os:
-          - { name: 'Windows', version: 'windows-latest' }
-          - { name: 'MacOS', version: 'macos-latest' }
-      fail-fast: false
-    runs-on: ${{ matrix.os.version }}
+    name: Build (Win)
+    runs-on: 'windows-latest'
 
     steps:
     - name: Checkout
