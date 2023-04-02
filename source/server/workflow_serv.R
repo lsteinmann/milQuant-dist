@@ -10,7 +10,7 @@ workflow_data <- reactive({
   )
 
   base_data <- selected_db() %>%
-    filter(type %in% find_types) %>%
+    filter(category %in% find_categories) %>%
     remove_na_cols() %>%
     select(any_of(wf_disp_cols()), contains("workflow")) %>%
     mutate_at(vars(contains("workflow")), ~ ifelse(is.na(.), FALSE, TRUE))

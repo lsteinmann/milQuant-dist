@@ -4,7 +4,7 @@ bricks <- reactive({
   )
 
   bricks <- selected_db() %>%
-    filter(type == "Brick") %>%
+    filter(category == "Brick") %>%
     remove_na_cols()
   return(bricks)
 })

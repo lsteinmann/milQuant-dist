@@ -10,14 +10,12 @@ observeEvent(input$tab_connect.connect, {
                    choices = projects, multiple = FALSE,
                    selected = selection_settings$select_project,
                    options = list(
-                     placeholder = 'Please select an option below'#,
-                     #onInitialize = I('function() { this.setValue(""); }')
-                   ))
+                     placeholder = "Please select an option below")
+                   )
   })
 })
 
 
-react_db <- reactiveVal(value = NULL)
 react_index <- reactiveVal(value = NULL)
 
 observeEvent(input$loadDatabase, {
@@ -31,24 +29,37 @@ observeEvent(input$loadDatabase, {
   showModal(busy_dialog)
 
 
-  try_project <- try(sofa::doc_get(cushion = login_connection,
-                    dbname = input$select_project,
-                    docid = "project"), silent = TRUE)
+  try_project <- tryCatch({
+    client <- idaifieldR:::proj_idf_client(login_connection(), include = "query",
+                                           project = input$select_project)
+    query <- paste0(
+      '{
+      "selector": { "resource.id": "project" },
+      "fields": [ "resource.id", "resource.identifier" ]
+       }')
+    response <- idaifieldR:::response_to_list(client$post(body = query))
+    input$select_project %in% unlist(response)
+  }, warning = function(w) {
+    conditionMessage(w)
+  }, error = function(e) {
+    conditionMessage(e)
+  })
 
-  if (class(try_project) == "list" & "resource" %in% names(try_project)) {
-    newDB <- get_complete_db(connection = login_connection,
-                             projectname = input$select_project)
-    react_db(newDB)
-    newIndex <- get_index(source = react_db())
+  if (try_project) {
+    new_login_connection <- login_connection()
+    new_login_connection$project <- input$select_project
+    login_connection(new_login_connection)
+    newIndex <- get_index(source = login_connection())
     react_index(newIndex)
-    rm(newDB, newIndex)
+    rm(newIndex)
     output$load.success_msg <- renderText(paste("Using project:",
                                                 isolate(input$select_project)))
     shinyjs::show("load.success_msg")
     output$current_project <- renderText({input$select_project})
     removeModal()
   } else {
-    output$load.error_msg <- renderText("An error has occured.")
+    output$load.error_msg <- renderText(paste("An error has occured: ",
+                                              try_project))
     shinyjs::show("load.error_msg")
   }
 })

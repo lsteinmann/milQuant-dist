@@ -4,7 +4,7 @@ potteryQA <- reactive({
   )
 
   potteryQA <- selected_db() %>%
-    filter(type == "Pottery_Quantification_A") %>%
+    filter(category == "Pottery_Quantification_A") %>%
     remove_na_cols()
   return(potteryQA)
 })

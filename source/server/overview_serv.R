@@ -19,21 +19,21 @@ output$overview <- renderPlotly({
     tmp_index <- react_index()
   }
   tmp_index <- tmp_index %>%
-    select(type, Operation)
+    select(category, Operation)
 
   # nrow <- length(unique(tmp_index$Operation))
   # nrow <- floor(nrow / 12)
 
-  plotdata <- table(tmp_index$type, tmp_index$Operation) %>%
+  plotdata <- table(tmp_index$category, tmp_index$Operation) %>%
     as.data.frame() %>%
     group_by(Var1) %>%
     mutate(freq_group = sum(Freq)) %>%
     ungroup() %>%
     mutate(Var1 = fct_reorder(Var1, -freq_group))
 
-  colnames(plotdata) <- c("type", "trench", "count")
+  colnames(plotdata) <- c("category", "trench", "count")
 
-  p <- ggplot(plotdata, aes(x = type, fill = trench, y = count)) +
+  p <- ggplot(plotdata, aes(x = category, fill = trench, y = count)) +
     geom_bar(stat = "identity") +
     scale_fill_discrete(name = "Trenches / Operations") +
                         #guide = guide_legend(byrow = TRUE, nrow = nrow)) +

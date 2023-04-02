@@ -5,7 +5,7 @@ findPlot_base_data <- reactive({
   )
 
   findPlot_base_data <- selected_db() %>%
-    filter(type %in% find_types) %>%
+    filter(category %in% find_categories) %>%
     remove_na_cols() %>%
     inner_join(react_index()[,c("identifier", "Operation", "Place")],
                by = "identifier")
@@ -40,7 +40,7 @@ output$findPlot_layer_selector <- renderUI({
 
 output$findPlot_var_selector <- renderUI({
   all_cols <- colnames(findPlot_base_data())
-  findPlot_vars <- c("type", "storagePlace", "date", "Operation", "Place")
+  findPlot_vars <- c("category", "storagePlace", "date", "Operation", "Place")
   findPlot_vars <- c(findPlot_vars, all_cols[grepl("relation", all_cols)])
   findPlot_vars <- c(findPlot_vars, all_cols[grepl("workflow", all_cols)])
   findPlot_vars <- c(findPlot_vars, all_cols[grepl("period", all_cols)])
@@ -58,7 +58,7 @@ output$findPlot_var_selector <- renderUI({
   # Produce this selectInput on server to be dynamic
   selectInput(inputId = "findPlot_PlotVar",
               label = "Choose a variable for the color:",
-              choices = findPlot_vars, selected = "type")
+              choices = findPlot_vars, selected = "category")
 
 })
 
@@ -76,8 +76,8 @@ allFindsPlot_data <- reactive({
 make_allFindsPlot <- reactive({
   plot_data <- allFindsPlot_data() %>%
     mutate(var = get(input$findPlot_PlotVar)) %>%
-    select(type, var) %>%
-    mutate(type = fct_infreq(type))
+    select(category, var) %>%
+    mutate(category = fct_infreq(category))
 
   if (is.logical(plot_data$var)) {
     plot_data <- plot_data %>%
@@ -92,10 +92,10 @@ make_allFindsPlot <- reactive({
 
   if (input$findPlot_axis == "var_is_fill") {
     p <- plot_data %>%
-      ggplot(aes(x = type,
+      ggplot(aes(x = category,
                  fill = var)) +
       labs(fill = input$findPlot_PlotVar,
-           x = "Type of Find")
+           x = "Category of Find")
     p
     if (input$findPlot_PlotVar == "period") {
       p <- p + scale_fill_period()
@@ -104,12 +104,12 @@ make_allFindsPlot <- reactive({
     if (input$findPlot_PlotVar == "date") {
       p <- plot_data %>%
         ggplot(aes(x = date,
-                   fill = type)) +
+                   fill = category)) +
         scale_x_date(name = "Date of Processing")
     } else {
       p <- plot_data %>%
         ggplot(aes(x = var,
-                   fill = type)) +
+                   fill = category)) +
         labs(fill = "Type of Find",
              x = input$findPlot_PlotVar)
     }

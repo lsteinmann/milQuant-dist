@@ -1,6 +1,6 @@
 sculpture_all <- reactive({
   milet_active() %>%
-    select_by(by = "type", value = "Sculpture") %>%
+    select_by(by = "category", value = "Sculpture") %>%
     prep_for_shiny()
 })
 
