@@ -12,6 +12,7 @@ observeEvent(input$tab_connect.connect, {
   pwd <- input$tab_connect.pwd
 
   # manually validate connection
+  message("Checking the connection you provided.")
   test_connection <- connect_idaifield(serverip = host,
                                        user = user,
                                        pwd = pwd)
@@ -31,12 +32,15 @@ observeEvent(input$tab_connect.connect, {
     output$tab_connect.welcome_text <- renderText(glue("Welcome to milQuant - Quantitative Analysis
                                                        with Data from Field, {user}!"))
     shinyjs::show("tab_connect.welcome_div") # show welcome message
+    message("Success! Can connect to Field.")
   } else if (ping == FALSE) {
+    message("Failed! Can't connect to Field and don't know why.")
     # I have no idea what happened if this happens, but
     # it can't be right
     output$tab_connect.error_msg <- renderText(paste("Unforeseen Error:", ping))
     shinyjs::show("tab_connect.error_msg")
   } else {
+    message("Failed! Can't connect to Field:")
     # display the message
     output$tab_connect.error_msg <- renderText(ping)
     shinyjs::show("tab_connect.error_msg")
@@ -47,7 +51,9 @@ observeEvent(input$tab_connect.connect, {
   validate(
     need(exists("login_connection"), "No Connection set.")
   )
+  message("Getting list of projects.")
   # Produces the List of projects in the database
   projects <<- idf_projects(login_connection())
+  message("Done.\nWaiting for you to load project.")
 })
 

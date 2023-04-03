@@ -128,3 +128,4 @@ README.html
 dist/*
 NEWS.html
 dataprep/*
+defaults/selection_settings.RDS
