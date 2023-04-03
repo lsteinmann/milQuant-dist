@@ -29,6 +29,7 @@ observeEvent(input$loadDatabase, {
   showModal(busy_dialog)
 
 
+  message("Trying to connect to the project:")
   try_project <- tryCatch({
     client <- idaifieldR:::proj_idf_client(login_connection(), include = "query",
                                            project = input$select_project)
@@ -49,8 +50,10 @@ observeEvent(input$loadDatabase, {
     new_login_connection <- login_connection()
     new_login_connection$project <- input$select_project
     login_connection(new_login_connection)
+    message("Success! Getting the Index:")
     newIndex <- get_index(source = login_connection())
     react_index(newIndex)
+    message("Done.")
     rm(newIndex)
     output$load.success_msg <- renderText(paste("Using project:",
                                                 isolate(input$select_project)))
@@ -82,9 +85,15 @@ observeEvent(input$select_project, {
 # may not update when index is refreshed
 operations <- reactive({
   tmp_operations <- react_index() %>%
+    filter(category %in% c(find_categories, quant_categories)) %>%
     pull(Place) %>%
     unique()
   tmp_operations <- tmp_operations[!is.na(tmp_operations)]
+#  ind <- tmp_operations %in% c("Bauwerkskatalog", "Inschriften",
+#                               "Milet_Stadt", "Steindepot",
+#                               "HU_Streufunde", "Kalabaktepe",
+#                               "Südstadt", "Typenkatalog")
+#  tmp_operations <- tmp_operations[!ind]
   operations <- sort(tmp_operations)
   rm(tmp_operations)
   return(operations)

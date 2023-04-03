@@ -182,16 +182,18 @@ convert_to_Plotly <<- function(ggplot_p,
 }
 
 idf_uid_query <<- function(login_connection, uids) {
-
+  message("Started the query...")
   query <- paste('{ "selector": { "_id": { "$in": [',
                  paste0('"', uids, '"', collapse = ", "),
                  '] } }}',
                  sep = "")
   proj_client <- idaifieldR:::proj_idf_client(login_connection,
                                  include = "query")
+  message("Loading...")
 
   response <- proj_client$post(body = query)
   response <- idaifieldR:::response_to_list(response)
+  message("Done.\nProcessing...")
 
   result <- lapply(response$docs,
                    function(x) list("id" = x$resource$id, "doc" = x))
@@ -204,8 +206,11 @@ idf_uid_query <<- function(login_connection, uids) {
   new_names <- unlist(new_names)
   names(result) <- new_names
 
+  message("Done.")
+
   attr(result, "connection") <- login_connection
   attr(result, "projectname") <- login_connection$project
+  message("Getting config at this point:")
   attr(result, "config") <- get_configuration(login_connection)
 
   result <- structure(result, class = "idaifield_docs")
