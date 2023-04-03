@@ -4,7 +4,7 @@ potteryQB <- reactive({
   )
 
   potteryQB <- selected_db() %>%
-    filter(type == "Pottery_Quantification_B") %>%
+    filter(category == "Pottery_Quantification_B") %>%
     remove_na_cols()
   return(potteryQB)
 })

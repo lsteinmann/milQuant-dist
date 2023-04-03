@@ -43,7 +43,7 @@ drop_for_plot_vars <<- c("identifier", "shortDescription", "notes",
                         "relation.isDepictedIn", "relation.liesWithin",
                         "relation.liesWithinLayer",
                         "relation.isSameAs",
-                        "type", "workflow",
+                        "category", "workflow",
                         "analysisMethod", "localization")
 
 
@@ -66,10 +66,10 @@ scale_fill_period <<- function(ncol = 9) {
                                          byrow = TRUE))
   }
 
-find_types <<- c("Find", "Pottery", "Lamp", "Loomweight", "Terracotta", "Brick",
+find_categories <<- c("Find", "Pottery", "Lamp", "Loomweight", "Terracotta", "Brick",
                  "Bone", "Glass", "Metal", "Stone", "Wood", "Coin",
                  "PlasterFragment", "Mollusk", "Sculpture")
-quant_types <<- c("Quantification", "Brick_Quantification",
+quant_categories <<- c("Quantification", "Brick_Quantification",
                   "Pottery_Quantification_A", "Pottery_Quantification_B",
                   "QuantMollusks", "PlasterQuantification")
 

@@ -4,7 +4,7 @@ pottery <- reactive({
   )
 
   pottery <- selected_db() %>%
-    filter(type == "Pottery") %>%
+    filter(category == "Pottery") %>%
     remove_na_cols()
   return(pottery)
 })

@@ -1,6 +1,6 @@
 allfinds_tab <- tabItem(
   tabName = "allfinds",
-  h1("Overview of all find types"),
+  h1("Overview of all find resources"),
   fluidRow(
     infoBox(title = "Info", value = textOutput("allfinds_overview"),
             icon = icon("list"),
@@ -16,7 +16,7 @@ allfinds_tab <- tabItem(
     box(
       width = 3, height = 700,
       textInput(inputId = "findPlot_title", label = "Title",
-                value = "Distribution of Find-Types"),
+                value = "Distribution of Find-Categories"),
       textInput(inputId = "findPlot_subtitle", label = "Subtitle",
                 placeholder = "Enter subtitle here"),
       htmlOutput("findPlot_layer_selector"),

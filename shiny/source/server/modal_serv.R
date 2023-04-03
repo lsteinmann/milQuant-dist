@@ -4,6 +4,7 @@ updateTextInput(session, "tab_connect.user", value = default.username)
 default.password <- source("defaults/settings.R")$value$synchpw
 updateTextInput(session, "tab_connect.pwd", value = default.password)
 
+login_connection <- reactiveVal(NA)
 
 observeEvent(input$tab_connect.connect, {
   host <- input$tab_connect.host
@@ -15,23 +16,29 @@ observeEvent(input$tab_connect.connect, {
                                        user = user,
                                        pwd = pwd)
 
-  ping <- try(sofa::ping(test_connection), silent = TRUE)
+  ping <- tryCatch({
+    idf_ping(test_connection)
+  }, warning = function(w) {
+    conditionMessage(w)
+  }, error = function(e) {
+    conditionMessage(e)
+  })
 
-  if (any(grepl("Welcome!", ping))) {
+  if (ping == TRUE) {
     # succesfully connect:
-    login_connection <<- test_connection
+    login_connection(test_connection)
     removeModal() # remove login dialog
     output$tab_connect.welcome_text <- renderText(glue("Welcome to milQuant - Quantitative Analysis
                                                        with Data from Field, {user}!"))
     shinyjs::show("tab_connect.welcome_div") # show welcome message
-  } else if (inherits(ping, "try-error")) {
-    # display the message
-    output$tab_connect.error_msg <- renderText(ping[1])
-    shinyjs::show("tab_connect.error_msg")
-  } else {
+  } else if (ping == FALSE) {
     # I have no idea what happened if this happens, but
     # it can't be right
-    output$tab_connect.error_msg <- renderText("Unforeseen Error")
+    output$tab_connect.error_msg <- renderText(paste("Unforeseen Error:", ping))
+    shinyjs::show("tab_connect.error_msg")
+  } else {
+    # display the message
+    output$tab_connect.error_msg <- renderText(ping)
     shinyjs::show("tab_connect.error_msg")
   }
 })
@@ -41,7 +48,6 @@ observeEvent(input$tab_connect.connect, {
     need(exists("login_connection"), "No Connection set.")
   )
   # Produces the List of projects in the database
-  prj_tmp <- sofa::db_list(login_connection)
-  projects <<- prj_tmp[!grepl(pattern = "replicator", x = prj_tmp)]
+  projects <<- idf_projects(login_connection())
 })
 

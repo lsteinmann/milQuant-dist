@@ -4,7 +4,7 @@ loomweights <- reactive({
   )
 
   loomweights <- selected_db() %>%
-    filter(type == "Loomweight") %>%
+    filter(category == "Loomweight") %>%
     remove_na_cols()
   return(loomweights)
 })
