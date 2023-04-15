@@ -49,7 +49,7 @@ observeEvent(input$tab_connect.connect, {
 
 observeEvent(input$tab_connect.connect, {
   validate(
-    need(exists("login_connection"), "No Connection set.")
+    need(inherits(login_connection(), "idf_connection_settings"), "No Connection set.")
   )
   message("Getting list of projects.")
   # Produces the List of projects in the database

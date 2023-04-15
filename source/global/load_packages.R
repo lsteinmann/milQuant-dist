@@ -5,7 +5,7 @@ packages <- c("shiny", "shinydashboard",
               "remotes", "idaifieldR",
               "glue")
 
-idf_version <- "0.3.1"
+idf_version <- "0.3.2"
 
 for (p in packages) {
   if (!suppressWarnings(require(p, character.only = TRUE))) {
