@@ -89,7 +89,7 @@ const template = [
                         icon: `${app.getAppPath()}/images/quant-icon-tiny.png`
                     });
                 }
-            },
+            }
         ]
     }
 ]
