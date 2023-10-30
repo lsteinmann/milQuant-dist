@@ -1,4 +1,10 @@
-# milQuant 1.0.2 _tba_
+# milQuant 1.0.3 _tba_
+* uses [idaifieldR 0.3.2](https://github.com/lsteinmann/idaifieldR/releases/tag/v0.3.2)
+* change the plot download buttons and handlers to a module: fixes non-reactive plot download
+* 
+
+
+# milQuant 1.0.2 _skipped/internal_
 * use [idaifieldR 0.3.1](https://github.com/lsteinmann/idaifieldR/releases/tag/v0.3.1)
 
 # milQuant 1.0.1 _2023-03-08_

@@ -128,10 +128,8 @@ output$allFindsPlot <- renderPlotly({
   convert_to_Plotly(make_allFindsPlot())
 })
 
+callModule(downloadPlotHandler, id = "allFindsPlot_download",
+           dlPlot = make_allFindsPlot)
 
-output$allFindsPlot_png <- milQuant_dowloadHandler(plot = make_allFindsPlot(),
-                                                ftype = "png")
-output$allFindsPlot_pdf <- milQuant_dowloadHandler(plot = make_allFindsPlot(),
-                                                ftype = "pdf")
 
 

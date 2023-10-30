@@ -14,8 +14,7 @@ bricksQ_tab <- tabItem(
       textInput(inputId = "bricksQPlot_1_subtitle", label = "Subtitle",
                 placeholder = "Enter subtitle here"),
       htmlOutput("bricksQ_layer_selector"),
-      downloadButton("bricksQPlot_1_png", label = "Download plot (png)"),
-      downloadButton("bricksQPlot_1_pdf", label = "Download plot (pdf)")
+      downloadPlotButtons("bricksQPlot_1_download")
     ),
     box(
       width = 9, height = 650,

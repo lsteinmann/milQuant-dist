@@ -27,8 +27,7 @@ bricks_tab <- tabItem(
         #             selected = "all", inline = TRUE),
         #htmlOutput("lw_weight_slider"),
         htmlOutput("bricks_period_selector"),
-        downloadButton("bricksPlot_1_png", label = "Download plot (png)"),
-        downloadButton("bricksPlot_1_pdf", label = "Download plot (pdf)")
+        downloadPlotButtons("bricksPlot_1_download")
     ),
     box(
       width = 9, height = 650,

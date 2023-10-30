@@ -25,8 +25,7 @@ potteryQA_tab <- tabItem(
                    inline = TRUE, animation = "jelly",
                    choices = list("Dodged Bars" = "dodge2",
                                   "Stacked Bars" = "stack")),
-      downloadButton("QApotPlot_1_png", label = "Download plot (png)"),
-      downloadButton("QApotPlot_1_pdf", label = "Download plot (pdf)")
+      downloadPlotButtons("QApotPlot_1_download")
     ),
     box(
       width = 9, height = 650,

@@ -91,8 +91,5 @@ output$lwPlot_1 <- renderPlotly({
   convert_to_Plotly(make_lwPlot_1())
 })
 
-
-output$lwPlot_1_png <- milQuant_dowloadHandler(plot = make_lwPlot_1(),
-                                                ftype = "png")
-output$lwPlot_1_pdf <- milQuant_dowloadHandler(plot = make_lwPlot_1(),
-                                                ftype = "pdf")
+callModule(downloadPlotHandler, id = "lwPlot_1_download",
+           dlPlot = make_lwPlot_1)
