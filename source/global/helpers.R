@@ -87,23 +87,6 @@ uid_by_operation <<- function(filter_operation = "all",
 }
 
 
-
-milQuant_dowloadHandler <<- function(plot = "plot", ftype = "png") {
-  downloadHandler(
-    filename = paste(format(Sys.Date(), "%Y%m%d"),
-                     "_milQuant_plot.", ftype, sep = ""),
-    content <- function(file) {
-      ggsave(file, plot = plot + Plot_Base_Theme + Plot_Base_Guide,
-             device = ftype,
-             width = 25, height = 15, units = "cm")
-    }
-  )
-}
-
-#data_all <- test
-
-#selectable_layers
-
 make_layer_selector <<- function(data_all, inputId,
                                 label = "Choose one or many contexts") {
   # creates the selector for layers present in data_all as a relation

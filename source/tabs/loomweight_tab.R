@@ -29,8 +29,7 @@ loomweight_tab <- tabItem(
                        selected = "intakt"),
           htmlOutput("lw_weight_slider"),
           htmlOutput("LW_period_selector"),
-          downloadButton("lwPlot_1_png", label = "Download plot (png)"),
-          downloadButton("lwPlot_1_pdf", label = "Download plot (pdf)")
+          downloadPlotButtons("lwPlot_1_download")
       ),
       box(
         width = 9, height = 750,

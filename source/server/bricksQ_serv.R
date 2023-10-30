@@ -59,10 +59,7 @@ output$bricksQPlot_1 <- renderPlotly({
   convert_to_Plotly(make_bricksQPlot_1())
 })
 
-
-output$bricksQPlot_1_png <- milQuant_dowloadHandler(plot = make_bricksQPlot_1(),
-                                                ftype = "png")
-output$bricksQPlot_1_pdf <- milQuant_dowloadHandler(plot = make_bricksQPlot_1(),
-                                                ftype = "pdf")
+callModule(downloadPlotHandler, id = "bricksQPlot_1_download",
+           dlPlot = make_bricksQPlot_1)
 
 

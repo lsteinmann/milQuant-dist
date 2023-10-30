@@ -35,8 +35,7 @@ allfinds_tab <- tabItem(
                    icon = icon("check"),
                    inline = TRUE, animation = "jelly"),
       htmlOutput("findPlot_period_selector"),
-      downloadButton("allFindsPlot_png", label = "Download plot (png)"),
-      downloadButton("allFindsPlot_pdf", label = "Download plot (pdf)")
+      downloadPlotButtons("allFindsPlot_download")
     ),
     box(
       width = 9, height = 700,

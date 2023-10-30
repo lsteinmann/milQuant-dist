@@ -102,10 +102,7 @@ output$QBpotPlot_1 <- renderPlotly({
   convert_to_Plotly(QBpotPlot_1())
 })
 
-
-output$QBpotPlot_1_png <- milQuant_dowloadHandler(plot = QBpotPlot_1(),
-                                                  ftype = "png")
-output$QBpotPlot_1_pdf <- milQuant_dowloadHandler(plot = QBpotPlot_1(),
-                                                  ftype = "pdf")
+callModule(downloadPlotHandler, id = "QBpotPlot_1_download",
+           dlPlot = make_QBpotPlot_1)
 
 

@@ -30,8 +30,7 @@ potteryQB_tab <- tabItem(
                    choices = list("Dodged Bars" = "dodge",
                                   "Stacked Bars" = "stack")),
       htmlOutput("QBpotPlot_1_period_selector"),
-      downloadButton("QBpotPlot_1_png", label = "Download plot (png)"),
-      downloadButton("QBpotPlot_1_pdf", label = "Download plot (pdf)")
+      downloadPlotButtons("QBpotPlot_1_download")
     ),
     box(
       width = 9, height = 650,

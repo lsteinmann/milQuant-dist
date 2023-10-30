@@ -26,8 +26,7 @@ pottery_tab <- tabItem(
                                                     "percentage" = "fill")),
                         htmlOutput("potPlot_1_period_selector"),
                         p("Please note: The period selector currently only works for the milet-configuration."),
-                        downloadButton("potPlot_1_png", label = "Download plot (png)"),
-                        downloadButton("potPlot_1_pdf", label = "Download plot (pdf)")
+                        downloadPlotButtons("potPlot_1_download")
                 ),
                 box(
                         width = 9, height = 650,

@@ -4,6 +4,8 @@ source("source/global/get_data.R")
 source("source/global/global_vars.R")
 source("source/global/helpers.R")
 
+# modules
+source("source/modules/downloadModule.R")
 
 # sidebar and header
 source("source/header_sidebar.R")

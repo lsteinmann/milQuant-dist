@@ -97,13 +97,8 @@ output$potPlot_1 <- renderPlotly({
   convert_to_Plotly(make_potPlot_1(), source = "potPlot_1")
 })
 
-output$potPlot_1_png <- milQuant_dowloadHandler(plot = make_potPlot_1(),
-                                                ftype = "png")
-output$potPlot_1_pdf <- milQuant_dowloadHandler(plot = make_potPlot_1(),
-                                                ftype = "pdf")
-
-#"Insula UV/8-9") %>%#
-
+callModule(downloadPlotHandler, id = "potPlot_1_download",
+           dlPlot = make_potPlot_1)
 
 
 output$potPlot_1_clickData_check <- renderUI({

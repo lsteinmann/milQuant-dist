@@ -96,10 +96,6 @@ output$QApotPlot_1 <- renderPlotly({
   convert_to_Plotly(QApotPlot_1())
 })
 
-
-output$QApotPlot_1_png <- milQuant_dowloadHandler(plot = QApotPlot_1(),
-                                                ftype = "png")
-output$QApotPlot_1_pdf <- milQuant_dowloadHandler(plot = QApotPlot_1(),
-                                                ftype = "pdf")
-
+callModule(downloadPlotHandler, id = "QApotPlot_1_download",
+           dlPlot = make_QApotPlot_1)
 
