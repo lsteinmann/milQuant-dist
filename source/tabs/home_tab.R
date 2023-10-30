@@ -5,8 +5,8 @@ home_tab <- tabItem(
   fluidRow(
     box(width = 10,
         div(img(src="milQuant-logo.png", height=100, align="center"))),
-    infoBox(width = 2, title = "Version", subtitle = "date: 31.03.2023",
-            icon = icon("code-branch"), value = "v.1.0.2", color = "black",
+    infoBox(width = 2, title = "Version", subtitle = "date: 30.10.2023",
+            icon = icon("code-branch"), value = "v.1.0.3", color = "black",
             href = "https://github.com/lsteinmann/milQuant")
   ),
   fluidRow(
@@ -24,11 +24,9 @@ home_tab <- tabItem(
             actionButton(inputId = "loadDatabase",
                          label = "Load Database"))),
     box(p("With this App, you can view and download various plots of data from
-      an iDAI.field/Field Desktop-Database. In order for the App to work,
-      you need to have iDAI.field 2 or Field Desktop running on your computer.
-      Choose a project from your Field Client from the selection to the left."),
-        p("The app is meant to be used with the milet-configuration and most
-            plots will only work with this configuration.")),
+      the Milesian Field Desktop-Database. Field Desktop has to be running on
+      your computer or in a local network. Choose a project
+      from your Field Desktop Client from the selection to the left.")),
     box(title = "Please note", status = "warning",
         p("Large projects may take a while to load. Be prepared to wait
             after clicking 'Load Database'."))
