@@ -1,5 +1,5 @@
 
-loomweight_tab <- tabItem(
+loomweights_tab <- tabItem(
   tabName = "loomweights",
     h1("Charts from Form: Loomweight"),
     fluidRow(
