@@ -2,7 +2,7 @@ allfinds_tab <- tabItem(
   tabName = "allfinds",
   h1("Overview of all find resources"),
   fluidRow(
-    infoBox(title = "Info", value = textOutput("allfinds_overview"),
+    infoBox(title = "Info", value = textOutput("allFinds_overview"),
             icon = icon("list"),
             color = "olive", width = 10),
     valueBox(
@@ -15,26 +15,26 @@ allfinds_tab <- tabItem(
   fluidRow(
     box(
       width = 3, height = 700,
-      textInput(inputId = "findPlot_title", label = "Title",
+      textInput(inputId = "allFinds_title", label = "Title",
                 value = "Distribution of Find-Categories"),
-      textInput(inputId = "findPlot_subtitle", label = "Subtitle",
+      textInput(inputId = "allFinds_subtitle", label = "Subtitle",
                 placeholder = "Enter subtitle here"),
       uiLayerSelector("allFinds_layers"),
-      htmlOutput("findPlot_var_selector"),
-      prettyRadioButtons(inputId = "findPlot_axis",
+      htmlOutput("allFinds_var_selector"),
+      prettyRadioButtons(inputId = "allFinds_axis",
                    label = "Choose how to display the selected variable",
                    choices = list("as Colour" = "var_is_fill",
                                   "on X-Axis" = "var_is_x"),
                    icon = icon("check"),
                    inline = TRUE, animation = "jelly"),
-      prettyRadioButtons(inputId = "findPlot_bars",
+      prettyRadioButtons(inputId = "allFinds_bars",
                    label = "Choose how to display the bars",
                    choices = list("stacked" = "stack",
                                   "dodging" = "dodge",
                                   "percentage" = "fill"),
                    icon = icon("check"),
                    inline = TRUE, animation = "jelly"),
-      htmlOutput("findPlot_period_selector"),
+      htmlOutput("allFinds_period_selector"),
       downloadPlotButtons("allFindsPlot_download")
     ),
     box(

@@ -1,27 +1,27 @@
-findPlot_base_data <- reactive({
+allFinds_base_data <- reactive({
 
   validate(
     need(is.data.frame(selected_db()), "No Trenches and/or Places selected.")
   )
 
-  findPlot_base_data <- selected_db() %>%
+  allFinds_base_data <- selected_db() %>%
     filter(category %in% find_categories) %>%
     remove_na_cols() %>%
     inner_join(react_index()[,c("identifier", "Operation", "Place")],
                by = "identifier")
-  return(findPlot_base_data)
+  return(allFinds_base_data)
 })
 
 output$allfinds_n <- renderText({
   validate(
-    need(findPlot_base_data(), "No project selected.")
+    need(allFinds_base_data(), "No project selected.")
   )
-  prettyNum(nrow(findPlot_base_data()), big.mark = ",")
+  prettyNum(nrow(allFinds_base_data()), big.mark = ",")
 })
 
-output$allfinds_overview <- renderText({
-  n_objects <- nrow(findPlot_base_data())
-  n_layers <- length(unique(findPlot_base_data()$relation.liesWithinLayer))
+output$allFinds_overview <- renderText({
+  n_objects <- nrow(allFinds_base_data())
+  n_layers <- length(unique(allFinds_base_data()$relation.liesWithinLayer))
   paste("The selected trenches ", paste(input$select_trench, collapse = ", "),
         " (from ", paste(input$select_operation, collapse = ", "),
         ") contain a total of ", n_objects,
@@ -29,53 +29,53 @@ output$allfinds_overview <- renderText({
         sep = "")
 })
 
-output$findPlot_period_selector <- renderUI({
-  make_period_selector(inputId = "findPlot_period_selector")
+output$allFinds_period_selector <- renderUI({
+  make_period_selector(inputId = "allFinds_period_selector")
 })
 
 callModule(generateLayerSelector,
            id = "allFinds_layers",
-           plot = "allFinds",
-           data = findPlot_base_data)
+           plot_name = "allFinds",
+           data = allFinds_base_data)
 
-output$findPlot_var_selector <- renderUI({
-  all_cols <- colnames(findPlot_base_data())
-  findPlot_vars <- c("category", "storagePlace", "date", "Operation", "Place")
-  findPlot_vars <- c(findPlot_vars, all_cols[grepl("relation", all_cols)])
-  findPlot_vars <- c(findPlot_vars, all_cols[grepl("workflow", all_cols)])
-  findPlot_vars <- c(findPlot_vars, all_cols[grepl("period", all_cols)])
-  findPlot_vars <- c(findPlot_vars, all_cols[grepl("campaign", all_cols)])
+output$allFinds_var_selector <- renderUI({
+  all_cols <- colnames(allFinds_base_data())
+  allFinds_vars <- c("category", "storagePlace", "date", "Operation", "Place")
+  allFinds_vars <- c(allFinds_vars, all_cols[grepl("relation", all_cols)])
+  allFinds_vars <- c(allFinds_vars, all_cols[grepl("workflow", all_cols)])
+  allFinds_vars <- c(allFinds_vars, all_cols[grepl("period", all_cols)])
+  allFinds_vars <- c(allFinds_vars, all_cols[grepl("campaign", all_cols)])
 
   to_remove <- c("isDepictedIn", "isInstanceOf", "isSameAs",
-                 findPlot_vars[!findPlot_vars %in% all_cols])
+                 allFinds_vars[!allFinds_vars %in% all_cols])
 
 
-  findPlot_vars <- findPlot_vars[!grepl(paste(to_remove,collapse = "|"),
-                                        findPlot_vars)]
+  allFinds_vars <- allFinds_vars[!grepl(paste(to_remove,collapse = "|"),
+                                        allFinds_vars)]
 
   rm(all_cols, to_remove)
 
   # Produce this selectInput on server to be dynamic
-  selectInput(inputId = "findPlot_PlotVar",
+  selectInput(inputId = "allFinds_PlotVar",
               label = "Choose a variable for the color:",
-              choices = findPlot_vars, selected = "category")
+              choices = allFinds_vars, selected = "category")
 
 })
 
 allFindsPlot_data <- reactive({
   validate(
-    need(is.character(input$findPlot_PlotVar), "No variable selected.")
+    need(is.character(input$allFinds_PlotVar), "No variable selected.")
   )
-  allFindsPlot_data <- findPlot_base_data() %>%
+  allFindsPlot_data <- allFinds_base_data() %>%
     filter(relation.liesWithinLayer %in% input$allFinds_layer_selector) %>%
-    period_filter(is_milet = is_milet, selector = input$findPlot_period_selector)
+    period_filter(is_milet = is_milet, selector = input$allFinds_period_selector)
 
   return(allFindsPlot_data)
 })
 
 make_allFindsPlot <- reactive({
   plot_data <- allFindsPlot_data() %>%
-    mutate(var = get(input$findPlot_PlotVar)) %>%
+    mutate(var = get(input$allFinds_PlotVar)) %>%
     select(category, var) %>%
     mutate(category = fct_infreq(category))
 
@@ -90,18 +90,18 @@ make_allFindsPlot <- reactive({
   }
 
 
-  if (input$findPlot_axis == "var_is_fill") {
+  if (input$allFinds_axis == "var_is_fill") {
     p <- plot_data %>%
       ggplot(aes(x = category,
                  fill = var)) +
-      labs(fill = input$findPlot_PlotVar,
+      labs(fill = input$allFinds_PlotVar,
            x = "Category of Find")
     p
-    if (input$findPlot_PlotVar == "period") {
+    if (input$allFinds_PlotVar == "period") {
       p <- p + scale_fill_period()
     }
-  } else if (input$findPlot_axis == "var_is_x") {
-    if (input$findPlot_PlotVar == "date") {
+  } else if (input$allFinds_axis == "var_is_x") {
+    if (input$allFinds_PlotVar == "date") {
       p <- plot_data %>%
         ggplot(aes(x = date,
                    fill = category)) +
@@ -111,14 +111,14 @@ make_allFindsPlot <- reactive({
         ggplot(aes(x = var,
                    fill = category)) +
         labs(fill = "Type of Find",
-             x = input$findPlot_PlotVar)
+             x = input$allFinds_PlotVar)
     }
   }
 
 
-  p <- p + geom_bar(position = input$findPlot_bars) +
-    labs(title = input$findPlot_title,
-         subtitle = input$findPlot_subtitle,
+  p <- p + geom_bar(position = input$allFinds_bars) +
+    labs(title = input$allFinds_title,
+         subtitle = input$allFinds_subtitle,
          caption = paste("Total number of objects: ",
                          nrow(plot_data), sep = ""))
   p
