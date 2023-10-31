@@ -33,10 +33,10 @@ output$findPlot_period_selector <- renderUI({
   make_period_selector(inputId = "findPlot_period_selector")
 })
 
-output$findPlot_layer_selector <- renderUI({
-  make_layer_selector(findPlot_base_data(),
-                      inputId = "findPlot_layer_selector")
-})
+callModule(generateLayerSelector,
+           id = "allFinds_layers",
+           plot = "allFinds",
+           data = findPlot_base_data)
 
 output$findPlot_var_selector <- renderUI({
   all_cols <- colnames(findPlot_base_data())
@@ -67,7 +67,7 @@ allFindsPlot_data <- reactive({
     need(is.character(input$findPlot_PlotVar), "No variable selected.")
   )
   allFindsPlot_data <- findPlot_base_data() %>%
-    filter(relation.liesWithinLayer %in% input$findPlot_layer_selector) %>%
+    filter(relation.liesWithinLayer %in% input$allFinds_layer_selector) %>%
     period_filter(is_milet = is_milet, selector = input$findPlot_period_selector)
 
   return(allFindsPlot_data)

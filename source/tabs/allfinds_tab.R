@@ -19,7 +19,7 @@ allfinds_tab <- tabItem(
                 value = "Distribution of Find-Categories"),
       textInput(inputId = "findPlot_subtitle", label = "Subtitle",
                 placeholder = "Enter subtitle here"),
-      htmlOutput("findPlot_layer_selector"),
+      uiLayerSelector("allFinds_layers"),
       htmlOutput("findPlot_var_selector"),
       prettyRadioButtons(inputId = "findPlot_axis",
                    label = "Choose how to display the selected variable",

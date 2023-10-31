@@ -6,6 +6,7 @@ source("source/global/helpers.R")
 
 # modules
 source("source/modules/downloadModule.R")
+source("source/modules/layerSelection.R")
 
 # sidebar and header
 source("source/header_sidebar.R")
