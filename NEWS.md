@@ -1,7 +1,11 @@
-# milQuant 1.0.3 _tba_
+# milQuant 1.0.4 _tba_
+* correction of typos and minor text and layout changes
+* switch from 'brickForm' to 'brickType' in the brick plot since it is more reasonable after changes in the project configuration
+
+
+# milQuant 1.0.3 _2023-10-30_
 * uses [idaifieldR 0.3.2](https://github.com/lsteinmann/idaifieldR/releases/tag/v0.3.2)
 * change the plot download buttons and handlers to a module: fixes non-reactive plot download
-
 
 # milQuant 1.0.2 _skipped/internal_
 * use [idaifieldR 0.3.1](https://github.com/lsteinmann/idaifieldR/releases/tag/v0.3.1)
