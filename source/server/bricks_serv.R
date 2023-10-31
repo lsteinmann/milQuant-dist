@@ -29,17 +29,8 @@ output$bricksPlot_1_period_selector <- renderUI({
   make_period_selector(inputId = "bricks_period_selector")
 })
 
-#plot_vars <- list("Operation" = "relation.isRecordedIn",
-#                  "Form of Brick" = "brickForm",
-#                  #"Type of Roof" = "roofType",
-#                  "brickType", "brickUsage", "condition",
-#               "conditionAmount", "date", "decorationTechnique",
-#               "fabricColorBreakMunsell", "fabricHardness",
-#               "manufacturingMethod", "provenance", "specificType")
-
 
 make_bricksPlot_1 <- reactive({
-  #fill_name <- names(fill_vars[which(fill_vars == input$lwPlot_1_fillvar)])
 
   plot_data <- bricks() %>%
     # filter by periods from the slider if config is milet
@@ -47,8 +38,8 @@ make_bricksPlot_1 <- reactive({
     filter(relation.liesWithinLayer %in% input$selected_bricks_layers)
 
   p <- plot_data  %>%
-    ggplot(aes(x = brickForm)) +#, fill = get(input$bricksPlot_1_fillvar))) +
-    geom_bar() +#name = fill_name) +
+    ggplot(aes(x = brickType)) +
+    geom_bar() +
     scale_y_continuous(name = "number of bricks") +
     scale_x_discrete(name = "type of brick") +
     labs(title = input$bricksPlot_1_title,
