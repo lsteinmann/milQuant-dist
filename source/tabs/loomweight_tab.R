@@ -18,8 +18,8 @@ loomweight_tab <- tabItem(
                       min = 1,
                       max = 100,
                       value = 30),
-          htmlOutput("lwplot_1_fill_selector"),
-          prettyRadioButtons("lw_condition_filter",
+          htmlOutput("lwPlot_1_fill_selector"),
+          prettyRadioButtons("lwPlot_1_condition_filter",
                        label = "Filter for condition:",
                        icon = icon("check"),
                        inline = TRUE, animation = "jelly",
@@ -27,8 +27,8 @@ loomweight_tab <- tabItem(
                                       "75% to complete" = "75-100",
                                       "display all objects" = "all"),
                        selected = "intakt"),
-          htmlOutput("lw_weight_slider"),
-          htmlOutput("LW_period_selector"),
+          htmlOutput("lwPlot_1_weight_slider"),
+          htmlOutput("lwPlot_1_period_selector"),
           downloadPlotButtons("lwPlot_1_download")
       ),
       box(

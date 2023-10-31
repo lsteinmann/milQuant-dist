@@ -31,23 +31,23 @@ output$potPlot_1_period_selector <- renderUI({
 })
 
 
-pottery_vars <- reactive({
-  pottery_vars <- colnames(pottery())
-  pottery_vars <- pottery_vars[!pottery_vars %in% drop_for_plot_vars]
-  pottery_vars <- pottery_vars[!grepl("dimension", pottery_vars)]
-  pottery_vars <- pottery_vars[!grepl("amount.*", pottery_vars)]
+potPlot_1_vars <- reactive({
+  potPlot_1_vars <- colnames(pottery())
+  potPlot_1_vars <- potPlot_1_vars[!potPlot_1_vars %in% drop_for_plot_vars]
+  potPlot_1_vars <- potPlot_1_vars[!grepl("dimension", potPlot_1_vars)]
+  potPlot_1_vars <- potPlot_1_vars[!grepl("amount.*", potPlot_1_vars)]
 })
 
 output$potPlot_1_x_selector <- renderUI({
   # Produce this selectInput on server to be dynamic
   selectInput(inputId = "potPlot_1_xvar", label = "Choose a variable for the x-axis:",
-              choices = pottery_vars())
+              choices = potPlot_1_vars())
 })
 
 output$potPlot_1_fill_selector <- renderUI({
   # Produce this selectInput on server to be dynamic
   selectInput(inputId = "potPlot_1_fillvar", label = "Choose a variable for the color:",
-              choices = pottery_vars())
+              choices = potPlot_1_vars())
 })
 
 potPlot_1_data <- reactive({

@@ -24,8 +24,8 @@ callModule(generateLayerSelector,
            module_id = "lw_layers",
            data = loomweights)
 
-output$LW_period_selector <- renderUI({
-  make_period_selector(inputId = "LW_period_selector")
+output$lwPlot_1_period_selector <- renderUI({
+  make_period_selector(inputId = "lwPlot_1_period_selector")
 })
 
 fill_vars <- list("Operation" = "relation.isRecordedIn",
@@ -36,7 +36,7 @@ fill_vars <- list("Operation" = "relation.isRecordedIn",
                   "Category" = "loomweightCategory",
                   "Decoration" = "loomweightDetail")
 
-output$lwplot_1_fill_selector <- renderUI({
+output$lwPlot_1_fill_selector <- renderUI({
 
   #colnames(loomweights())
   # Produce this selectInput on server to be dynamic
@@ -45,7 +45,7 @@ output$lwplot_1_fill_selector <- renderUI({
 
 })
 
-output$lw_weight_slider <- renderUI({
+output$lwPlot_1_weight_slider <- renderUI({
 
   max_weight <- pretty(max(na.omit(loomweights()$weightTotal)), n = 1)[1]+100
   # Slider Input to choose max and min weight
@@ -58,12 +58,12 @@ output$lw_weight_slider <- renderUI({
 make_lwPlot_1 <- reactive({
   fill_name <- names(fill_vars[which(fill_vars == input$lwPlot_1_fillvar)])
 
-  if (input$lw_condition_filter == "all") {
+  if (input$lwPlot_1_condition_filter == "all") {
     condition_filter <- unique(loomweights()$conditionAmount)
-  } else if (input$lw_condition_filter == "75-100") {
+  } else if (input$lwPlot_1_condition_filter == "75-100") {
     condition_filter <- c("intakt", "Fragmentarisch_75-100")
   } else {
-    condition_filter <- input$lw_condition_filter
+    condition_filter <- input$lwPlot_1_condition_filter
   }
 
   plot_data <- loomweights() %>%

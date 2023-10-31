@@ -9,7 +9,7 @@ potteryQB <- reactive({
   return(potteryQB)
 })
 
-output$potQB_overview <- renderText({
+output$potteryQB_overview <- renderText({
   n_objects <- nrow(potteryQB())
   n_layers <- length(unique(potteryQB()$relation.liesWithinLayer))
   paste("The selected place (", paste(input$select_operation, collapse = ", "),
@@ -19,17 +19,17 @@ output$potQB_overview <- renderText({
         sep = "")
 })
 
-module_id <- "QB_layers"
+module_id <- "potteryQB_layers"
 callModule(generateLayerSelector,
            id = module_id,
            module_id = module_id,
            data = potteryQB)
 
-output$QBpotPlot_1_period_selector <- renderUI({
-  make_period_selector(inputId = "QBpotPlot_1_period_selector")
+output$potteryQBPlot_1_period_selector <- renderUI({
+  make_period_selector(inputId = "potteryQBPlot_1_period_selector")
 })
 
-QBpotPlot_1_data <- reactive({
+potteryQBPlot_1_data <- reactive({
   validate(
     need(is.data.frame(potteryQB()), "Data not available.")
   )
@@ -47,9 +47,9 @@ QBpotPlot_1_data <- reactive({
 
 
   plot_data <- plot_data %>%
-    filter(relation.liesWithinLayer %in% input$selected_QB_layers) %>%
+    filter(relation.liesWithinLayer %in% input$selected_potteryQB_layers) %>%
     period_filter(is_milet = is_milet,
-                  selector = input$QBpotPlot_1_period_selector) %>%
+                  selector = input$potteryQBPlot_1_period_selector) %>%
     melt(id = c("identifier", "relation.liesWithinLayer", "period", "period.start", "period.end")) %>%
     mutate(value = ifelse(is.na(value), 0, value)) %>%
     mutate(value = as.numeric(value)) %>%
@@ -60,50 +60,50 @@ QBpotPlot_1_data <- reactive({
   return(plot_data)
 })
 
-QBpotPlot_1 <- reactive({
+potteryQBPlot_1 <- reactive({
   validate(
-    need(is.data.frame(QBpotPlot_1_data()), "Data not available.")
+    need(is.data.frame(potteryQBPlot_1_data()), "Data not available.")
   )
 
-  if (input$QBpotPlot_1_title == "") {
+  if (input$potteryQBPlot_1_title == "") {
     plot_title <- paste("Vessel Forms from Context: ",
-                        paste(input$selected_QB_layers, collapse = ", "),
+                        paste(input$selected_potteryQB_layers, collapse = ", "),
                         sep = "")
   } else {
-    plot_title <- input$QBpotPlot_1_title
+    plot_title <- input$potteryQBPlot_1_title
   }
 
 
-  if (input$QBpotPlot_2_display == "function") {
-    p <- ggplot(QBpotPlot_1_data(), aes(x = variable,
+  if (input$potteryQBPlot_1_display_xaxis == "function") {
+    p <- ggplot(potteryQBPlot_1_data(), aes(x = variable,
                                fill = period)) +
       labs(x = "Vessel Forms", y = "count") +
       scale_fill_period(ncol = 9)
-  } else if (input$QBpotPlot_2_display == "period") {
-    p <- ggplot(QBpotPlot_1_data(), aes(x = period,
+  } else if (input$potteryQBPlot_1_display_xaxis == "period") {
+    p <- ggplot(potteryQBPlot_1_data(), aes(x = period,
                                fill = variable)) +
       scale_fill_discrete(name = "Function", guide = "legend") +
       labs(x = "Period", y = "count")
   }
 
 
-  if (input$QBpotPlot_1_display == "wrap") {
+  if (input$potteryQBPlot_1_display_context == "wrap") {
     p <- p + facet_wrap(~ relation.liesWithinLayer, ncol = 2)
   }
 
   p <- p +
     labs(title = plot_title,
-         subtitle = input$QBpotPlot_1_subtitle,
-         caption = paste("Total Number of Fragments:", nrow(QBpotPlot_1_data()))) +
-    geom_bar(position = input$QBpotPlot_1_bars)
+         subtitle = input$potteryQBPlot_1_subtitle,
+         caption = paste("Total Number of Fragments:", nrow(potteryQBPlot_1_data()))) +
+    geom_bar(position = input$potteryQBPlot_1_bars)
   p
 })
 
-output$QBpotPlot_1 <- renderPlotly({
-  convert_to_Plotly(QBpotPlot_1())
+output$potteryQBPlot_1 <- renderPlotly({
+  convert_to_Plotly(potteryQBPlot_1())
 })
 
-callModule(downloadPlotHandler, id = "QBpotPlot_1_download",
-           dlPlot = make_QBpotPlot_1)
+callModule(downloadPlotHandler, id = "potteryQBPlot_1_download",
+           dlPlot = make_potteryQBPlot_1)
 
 

@@ -26,7 +26,7 @@ bricks_tab <- tabItem(
         #                            "display all objects" = "all"),
         #             selected = "all", inline = TRUE),
         #htmlOutput("lw_weight_slider"),
-        htmlOutput("bricks_period_selector"),
+        htmlOutput("bricksPlot_1_period_selector"),
         downloadPlotButtons("bricksPlot_1_download")
     ),
     box(
