@@ -29,7 +29,7 @@ pottery_tab <- tabItem(
                         downloadPlotButtons("potPlot_1_download")
                 ),
                 box(
-                        width = 9, height = 650,
+                        width = 9, height = 700,
                         plotlyOutput("potPlot_1", height = 620) %>% mq_spinner()
                 )
         ),
