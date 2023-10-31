@@ -68,7 +68,7 @@ make_lwPlot_1 <- reactive({
 
   plot_data <- loomweights() %>%
     # filter by periods from the slider if config is milet
-    period_filter(is_milet = is_milet, selector = input$LW_period_selector) %>%
+    period_filter(is_milet = is_milet, selector = input$lwPlot_1_period_selector) %>%
     filter(relation.liesWithinLayer %in% input$selected_lw_layers) %>%
     filter(conditionAmount %in% condition_filter) %>%
     mutate(fill = get(input$lwPlot_1_fillvar)) %>%
