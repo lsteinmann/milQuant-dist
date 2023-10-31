@@ -59,7 +59,7 @@ output$allFinds_var_selector <- renderUI({
 
   # Produce this selectInput on server to be dynamic
   selectInput(inputId = "allFinds_PlotVar",
-              label = "Choose a variable for the color:",
+              label = "Choose a second variable:",
               choices = allFinds_vars, selected = "category")
 
 })
