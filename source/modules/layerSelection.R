@@ -6,7 +6,7 @@ uiLayerSelector <- function(id) {
 }
 
 generateLayerSelector <- function(input, output, session,
-                                  data, plot_name) {
+                                  module_id, data) {
   # creates the selector for layers present in 'data' as a relation
   label <- "Choose one or many contexts"
 
@@ -19,7 +19,7 @@ generateLayerSelector <- function(input, output, session,
   })
 
 
-  input_id <- paste0(plot_name, "_layer_selector")
+  input_id <- paste0("selected_", module_id)
 
   # produce the selectInput object that will be displayed
   output$ui_layer_selector <- renderUI({

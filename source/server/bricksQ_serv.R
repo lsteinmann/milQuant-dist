@@ -19,11 +19,11 @@ output$bricksQ_overview <- renderText({
         sep = "")
 })
 
-output$bricksQ_layer_selector <- renderUI({
-  make_layer_selector(bricksQ(),
-                      inputId = "bricksQ_layer_selector")
-})
-
+module_id <- "bricksQ_layers"
+callModule(generateLayerSelector,
+           id = module_id,
+           module_id = module_id,
+           data = bricksQ)
 
 make_bricksQPlot_1 <- reactive({
   existing_cols <- colnames(bricksQ())
@@ -36,7 +36,7 @@ make_bricksQPlot_1 <- reactive({
   keep <- c(keep, "relation.liesWithinLayer")
 
   plot_data <- bricksQ() %>%
-    filter(relation.liesWithinLayer %in% input$bricksQ_layer_selector) %>%
+    filter(relation.liesWithinLayer %in% input$selected_bricksQ_layers) %>%
     select(all_of(keep)) %>%
     melt(id = "relation.liesWithinLayer") %>%
     mutate(value = ifelse(is.na(value), 0, value)) %>%

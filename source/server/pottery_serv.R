@@ -20,20 +20,15 @@ output$pottery_overview <- renderText({
         sep = "")
 })
 
-
-output$POT_layer_selector <- renderUI({
-  make_layer_selector(pottery(),
-                      inputId = "POT_layer_selector")
-})
+module_id <- "pottery_layers"
+callModule(generateLayerSelector,
+           id = module_id,
+           module_id = module_id,
+           data = pottery)
 
 output$potPlot_1_period_selector <- renderUI({
   make_period_selector(inputId = "potPlot_1_period_selector")
 })
-
-#pottery_data <- reactive({
-#  select_layers(input_layer_selector = input$POT_layer_selector,
-#                data_all = pottery())
-#})
 
 
 pottery_vars <- reactive({
@@ -62,7 +57,7 @@ potPlot_1_data <- reactive({
 
   plot_data <- pottery() %>%
     # filter the layers selected in the layer selector
-    filter(relation.liesWithinLayer %in% input$POT_layer_selector) %>%
+    filter(relation.liesWithinLayer %in% input$selected_pottery_layers) %>%
     # filter by periods from the slider if config is milet
     period_filter(is_milet = is_milet,
                   selector = input$potPlot_1_period_selector) %>%

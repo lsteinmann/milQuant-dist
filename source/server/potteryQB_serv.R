@@ -19,10 +19,11 @@ output$potQB_overview <- renderText({
         sep = "")
 })
 
-output$QB_layer_selector <- renderUI({
-  make_layer_selector(potteryQB(),
-                      inputId = "QB_layer_selector")
-})
+module_id <- "QB_layers"
+callModule(generateLayerSelector,
+           id = module_id,
+           module_id = module_id,
+           data = potteryQB)
 
 output$QBpotPlot_1_period_selector <- renderUI({
   make_period_selector(inputId = "QBpotPlot_1_period_selector")
@@ -46,7 +47,7 @@ QBpotPlot_1_data <- reactive({
 
 
   plot_data <- plot_data %>%
-    filter(relation.liesWithinLayer %in% input$QB_layer_selector) %>%
+    filter(relation.liesWithinLayer %in% input$selected_QB_layers) %>%
     period_filter(is_milet = is_milet,
                   selector = input$QBpotPlot_1_period_selector) %>%
     melt(id = c("identifier", "relation.liesWithinLayer", "period", "period.start", "period.end")) %>%
@@ -66,7 +67,7 @@ QBpotPlot_1 <- reactive({
 
   if (input$QBpotPlot_1_title == "") {
     plot_title <- paste("Vessel Forms from Context: ",
-                        paste(input$QB_layer_selector, collapse = ", "),
+                        paste(input$selected_QB_layers, collapse = ", "),
                         sep = "")
   } else {
     plot_title <- input$QBpotPlot_1_title

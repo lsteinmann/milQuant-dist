@@ -18,10 +18,11 @@ output$potQA_overview <- renderText({
         sep = "")
 })
 
-output$QA_layer_selector <- renderUI({
-  make_layer_selector(potteryQA(),
-                      inputId = "QA_layer_selector")
-})
+module_id <- "QA_layers"
+callModule(generateLayerSelector,
+           id = module_id,
+           module_id = module_id,
+           data = potteryQA)
 
 QApotPlot_data <- reactive({
   validate(
@@ -37,7 +38,7 @@ QApotPlot_data <- reactive({
   keep <- c(keep, "relation.liesWithinLayer")
 
   plot_data <- potteryQA() %>%
-    filter(relation.liesWithinLayer %in% input$QA_layer_selector) %>%
+    filter(relation.liesWithinLayer %in% input$selected_QA_layers) %>%
     select(all_of(keep)) %>%
     melt(id = "relation.liesWithinLayer") %>%
     mutate(value = ifelse(is.na(value), 0, value)) %>%
@@ -76,7 +77,7 @@ QApotPlot_1 <- reactive({
 
   if (input$QApotPlot_1_title == "") {
     plot_title <- paste("Vessel Forms from Context: ",
-                        paste(input$QA_layer_selector, collapse = ", "),
+                        paste(input$selected_QA_layers, collapse = ", "),
                         sep = "")
   } else {
     plot_title <- input$QApotPlot_1_title

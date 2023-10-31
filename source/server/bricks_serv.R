@@ -19,10 +19,11 @@ output$bricks_overview <- renderText({
         sep = "")
 })
 
-output$bricks_layer_selector <- renderUI({
-  make_layer_selector(bricks(),
-                      inputId = "bricks_layer_selector")
-})
+module_id <- "bricks_layers"
+callModule(generateLayerSelector,
+           id = module_id,
+           module_id = module_id,
+           data = bricks)
 
 output$bricks_period_selector <- renderUI({
   make_period_selector(inputId = "bricks_period_selector")
@@ -43,7 +44,7 @@ make_bricksPlot_1 <- reactive({
   plot_data <- bricks() %>%
     # filter by periods from the slider if config is milet
     period_filter(is_milet = is_milet, selector = input$bricks_period_selector) %>%
-    filter(relation.liesWithinLayer %in% input$bricks_layer_selector)
+    filter(relation.liesWithinLayer %in% input$selected_bricks_layers)
 
   p <- plot_data  %>%
     ggplot(aes(x = brickForm)) +#, fill = get(input$bricksPlot_1_fillvar))) +

@@ -87,27 +87,6 @@ uid_by_operation <<- function(filter_operation = "all",
 }
 
 
-make_layer_selector <<- function(data_all, inputId,
-                                label = "Choose one or many contexts") {
-  # creates the selector for layers present in data_all as a relation
-
-  # first get the unique values that will be displayed in the selectInput
-
-  selectable_layers <- data_all$relation.liesWithinLayer %>%
-    unique() %>%
-    as.character() %>%
-    sort()
-  # produce the selectInput object that will be displayed
-  pickerInput(inputId = inputId,
-              label = label,
-              choices = selectable_layers,
-              multiple = TRUE,
-              selected = selectable_layers,
-              options = list("actions-box" = TRUE,
-                             "live-search" = TRUE,
-                             "live-search-normalize" = TRUE,
-                             "live-search-placeholder" = "Search here..."))
-}
 
 make_period_selector <<- function(inputId,
                                  label = "Select objects by periods") {

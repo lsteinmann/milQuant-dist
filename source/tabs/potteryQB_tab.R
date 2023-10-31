@@ -13,7 +13,7 @@ potteryQB_tab <- tabItem(
                 value = "", placeholder = "Enter title here"),
       textInput(inputId = "QBpotPlot_1_subtitle", label = "Subtitle",
                 placeholder = "Enter subtitle here"),
-      htmlOutput("QB_layer_selector"),
+      uiLayerSelector("QB_layers"),
       prettyRadioButtons(inputId = "QBpotPlot_1_display",
                          label = "Display Options", icon = icon("check"),
                          inline = FALSE, animation = "jelly",

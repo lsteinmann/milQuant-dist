@@ -13,7 +13,7 @@ bricks_tab <- tabItem(
                   placeholder = "Enter title here"),
         textInput(inputId = "bricksPlot_1_subtitle", label = "Subtitle",
                   placeholder = "Enter subtitle here"),
-        htmlOutput("bricks_layer_selector"),
+        uiLayerSelector("bricks_layers"),
         #sliderInput(inputId = "bins", label = "Number of bins:",
         #            min = 1,
         #            max = 100,

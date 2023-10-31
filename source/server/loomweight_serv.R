@@ -19,10 +19,10 @@ output$loomweight_overview <- renderText({
         sep = "")
 })
 
-output$LW_layer_selector <- renderUI({
-  make_layer_selector(loomweights(),
-                      inputId = "LW_layer_selector")
-})
+callModule(generateLayerSelector,
+           id = "lw_layers",
+           module_id = "lw_layers",
+           data = loomweights)
 
 output$LW_period_selector <- renderUI({
   make_period_selector(inputId = "LW_period_selector")
@@ -69,7 +69,7 @@ make_lwPlot_1 <- reactive({
   plot_data <- loomweights() %>%
     # filter by periods from the slider if config is milet
     period_filter(is_milet = is_milet, selector = input$LW_period_selector) %>%
-    filter(relation.liesWithinLayer %in% input$LW_layer_selector) %>%
+    filter(relation.liesWithinLayer %in% input$selected_lw_layers) %>%
     filter(conditionAmount %in% condition_filter) %>%
     mutate(fill = get(input$lwPlot_1_fillvar)) %>%
     filter(weightTotal >= input$lw_weight_slider[1]) %>%
