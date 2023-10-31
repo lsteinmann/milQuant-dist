@@ -23,6 +23,8 @@ source("source/tabs/potteryQB_tab.R")
 source("source/tabs/bricks_tab.R")
 source("source/tabs/bricksQ_tab.R")
 source("source/tabs/loomweights_tab.R")
+source("source/tabs/coins_tab.R")
+
 # todo
 #source("source/tabs/sculpture_tab.R")
 
@@ -63,6 +65,9 @@ server <- function(input, output, session) {
 
   # server code only for loomweights
   source('source/server/loomweights_serv.R', local = TRUE)
+
+  # server code only for coins
+  source('source/server/coins_serv.R', local = TRUE)
 
   # server code for future sculpture tab
   # test commit

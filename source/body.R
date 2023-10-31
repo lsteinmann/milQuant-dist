@@ -5,30 +5,30 @@ body <- dashboardBody(
     tags$link(rel = "stylesheet", type = "text/css", href = "main.css")
   ),
   tabItems(
+    # home and overview
     home_tab,
-    # home and find overview content
     overview_tab,
     workflow_tab,
+
+    # all finds content
     allfinds_tab,
+
     # Pottery tabs content
     pottery_tab,
     potteryQA_tab,
     potteryQB_tab,
 
-    #bricks
+    # bricks
     bricks_tab,
     bricksQ_tab,
 
     # loomweights
-    loomweights_tab#,
+    loomweights_tab,
+
+    # coins
+    coins_tab
+
     #tabItem("readme", includeHTML("README.html"))
 
-
-
-    # Sculpture tab content
-    #sculpture_tab,
-
-    # Buildings tab
-    #buildings_tab
   )
 )

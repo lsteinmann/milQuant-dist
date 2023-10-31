@@ -1,6 +1,7 @@
 # milQuant 1.0.4 _tba_
 * correction of typos and minor text and layout changes
 * switch from 'brickForm' to 'brickType' in the brick plot since it is more reasonable after changes in the project configuration
+* add tab for coins
 
 
 # milQuant 1.0.3 _2023-10-30_

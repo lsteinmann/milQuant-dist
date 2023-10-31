@@ -36,6 +36,8 @@ sidebar <- dashboardSidebar(
                       icon = icon("shapes"))
     ),
     menuItem("Loomweights", tabName = "loomweights", icon = icon("weight-hanging")),
+    menuItem("Coins", tabName = "coins", icon = icon("circle-dollar-to-slot"),
+             badgeLabel = "WIP", badgeColor = "red"),
     #menuItem("Sculpture", tabName = "sculpture", icon = icon("horse-head"),
     #         badgeLabel = "empty", badgeColor = "red"),
     #menuItem("Buildings", tabName = "buildings", icon = icon("landmark"),
