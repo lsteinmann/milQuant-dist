@@ -77,9 +77,9 @@ quant_categories <<- c("Quantification", "Brick_Quantification",
 read_settings <- function() {
   result <- try(readRDS("defaults/selection_settings.RDS"), silent = TRUE)
   if (inherits(result, "try-error")) {
-    result <- list("select_project" = NULL,
-                   "select_operation" = NULL,
-                   "select_trench" = NULL)
+    result <- list("selected_project" = NULL,
+                   "selected_operations" = NULL,
+                   "selected_trenches" = NULL)
   }
   return(result)
 }

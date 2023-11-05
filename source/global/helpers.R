@@ -117,6 +117,29 @@ mq_spinner <<- function(object) {
 }
 
 
+milquant_plotly_layout <<- function(plotly_fig, caption = FALSE) {
+  plotly_fig <- plotly_fig %>%
+    config(displaylogo = FALSE,
+           modeBarButtonsToRemove = c("select2d", "lasso2d")) %>%
+    layout(yaxis = list(tickmode = "auto", showline = FALSE, gridwidth = 3,
+                        gridcolor = "grey20"),
+           xaxis = list(gridcolor = "grey60"),
+           showlegend = TRUE)
+
+  if (is.character(caption)) {
+    plotly_fig <- plotly_fig %>%
+      layout(annotations = list(text = caption,
+                                xref = "paper", yref = "paper",
+                                xanchor = "right", yanchor = "top",
+                                x = 1, y = 1,
+                                showarrow = FALSE,
+                                bgcolor = "white",
+                                font = list(size = 10)))
+  }
+
+  return(plotly_fig)
+}
+
 
 convert_to_Plotly <<- function(ggplot_p,
                                source = "ggplot_source",
@@ -126,20 +149,8 @@ convert_to_Plotly <<- function(ggplot_p,
 
   plot_ly <- ggplotly(ggplot_p, source = source, tooltip = tooltip) %>%
     layout(title = list(text = paste0(ggplot_p$labels$title, "<br>",
-                                      "<sup>", ggplot_p$labels$subtitle, "</sup>")),
-           annotations = list(text = ggplot_p$labels$caption,
-                              xref = "paper", yref = "paper",
-                              xanchor="right", yanchor="top",
-                              x = 1, y = 1,
-                              showarrow = FALSE,
-                              bgcolor = "white",
-                              font = list(size = 10)),
-           yaxis = list(tickmode = "auto", showline = FALSE, gridwidth = 3,
-                        gridcolor = "grey20"),
-           xaxis = list(gridcolor = "grey60"),
-           showlegend = TRUE) %>%
-    config(displaylogo = FALSE,
-           modeBarButtonsToRemove = c("select2d", "lasso2d"))
+                                      "<sup>", ggplot_p$labels$subtitle, "</sup>")))
+  plot_ly <- milquant_plotly_layout(plot_ly, caption = ggplot_p$labels$caption)
   return(plot_ly)
 }
 

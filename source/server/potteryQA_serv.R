@@ -12,7 +12,7 @@ potteryQA <- reactive({
 output$potteryQA_overview <- renderText({
   n_objects <- nrow(potteryQA())
   n_layers <- length(unique(potteryQA()$relation.liesWithinLayer))
-  paste("The selected place (", paste(input$select_operation, collapse = ", "),
+  paste("The selected place (", paste(input$selected_operations, collapse = ", "),
         ") contains a total of ", n_objects,
         " pottery quantification (A) forms from ", n_layers, " contexts. Kolay gelsin.",
         sep = "")

@@ -12,8 +12,8 @@ bricks <- reactive({
 output$bricks_overview <- renderText({
   n_objects <- nrow(bricks())
   n_layers <- length(unique(bricks()$relation.liesWithinLayer))
-  paste("The selected trenches ", paste(input$select_trench, collapse = ", "),
-        " (from ", paste(input$select_operation, collapse = ", "),
+  paste("The selected trenches ", paste(input$selected_trenches, collapse = ", "),
+        " (from ", paste(input$selected_operations, collapse = ", "),
         ") contain a total of ", n_objects,
         " Brick-Resources from ", n_layers, " contexts.",
         sep = "")

@@ -4,6 +4,7 @@ body <- dashboardBody(
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "main.css")
   ),
+  includeScript('source/global/toggleBtnsOnBusy.js'),
   tabItems(
     # home and overview
     home_tab,

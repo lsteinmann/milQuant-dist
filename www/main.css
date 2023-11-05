@@ -73,6 +73,11 @@ background-color: #e2001a;
   border-color: #3b515b;
 }
 
+.btn.btn-disable {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .btn.dropdown-toggle {
   color: #ffffff;
   background-color: #627279;
