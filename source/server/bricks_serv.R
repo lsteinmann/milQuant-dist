@@ -19,11 +19,7 @@ output$bricks_overview <- renderText({
         sep = "")
 })
 
-module_id <- "bricks_layers"
-callModule(generateLayerSelector,
-           id = module_id,
-           module_id = module_id,
-           data = bricks)
+generateLayerSelector("bricks_layers", bricks, inputid = "selected_bricks_layers")
 
 output$bricksPlot_1_period_selector <- renderUI({
   make_period_selector(inputId = "bricks_period_selector")

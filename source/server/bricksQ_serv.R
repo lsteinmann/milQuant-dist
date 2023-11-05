@@ -19,11 +19,7 @@ output$bricksQ_overview <- renderText({
         sep = "")
 })
 
-module_id <- "bricksQ_layers"
-callModule(generateLayerSelector,
-           id = module_id,
-           module_id = module_id,
-           data = bricksQ)
+generateLayerSelector("bricksQ_layers", bricksQ, inputid = "selected_bricksQ_layers")
 
 make_bricksQPlot_1 <- reactive({
   existing_cols <- colnames(bricksQ())

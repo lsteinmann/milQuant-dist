@@ -16,7 +16,7 @@ observeEvent(input$tab_connect.connect, {
 })
 
 
-react_index <- reactiveVal(value = NULL)
+react_index <<- reactiveVal(value = NULL)
 
 observeEvent(input$loadDatabase, {
 
@@ -73,7 +73,7 @@ observeEvent(input$close_busy_dialog,{
 
 observeEvent(input$selected_project, {
   hide('load.success_msg')
-  is_milet <<- input$selected_project == "milet"
+  is_milet <<- input$selected_project %in% c("milet", "milet-test")
   if (is_milet) {
     reorder_periods <<- TRUE
   } else {
@@ -110,19 +110,19 @@ operations <- reactive({
 })
 
 
-db_operation <- reactive({input$selected_operations}) %>% debounce(2000)
+db_operations <<- reactive({input$selected_operations}) %>% debounce(2000)
 
 trenches <- reactive({
   validate(
-    need(db_operation(), "No operation selected.")
+    need(db_operations(), "No operation selected.")
   )
-  if (db_operation()[1] == "select everything") {
+  if (db_operations()[1] == "select everything") {
     tmp_trenches <- react_index() %>%
       pull(isRecordedIn) %>%
       unique()
   } else {
     tmp_trenches <- react_index() %>%
-    filter(Place %in% db_operation()) %>%
+    filter(Place %in% db_operations()) %>%
     pull(isRecordedIn) %>%
     unique()
   }

@@ -6,7 +6,8 @@ prep_for_shiny <<- function(data, reorder_periods = reorder_periods) {
     idaifield_as_matrix() %>%
     as.data.frame() %>%
     remove_na_cols() %>%
-    type.convert(as.is = FALSE)
+    type.convert(as.is = FALSE) %>%
+    mutate_if(is.logical, list(~ifelse(is.na(.), FALSE, .)))
 
   tryCatch({
     data <- data %>%
@@ -124,6 +125,7 @@ milquant_plotly_layout <<- function(plotly_fig, caption = FALSE) {
     layout(yaxis = list(tickmode = "auto", showline = FALSE, gridwidth = 3,
                         gridcolor = "grey20"),
            xaxis = list(gridcolor = "grey60"),
+           title = list(xanchor = "left", x = 0),
            showlegend = TRUE)
 
   if (is.character(caption)) {

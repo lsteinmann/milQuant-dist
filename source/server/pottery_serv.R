@@ -20,11 +20,7 @@ output$pottery_overview <- renderText({
         sep = "")
 })
 
-module_id <- "pottery_layers"
-callModule(generateLayerSelector,
-           id = module_id,
-           module_id = module_id,
-           data = pottery)
+generateLayerSelector("pottery_layers", pottery, inputid = "selected_pottery_layers")
 
 output$potPlot_1_period_selector <- renderUI({
   make_period_selector(inputId = "potPlot_1_period_selector")

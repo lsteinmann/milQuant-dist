@@ -19,10 +19,9 @@ output$loomweight_overview <- renderText({
         sep = "")
 })
 
-callModule(generateLayerSelector,
-           id = "lw_layers",
-           module_id = "lw_layers",
-           data = loomweights)
+
+generateLayerSelector("lw_layers", loomweights, inputid = "selected_lw_layers")
+
 
 output$lwPlot_1_period_selector <- renderUI({
   make_period_selector(inputId = "lwPlot_1_period_selector")

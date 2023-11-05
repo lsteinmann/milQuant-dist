@@ -1,0 +1,171 @@
+all_finds_tab <- function(id) {
+
+  ns <- NS(id)
+
+  tabItem(
+    tabName = "all_finds",
+
+    h1("Overview of all 'Find'-resources"),
+
+    tabInfoRow_ui(ns("info")),
+
+    fluidRow(
+      box(
+        width = 3, height = 700,
+        textInput(inputId = ns("title"), label = "Title",
+                  value = "Distribution of Find-Categories"),
+        textInput(inputId = ns("subtitle"), label = "Subtitle",
+                  placeholder = "Enter subtitle here"),
+        uiLayerSelector(ns("layers")),
+        htmlOutput(ns("var_selector")),
+        prettyRadioButtons(inputId = ns("var_display"),
+                           label = "Display the selected variable...",
+                           choices = list("as X-Axis" = "var_is_x",
+                                          "as Colour" = "var_is_fill"),
+                           selected = "var_is_x",
+                           icon = icon("check"),
+                           inline = TRUE, animation = "jelly"),
+        prettyRadioButtons(inputId = ns("bar_display"),
+                           label = "Display the bars...",
+                           choices = list("stacked" = "stack",
+                                          "dodging" = "group",
+                                          "proportional" = "fill"),
+                           icon = icon("check"),
+                           inline = TRUE, animation = "jelly"),
+        uiPeriodSelector(ns("periods")),
+        downloadPlotButtons("download")
+      ),
+      box(
+        width = 9, height = 700,
+        plotlyOutput(ns("display_plot"), height = 670) %>% mq_spinner()
+        )
+    )
+  )
+
+
+}
+
+all_finds_server <- function(id) {
+
+  moduleServer(
+    id,
+    function(input, output, session) {
+
+      ns <- NS(id)
+
+      finds <- reactive({
+
+        validate(
+          need(is.data.frame(selected_db()), "No Trenches and/or Places selected.")
+        )
+
+        finds <- selected_db() %>%
+          filter(category %in% find_categories) %>%
+          remove_na_cols() %>%
+          inner_join(react_index()[,c("identifier", "Operation", "Place")],
+                     by = "identifier")
+        return(finds)
+      })
+
+      tabInfoRow_server("info", tab_data = finds)
+
+      generateLayerSelector("layers", finds, inputid = ns("selected_layers"))
+
+      output$var_selector <- renderUI({
+        all_cols <- colnames(finds())
+        top_vars <- c("storagePlace", "date", "Operation", "Place")
+        add_vars <- all_cols[grepl("relation|workflow|period|campaign", all_cols)]
+        add_vars <- sort(add_vars)
+        vars <- c(top_vars, add_vars)
+
+        to_remove <- c("isDepictedIn", "isInstanceOf", "isSameAs",
+                       vars[!vars %in% all_cols])
+
+
+        vars <- vars[!grepl(paste(to_remove,collapse = "|"),
+                            vars)]
+
+        selectInput(inputId = ns("secondary_var"),
+                    label = "Choose a variable:",
+                    choices = vars)
+
+      })
+
+      # might be weird to get this inputid
+      generatePeriodSelector("periods", inputid = ns("selected_periods"))
+
+      plot_data <- reactive({
+
+        validate(
+          need(input$secondary_var, "Waiting for variable selection.")
+        )
+
+        if (input$var_display == "var_is_fill") {
+          x_var <- "category"
+          color_var <- input$secondary_var
+        } else if(input$var_display == "var_is_x") {
+          x_var <- input$secondary_var
+          color_var <- "category"
+        }
+
+        plot_data <- finds() %>%
+          filter(relation.liesWithinLayer %in% input$selected_layers) %>%
+          period_filter(is_milet = is_milet, selector = input$selected_periods) %>%
+          mutate(x = get(x_var), color = get(color_var)) %>%
+          select(x, color) %>%
+          droplevels() %>%
+          count(x, color) %>%
+          group_by(x) %>%
+          arrange(n)
+
+        return(plot_data)
+      })
+
+      make_plot <- reactive({
+
+        validate(
+          need(is.data.frame(plot_data()), "I am not getting the data!")
+        )
+
+        fig <- plot_ly(plot_data(), x = ~x, y = ~n, color = ~color,
+                       type = "bar", textposition = "none", source = "allfinds_plot",
+                       colors = viridis(length(unique(plot_data()$color))),
+                       hovertemplate = paste0("<b>%{fullData.name}</b><br>",
+                                              "%{x}<br>",
+                                              "count: <b>%{y}</b><br>",
+                                              "<extra></extra>"))
+
+        legend_title <- ifelse(input$var_display == "var_is_fill",
+                               input$secondary_var,
+                               "Resource-Category")
+
+        x_title <- ifelse(input$var_display == "var_is_x",
+                          input$secondary_var,
+                          "Resource-Category")
+
+        plot_title <- paste0('<b>', input$title, '</b><br>', input$subtitle)
+
+        caption <- paste0("Total: ", sum(plot_data()$n))
+
+        fig <- fig %>% layout(barmode = input$bar_display,
+                              title = list(text = plot_title),
+                              xaxis = list(title = x_title,
+                                           categoryorder = "total descending"),
+                              yaxis = list(title = "count"),
+                              legend = list(title = list(text = legend_title)))
+
+        milquant_plotly_layout(fig, caption = caption)
+      })
+
+      output$display_plot <- renderPlotly({
+        make_plot()
+      })
+
+      callModule(downloadPlotHandler, id = "download",
+                 dlPlot = make_plot)
+
+
+    }
+  )
+
+}

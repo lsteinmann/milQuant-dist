@@ -1,12 +1,12 @@
 # query db when changing the place
 # in the input
 
-db_trench <- reactive({input$selected_trenches}) %>% debounce(2000)
+db_trenches <<- reactive({input$selected_trenches}) %>% debounce(2000)
 
-selected_db <- reactive({
+selected_db <<- reactive({
   message("Invalidating and querying DB now:")
   uids <- react_index() %>%
-    filter(isRecordedIn %in% db_trench()) %>%
+    filter(isRecordedIn %in% db_trenches()) %>%
     filter(category %in% c(find_categories, quant_categories)) %>%
     pull(UID)
 

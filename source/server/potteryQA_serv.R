@@ -18,11 +18,8 @@ output$potteryQA_overview <- renderText({
         sep = "")
 })
 
-module_id <- "QA_layers"
-callModule(generateLayerSelector,
-           id = module_id,
-           module_id = module_id,
-           data = potteryQA)
+generateLayerSelector("QA_layers", potteryQA, inputid = "selected_QA_layers")
+
 
 potteryQAPlot_data <- reactive({
   validate(
