@@ -16,6 +16,7 @@ sidebar <- dashboardSidebar(
                              class = "success-text",
                              textOutput("load.success_msg",
                                         container = tags$p))),
+    actionButton("refreshIndex", "Refresh Index", icon = icon("refresh")),
     uiOutput("select_operation"),
     uiOutput("select_trench"),
     menuItem("Overview (Place)", tabName = "overview", icon = icon("graduation-cap")),

@@ -81,6 +81,16 @@ observeEvent(input$select_project, {
   }
 })
 
+
+observeEvent(input$refreshIndex, {
+  message("Fetching the Index again...")
+  newIndex <- get_index(source = login_connection())
+  react_index(newIndex)
+  message("Done.")
+  rm(newIndex)
+})
+
+
 # Produces the List of Places to select from the reactive Index
 # may not update when index is refreshed
 operations <- reactive({
