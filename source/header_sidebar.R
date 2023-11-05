@@ -17,7 +17,7 @@ sidebar <- dashboardSidebar(
                              textOutput("load.success_msg",
                                         container = tags$p))),
     actionButton("refreshIndex", "Refresh Index", icon = icon("refresh")),
-    menuItem("Overview (Place)", tabName = "overview", icon = icon("graduation-cap")),
+    menuItem("Project overview", tabName = "overview", icon = icon("graduation-cap")),
     uiOutput("selected_operations"),
     uiOutput("selected_trenches"),
     menuItem("Workflow", tabName = "workflow", icon = icon("gear")),
