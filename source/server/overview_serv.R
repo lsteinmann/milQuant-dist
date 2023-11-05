@@ -12,9 +12,9 @@ output$overview <- renderPlotly({
   )
 
   tmp_index <- react_index()
-  if (!is.null(input$select_operation)) {
+  if (!is.null(input$selected_operations)) {
     tmp_index <- react_index() %>%
-      filter(Place %in% input$select_operation)
+      filter(Place %in% input$selected_operations)
   } else {
     tmp_index <- react_index()
   }

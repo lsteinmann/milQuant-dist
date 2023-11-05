@@ -22,8 +22,8 @@ output$allfinds_n <- renderText({
 output$allFinds_overview <- renderText({
   n_objects <- nrow(allFinds_base_data())
   n_layers <- length(unique(allFinds_base_data()$relation.liesWithinLayer))
-  paste("The selected trenches ", paste(input$select_trench, collapse = ", "),
-        " (from ", paste(input$select_operation, collapse = ", "),
+  paste("The selected trenches ", paste(input$selected_trenches, collapse = ", "),
+        " (from ", paste(input$selected_operations, collapse = ", "),
         ") contain a total of ", n_objects,
         " Finds from ", n_layers, " contexts.",
         sep = "")

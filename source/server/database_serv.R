@@ -1,7 +1,7 @@
 # query db when changing the place
 # in the input
 
-db_trench <- reactive({input$select_trench}) %>% debounce(2000)
+db_trench <- reactive({input$selected_trenches}) %>% debounce(2000)
 
 selected_db <- reactive({
   message("Invalidating and querying DB now:")

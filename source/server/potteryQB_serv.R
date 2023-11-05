@@ -12,7 +12,7 @@ potteryQB <- reactive({
 output$potteryQB_overview <- renderText({
   n_objects <- nrow(potteryQB())
   n_layers <- length(unique(potteryQB()$relation.liesWithinLayer))
-  paste("The selected place (", paste(input$select_operation, collapse = ", "),
+  paste("The selected place (", paste(input$selected_operations, collapse = ", "),
         ") contains a total of ", n_objects,
         " pottery quantification (B) forms from ", n_layers, " contexts. Kolay gelsin.\\n",
         "Please note: It doesnt work to select two periods... we have to resolve this somehow.",

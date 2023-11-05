@@ -12,8 +12,8 @@ loomweights <- reactive({
 output$loomweight_overview <- renderText({
   n_objects <- nrow(loomweights())
   n_layers <- length(unique(loomweights()$relation.liesWithinLayer))
-  paste("The selected trenches ", paste(input$select_trench, collapse = ", "),
-        " (from ", paste(input$select_operation, collapse = ", "),
+  paste("The selected trenches ", paste(input$selected_trenches, collapse = ", "),
+        " (from ", paste(input$selected_operations, collapse = ", "),
         ") contain a total of ", n_objects,
         " Loomweight-Resources from ", n_layers, " contexts.",
         sep = "")
