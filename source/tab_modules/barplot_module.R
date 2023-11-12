@@ -60,6 +60,7 @@ barplot_server <- function(id, resource_category) {
         resources <- selected_db() %>%
           filter(category == resource_category) %>%
           remove_na_cols() %>%
+          mutate_if(is.logical, list(~ifelse(is.na(.), FALSE, .))) %>%
           inner_join(react_index()[,c("identifier", "Operation", "Place")],
                      by = "identifier")
 
@@ -82,7 +83,8 @@ barplot_server <- function(id, resource_category) {
       switch(resource_category,
              Pottery = sel_vars <- c("potteryGroup", "functionalCategory"),
              Coins = sel_vars <- c("metalMaterial", "storagePlace"),
-             Sculpture = sel_vars <- c("sculptureMaterial", "storagePlace"))
+             Sculpture = sel_vars <- c("sculptureMaterial", "storagePlace"),
+             Lamp = sel_vars <- c("lampGroup", "lampManufacturingTechnique"))
 
       output$x_selector <- renderUI({
 
@@ -129,12 +131,14 @@ barplot_server <- function(id, resource_category) {
 
         fig <- plot_ly(plot_data(), x = ~x, y = ~n,
                        color = ~color, customdata = ~color,
-                       type = "bar", source = "potPlot_1",
+                       type = "bar", source = ns("plot"),
                        colors = viridis(length(unique(plot_data()$color))),
                        hovertemplate = paste0("<b>%{fullData.name}</b><br>",
                                               "%{x}<br>",
                                               "count: <b>%{y}</b><br>",
                                               "<extra></extra>"))
+
+        fig <- fig %>% event_register('plotly_click')
 
         legend_title <- input$fill_var
 
@@ -159,7 +163,7 @@ barplot_server <- function(id, resource_category) {
       })
 
       click_data <- reactive({
-        event_data("plotly_click", source = "potPlot_1")
+        event_data("plotly_click", source = ns("plot"))
       })
 
       plotDataTable_server("resources_clickdata",

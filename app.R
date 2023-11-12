@@ -58,16 +58,20 @@ sidebar <- dashboardSidebar(
                          icon = icon("champagne-glasses"))
     ),
     menuItem("Bricks and Tiles", tabName = "bricks_all", icon = icon("square"),
-             menuSubItem("Bricks and Tiles", tabName = "bricks",
+             menuSubItem("Bricks and Tiles", tabName = "bricks_tab",
                          icon = icon("house")),
              menuSubItem("Brick/Tile/Pipe Quantification", tabName = "bricksQ",
                          icon = icon("shapes"))
     ),
     menuItem("Loomweights", tabName = "loomweights", icon = icon("weight-hanging")),
     menuItem("Coins", tabName = "coins_tab", icon = icon("circle-dollar-to-slot"),
-             badgeLabel = "WIP", badgeColor = "red"),
-    menuItem("Sculpture", tabName = "sculpture_tab", icon = icon("horse-head"),
-             badgeLabel = "WIP", badgeColor = "red"),
+             badgeLabel = "AUTO", badgeColor = "teal"),
+    menuItem("Lamps", tabName = "lamps_tab", icon = icon("fire-flame-curved"),
+             badgeLabel = "AUTO", badgeColor = "teal"),
+    menuItem("Sculpture", tabName = "sculpture_tab", icon = icon("person-skating"),
+             badgeLabel = "AUTO", badgeColor = "teal"),
+    menuItem("Terracotta", tabName = "terracotta_tab", icon = icon("horse-head"),
+             badgeLabel = "AUTO", badgeColor = "teal"),
     menuItem("Issues / Contact", icon = icon("file-contract"),
              href = "https://github.com/lsteinmann/milQuant")
   )
@@ -87,11 +91,13 @@ body <- dashboardBody(
     barplot_tab("pottery", tabname = "pottery_tab"),
     potteryQA_tab,
     potteryQB_tab,
-    bricks_tab,
+    barplot_tab("bricks", tabname = "bricks_tab"),
     bricksQ_tab,
     loomweights_tab,
     barplot_tab("coins", tabname = "coins_tab"),
-    barplot_tab("sculpture", tabname = "sculpture_tab")
+    barplot_tab("lamps", tabname = "lamps_tab"),
+    barplot_tab("sculpture", tabname = "sculpture_tab"),
+    barplot_tab("terracotta", tabname = "terracotta_tab")
   )
 )
 
@@ -127,7 +133,7 @@ server <- function(input, output, session) {
   source('source/server/potteryQB_serv.R', local = TRUE)
 
   # server code only for bricks
-  source('source/server/bricks_serv.R', local = TRUE)
+  barplot_server("bricks", resource_category = "Brick")
   source('source/server/bricksQ_serv.R', local = TRUE)
 
   # server code only for loomweights
@@ -136,7 +142,9 @@ server <- function(input, output, session) {
   # server code only for coins
   #source('source/server/coins_serv.R', local = TRUE)
   barplot_server("coins", resource_category = "Coin")
+  barplot_server("lamps", resource_category = "Lamp")
   barplot_server("sculpture", resource_category = "Sculpture")
+  barplot_server("terracotta", resource_category = "Terracotta")
 
   # server code for future sculpture tab
   # test commit

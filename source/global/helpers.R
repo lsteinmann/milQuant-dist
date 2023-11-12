@@ -6,8 +6,7 @@ prep_for_shiny <<- function(data, reorder_periods = reorder_periods) {
     idaifield_as_matrix() %>%
     as.data.frame() %>%
     remove_na_cols() %>%
-    type.convert(as.is = FALSE) %>%
-    mutate_if(is.logical, list(~ifelse(is.na(.), FALSE, .)))
+    type.convert(as.is = FALSE)
 
   tryCatch({
     data <- data %>%
