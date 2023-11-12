@@ -57,12 +57,12 @@ all_finds_server <- function(id) {
       finds <- reactive({
 
         validate(
-          need(is.data.frame(selected_db()), "No Trenches and/or Places selected.")
+          need(is.data.frame(react_index()), "No Index available.")
         )
 
-        finds <- selected_db() %>%
-          filter(category %in% find_categories) %>%
+        finds <- get_resources(resource_category = find_categories) %>%
           remove_na_cols() %>%
+          mutate_if(is.logical, list(~ifelse(is.na(.), FALSE, .))) %>%
           inner_join(react_index()[,c("identifier", "Operation", "Place")],
                      by = "identifier")
         return(finds)

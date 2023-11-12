@@ -1,10 +1,9 @@
 bricksQ <- reactive({
   validate(
-    need(is.data.frame(selected_db()), "No Trenches and/or Places selected.")
+    need(is.data.frame(react_index()), "No Index available.")
   )
 
-  bricksQ <- selected_db() %>%
-    filter(category == "Brick_Quantification") %>%
+  bricksQ <- get_resources(resource_category = "Brick_Quantification") %>%
     remove_na_cols()
   return(bricksQ)
 })

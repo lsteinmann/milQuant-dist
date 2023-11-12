@@ -4,7 +4,7 @@ updateTextInput(session, "tab_connect.user", value = default.username)
 default.password <- source("defaults/settings.R")$value$synchpw
 updateTextInput(session, "tab_connect.pwd", value = default.password)
 
-login_connection <- reactiveVal(NA)
+login_connection <<- reactiveVal(NA)
 
 observeEvent(input$tab_connect.connect, {
   host <- input$tab_connect.host

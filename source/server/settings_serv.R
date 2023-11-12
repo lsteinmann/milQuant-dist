@@ -133,6 +133,9 @@ trenches <- reactive({
   return(trenches)
 })
 
+db_trenches <<- reactive({input$selected_trenches}) %>% debounce(2000)
+
+
 #Place Selector -- Return the requested dataset as text
 # apparently i do not use this anywhere??
 #output$selected_place <- renderText({

@@ -114,8 +114,6 @@ server <- function(input, output, session) {
   # server code to handle basic settings, i.e. project, trench/operation
   # seen on home_tab and sidebar
   source('source/server/settings_serv.R', local = TRUE)
-  # server code to import database, places etc.
-  source('source/server/database_serv.R', local = TRUE)
 
   # server code only for overview pages
   source('source/server/overview_serv.R', local = TRUE)

@@ -1,10 +1,9 @@
 loomweights <- reactive({
   validate(
-    need(is.data.frame(selected_db()), "No Trenches and/or Places selected.")
+    need(is.data.frame(react_index()), "No Index available.")
   )
 
-  loomweights <- selected_db() %>%
-    filter(category == "Loomweight") %>%
+  loomweights <- get_resources(resource_category = "Loomweight") %>%
     remove_na_cols()
   return(loomweights)
 })

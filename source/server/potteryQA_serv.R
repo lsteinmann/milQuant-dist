@@ -1,10 +1,9 @@
 potteryQA <- reactive({
   validate(
-    need(is.data.frame(selected_db()), "No Trenches and/or Places selected.")
+    need(is.data.frame(react_index()), "No Index available.")
   )
 
-  potteryQA <- selected_db() %>%
-    filter(category == "Pottery_Quantification_A") %>%
+  potteryQA <- get_resources(resource_category = "Pottery_Quantification_A") %>%
     remove_na_cols()
   return(potteryQA)
 })
