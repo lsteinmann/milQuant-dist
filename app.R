@@ -13,13 +13,13 @@ source("source/global_modules/tabInfoBoxes.R")
 
 # tab modules
 source("source/tab_modules/finds_tab_module.R")
+source("source/tab_modules/pottery_tab_module.R")
 
 # each tab / ui element group
 source("source/tabs/home_tab.R")
 source("source/tabs/modals_ui.R")
 source("source/tabs/overview_tab.R")
 source("source/tabs/workflow_tab.R")
-source("source/tabs/pottery_tab.R")
 source("source/tabs/potteryQA_tab.R")
 source("source/tabs/potteryQB_tab.R")
 source("source/tabs/bricks_tab.R")
@@ -79,7 +79,7 @@ body <- dashboardBody(
     overview_tab,
     workflow_tab,
     all_finds_tab("all_finds"),
-    pottery_tab,
+    pottery_tab("pottery"),
     potteryQA_tab,
     potteryQB_tab,
     bricks_tab,
@@ -113,7 +113,7 @@ server <- function(input, output, session) {
   all_finds_server("all_finds")
 
   # server code only for pottery form (single)
-  source('source/server/pottery_serv.R', local = TRUE)
+  pottery_server("pottery")
   # server code only for pottery quantification A form
   source('source/server/potteryQA_serv.R', local = TRUE)
   # server code only for pottery quantification B form
