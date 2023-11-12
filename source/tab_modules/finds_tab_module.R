@@ -39,7 +39,8 @@ all_finds_tab <- function(id) {
         width = 9, height = 700,
         plotlyOutput(ns("display_plot"), height = 670) %>% mq_spinner()
         )
-    )
+    ),
+    plotDataTable_ui(ns("finds_clickdata"))
   )
 
 
@@ -94,6 +95,9 @@ all_finds_server <- function(id) {
       # might be weird to get this inputid
       generatePeriodSelector("periods", inputid = ns("selected_periods"))
 
+      x_var <- reactiveVal(value = NULL)
+      color_var <- reactiveVal(value = NULL)
+
       plot_data <- reactive({
 
         validate(
@@ -101,17 +105,17 @@ all_finds_server <- function(id) {
         )
 
         if (input$var_display == "var_is_fill") {
-          x_var <- "category"
-          color_var <- input$secondary_var
+          x_var("category")
+          color_var(input$secondary_var)
         } else if(input$var_display == "var_is_x") {
-          x_var <- input$secondary_var
-          color_var <- "category"
+          x_var(input$secondary_var)
+          color_var("category")
         }
 
         plot_data <- finds() %>%
           filter(relation.liesWithinLayer %in% input$selected_layers) %>%
           period_filter(is_milet = is_milet, selector = input$selected_periods) %>%
-          mutate(x = get(x_var), color = get(color_var)) %>%
+          mutate(x = get(x_var()), color = get(color_var())) %>%
           select(x, color) %>%
           droplevels() %>%
           count(x, color) %>%
@@ -127,8 +131,11 @@ all_finds_server <- function(id) {
           need(is.data.frame(plot_data()), "I am not getting the data!")
         )
 
-        fig <- plot_ly(plot_data(), x = ~x, y = ~n, color = ~color,
-                       type = "bar", textposition = "none", source = "allfinds_plot",
+        fig <- plot_ly(plot_data(), x = ~x, y = ~n,
+                       color = ~color,
+                       customdata = ~color,
+                       type = "bar",
+                       source = "allfinds_plot",
                        colors = viridis(length(unique(plot_data()$color))),
                        hovertemplate = paste0("<b>%{fullData.name}</b><br>",
                                               "%{x}<br>",
@@ -154,12 +161,26 @@ all_finds_server <- function(id) {
                               yaxis = list(title = "count"),
                               legend = list(title = list(text = legend_title)))
 
-        milquant_plotly_layout(fig, caption = caption)
+        fig <- milquant_plotly_layout(fig, caption = caption)
+
+        return(fig)
       })
 
       output$display_plot <- renderPlotly({
         make_plot()
       })
+
+      click_data <- reactive({
+        event_data("plotly_click", source = "allfinds_plot")
+      })
+
+      plotDataTable_server("finds_clickdata",
+                           resources = finds,
+                           click_data = click_data,
+                           x = x_var,
+                           customdata = color_var)
+
+
 
       callModule(downloadPlotHandler, id = "download",
                  dlPlot = make_plot)

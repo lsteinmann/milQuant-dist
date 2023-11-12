@@ -9,6 +9,7 @@ source("source/global_modules/downloadModule.R")
 source("source/global_modules/layerSelection.R")
 source("source/global_modules/periodSelection.R")
 source("source/global_modules/tabInfoBoxes.R")
+source("source/global_modules/displayPlotDataTable.R")
 
 
 # tab modules
