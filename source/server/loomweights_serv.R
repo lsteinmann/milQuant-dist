@@ -89,5 +89,4 @@ output$lwPlot_1 <- renderPlotly({
   convert_to_Plotly(make_lwPlot_1())
 })
 
-callModule(downloadPlotHandler, id = "lwPlot_1_download",
-           dlPlot = make_lwPlot_1)
+makeDownloadPlotHandler("lwPlot_1_download", dlPlot = make_lwPlot_1)

@@ -33,7 +33,7 @@ all_finds_tab <- function(id) {
                            icon = icon("check"),
                            inline = TRUE, animation = "jelly"),
         uiPeriodSelector(ns("periods")),
-        downloadPlotButtons("download")
+        downloadPlotButtons(ns("download"))
       ),
       box(
         width = 9, height = 700,
@@ -181,10 +181,7 @@ all_finds_server <- function(id) {
                            x = x_var,
                            customdata = color_var)
 
-
-
-      callModule(downloadPlotHandler, id = "download",
-                 dlPlot = make_plot)
+      makeDownloadPlotHandler("download", dlPlot = make_plot)
 
 
     }

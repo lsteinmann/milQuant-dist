@@ -99,7 +99,4 @@ output$potteryQBPlot_1 <- renderPlotly({
   convert_to_Plotly(potteryQBPlot_1())
 })
 
-callModule(downloadPlotHandler, id = "potteryQBPlot_1_download",
-           dlPlot = make_potteryQBPlot_1)
-
-
+makeDownloadPlotHandler("potteryQBPlot_1_download", dlPlot = make_potteryQBPlot_1)

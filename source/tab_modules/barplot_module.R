@@ -27,7 +27,7 @@ barplot_tab <- function(id, tabname) {
                                           "dodging" = "group",
                                           "percentage" = "percentage")),
         uiPeriodSelector(ns("periods")),
-        #downloadPlotButtons("download")
+        downloadPlotButtons(ns("download"))
       ),
       box(
         width = 9, height = 700,
@@ -173,9 +173,8 @@ barplot_server <- function(id, resource_category) {
                            customdata = reactive({input$fill_var}))
 
 
+      makeDownloadPlotHandler("download", dlPlot = make_plot)
 
-      callModule(downloadPlotHandler, id = "download",
-                 dlPlot = make_plot)
 
 
     }

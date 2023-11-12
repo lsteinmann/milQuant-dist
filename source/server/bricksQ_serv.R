@@ -54,7 +54,5 @@ output$bricksQPlot_1 <- renderPlotly({
   convert_to_Plotly(make_bricksQPlot_1())
 })
 
-callModule(downloadPlotHandler, id = "bricksQPlot_1_download",
-           dlPlot = make_bricksQPlot_1)
-
+makeDownloadPlotHandler("bricksQPlot_1_download", dlPlot = make_bricksQPlot_1)
 
