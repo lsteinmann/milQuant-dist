@@ -1,11 +1,11 @@
-pottery_tab <- function(id) {
+barplot_tab <- function(id, tabname) {
 
   ns <- NS(id)
 
   tabItem(
-    tabName = "pottery",
+    tabName = tabname,
 
-    h1("Overview of 'Pottery'-resources"),
+    htmlOutput(ns("tab_title")),
 
     tabInfoRow_ui(ns("info")),
 
@@ -33,13 +33,13 @@ pottery_tab <- function(id) {
         width = 9, height = 700,
         plotlyOutput(ns("display_plot"), height = 620) %>% mq_spinner()
       )
-    )
+    ),
+    plotDataTable_ui(ns("resources_clickdata"))
   )
-
 
 }
 
-pottery_server <- function(id) {
+barplot_server <- function(id, resource_category) {
 
   moduleServer(
     id,
@@ -47,45 +47,57 @@ pottery_server <- function(id) {
 
       ns <- NS(id)
 
-      pottery <- reactive({
+      output$tab_title <- renderUI({
+        h1(paste0("Overview of ", resource_category, "-resources"))
+      })
+
+      resources <- reactive({
 
         validate(
           need(is.data.frame(selected_db()), "No Trenches and/or Places selected.")
         )
 
-        pottery <- selected_db() %>%
-          filter(category == "Pottery") %>%
+        resources <- selected_db() %>%
+          filter(category == resource_category) %>%
           remove_na_cols() %>%
           inner_join(react_index()[,c("identifier", "Operation", "Place")],
                      by = "identifier")
 
 
-        return(pottery)
+        return(resources)
       })
 
 
 
-      pottery_vars <- reactive({
-        pottery_vars <- colnames(pottery())
-        pottery_vars <- pottery_vars[!pottery_vars %in% drop_for_plot_vars]
-        pottery_vars <- pottery_vars[!grepl("dimension", pottery_vars)]
-        pottery_vars <- pottery_vars[!grepl("coin", pottery_vars)]
-        pottery_vars <- pottery_vars[!grepl("amount.*", pottery_vars)]
+      var_choices <- reactive({
+        var_choices <- colnames(resources())
+        var_choices <- var_choices[!var_choices %in% drop_for_plot_vars]
+        var_choices <- var_choices[!grepl("dimension", var_choices)]
+        var_choices <- var_choices[!grepl("coin", var_choices)]
+        var_choices <- var_choices[!grepl("amount.*", var_choices)]
       })
+
+      sel_vars <- c("storagePlace", "condition")
+
+      switch(resource_category,
+             Pottery = sel_vars <- c("potteryGroup", "functionalCategory"),
+             Coins = sel_vars <- c("metalMaterial", "storagePlace"),
+             Sculpture = sel_vars <- c("sculptureMaterial", "storagePlace"))
 
       output$x_selector <- renderUI({
+
         selectInput(inputId = ns("x_var"), label = "Choose a variable for the x-axis:",
-                    choices = pottery_vars(), selected = "potteryGroup")
+                    choices = var_choices(), selected = sel_vars[1])
       })
 
       output$fill_selector <- renderUI({
         selectInput(inputId = ns("fill_var"), label = "Choose a variable for the color:",
-                    choices = pottery_vars(), selected = "functionalCategory")
+                    choices = var_choices(), selected = sel_vars[2])
       })
 
-      tabInfoRow_server("info", tab_data = pottery)
+      tabInfoRow_server("info", tab_data = resources)
 
-      generateLayerSelector("layers", pottery, inputid = ns("selected_layers"))
+      generateLayerSelector("layers", resources, inputid = ns("selected_layers"))
       generatePeriodSelector("periods", inputid = ns("selected_periods"))
 
       plot_data <- reactive({
@@ -93,7 +105,7 @@ pottery_server <- function(id) {
           need(is.character(input$x_var), "No variables selected.")
         )
 
-        plot_data <- pottery() %>%
+        plot_data <- resources() %>%
           filter(relation.liesWithinLayer %in% input$selected_layers) %>%
           period_filter(is_milet = is_milet,
                         selector = input$selected_periods) %>%
@@ -115,8 +127,9 @@ pottery_server <- function(id) {
           need(is.data.frame(plot_data()), "I am not getting the data!")
         )
 
-        fig <- plot_ly(plot_data(), x = ~x, y = ~n, color = ~color,
-                       type = "bar", textposition = "none", source = "potPlot_1",
+        fig <- plot_ly(plot_data(), x = ~x, y = ~n,
+                       color = ~color, customdata = ~color,
+                       type = "bar", source = "potPlot_1",
                        colors = viridis(length(unique(plot_data()$color))),
                        hovertemplate = paste0("<b>%{fullData.name}</b><br>",
                                               "%{x}<br>",
@@ -145,10 +158,20 @@ pottery_server <- function(id) {
         make_plot()
       })
 
+      click_data <- reactive({
+        event_data("plotly_click", source = "potPlot_1")
+      })
+
+      plotDataTable_server("resources_clickdata",
+                           resources = resources,
+                           click_data = click_data,
+                           x = reactive({input$x_var}),
+                           customdata = reactive({input$fill_var}))
 
 
-      #callModule(downloadPlotHandler, id = "download",
-      #           dlPlot = make_plot)
+
+      callModule(downloadPlotHandler, id = "download",
+                 dlPlot = make_plot)
 
 
     }

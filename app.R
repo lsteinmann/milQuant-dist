@@ -14,7 +14,7 @@ source("source/global_modules/displayPlotDataTable.R")
 
 # tab modules
 source("source/tab_modules/finds_tab_module.R")
-source("source/tab_modules/pottery_tab_module.R")
+source("source/tab_modules/barplot_module.R")
 
 # each tab / ui element group
 source("source/tabs/home_tab.R")
@@ -26,7 +26,6 @@ source("source/tabs/potteryQB_tab.R")
 source("source/tabs/bricks_tab.R")
 source("source/tabs/bricksQ_tab.R")
 source("source/tabs/loomweights_tab.R")
-source("source/tabs/coins_tab.R")
 
 #  header
 header <- dashboardHeader(
@@ -51,7 +50,7 @@ sidebar <- dashboardSidebar(
     menuItem("Workflow", tabName = "workflow", icon = icon("gear")),
     menuItem("All Finds", tabName = "all_finds", icon = icon("chart-bar")),
     menuItem("Pottery", tabName = "pottery_all", icon = icon("trophy"),
-             menuSubItem("Pottery (single)", tabName = "pottery",
+             menuSubItem("Pottery (single)", tabName = "pottery_tab",
                          icon = icon("martini-glass-empty")),
              menuSubItem("Pottery Quantification A", tabName = "potteryQA",
                          icon = icon("champagne-glasses")),
@@ -65,7 +64,9 @@ sidebar <- dashboardSidebar(
                          icon = icon("shapes"))
     ),
     menuItem("Loomweights", tabName = "loomweights", icon = icon("weight-hanging")),
-    menuItem("Coins", tabName = "coins", icon = icon("circle-dollar-to-slot"),
+    menuItem("Coins", tabName = "coins_tab", icon = icon("circle-dollar-to-slot"),
+             badgeLabel = "WIP", badgeColor = "red"),
+    menuItem("Sculpture", tabName = "sculpture_tab", icon = icon("horse-head"),
              badgeLabel = "WIP", badgeColor = "red"),
     menuItem("Issues / Contact", icon = icon("file-contract"),
              href = "https://github.com/lsteinmann/milQuant")
@@ -83,13 +84,14 @@ body <- dashboardBody(
     overview_tab,
     workflow_tab,
     all_finds_tab("all_finds"),
-    pottery_tab("pottery"),
+    barplot_tab("pottery", tabname = "pottery_tab"),
     potteryQA_tab,
     potteryQB_tab,
     bricks_tab,
     bricksQ_tab,
     loomweights_tab,
-    coins_tab
+    barplot_tab("coins", tabname = "coins_tab"),
+    barplot_tab("sculpture", tabname = "sculpture_tab")
   )
 )
 
@@ -118,7 +120,7 @@ server <- function(input, output, session) {
   all_finds_server("all_finds")
 
   # server code only for pottery form (single)
-  pottery_server("pottery")
+  barplot_server("pottery", resource_category = "Pottery")
   # server code only for pottery quantification A form
   source('source/server/potteryQA_serv.R', local = TRUE)
   # server code only for pottery quantification B form
@@ -132,7 +134,9 @@ server <- function(input, output, session) {
   source('source/server/loomweights_serv.R', local = TRUE)
 
   # server code only for coins
-  source('source/server/coins_serv.R', local = TRUE)
+  #source('source/server/coins_serv.R', local = TRUE)
+  barplot_server("coins", resource_category = "Coin")
+  barplot_server("sculpture", resource_category = "Sculpture")
 
   # server code for future sculpture tab
   # test commit
