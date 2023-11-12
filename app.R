@@ -23,7 +23,6 @@ source("source/tabs/overview_tab.R")
 source("source/tabs/workflow_tab.R")
 source("source/tabs/potteryQA_tab.R")
 source("source/tabs/potteryQB_tab.R")
-source("source/tabs/bricks_tab.R")
 source("source/tabs/bricksQ_tab.R")
 source("source/tabs/loomweights_tab.R")
 
@@ -47,8 +46,19 @@ sidebar <- dashboardSidebar(
     menuItem("Project overview", tabName = "overview", icon = icon("graduation-cap")),
     uiOutput("selected_operations"),
     uiOutput("selected_trenches"),
+
     menuItem("Workflow", tabName = "workflow", icon = icon("gear")),
-    menuItem("All Finds", tabName = "all_finds", icon = icon("chart-bar")),
+
+    menuItem("Finds", tabName = "all_finds", icon = icon("chart-bar"),
+             menuSubItem("Finds (Overview)", tabName = "all_finds", icon = icon("chart-bar")),
+             menuSubItem("Lamps", tabName = "lamps_tab", icon = icon("fire-flame-curved")),
+             menuSubItem("Metal", tabName = "metal_tab", icon = icon("utensils")),
+             menuSubItem("Plaster", tabName = "plaster_tab", icon = icon("paintbrush")),
+             menuSubItem("Sculpture", tabName = "sculpture_tab", icon = icon("person-skating")),
+             menuSubItem("Stone", tabName = "stone_tab", icon = icon("volcano")),
+             menuSubItem("Terracotta", tabName = "terracotta_tab", icon = icon("horse-head"))
+    ),
+
     menuItem("Pottery", tabName = "pottery_all", icon = icon("trophy"),
              menuSubItem("Pottery (single)", tabName = "pottery_tab",
                          icon = icon("martini-glass-empty")),
@@ -57,21 +67,19 @@ sidebar <- dashboardSidebar(
              menuSubItem("Pottery Quantification B", tabName = "potteryQB",
                          icon = icon("champagne-glasses"))
     ),
+
     menuItem("Bricks and Tiles", tabName = "bricks_all", icon = icon("square"),
              menuSubItem("Bricks and Tiles", tabName = "bricks_tab",
                          icon = icon("house")),
              menuSubItem("Brick/Tile/Pipe Quantification", tabName = "bricksQ",
                          icon = icon("shapes"))
     ),
+
     menuItem("Loomweights", tabName = "loomweights", icon = icon("weight-hanging")),
+
     menuItem("Coins", tabName = "coins_tab", icon = icon("circle-dollar-to-slot"),
-             badgeLabel = "AUTO", badgeColor = "teal"),
-    menuItem("Lamps", tabName = "lamps_tab", icon = icon("fire-flame-curved"),
-             badgeLabel = "AUTO", badgeColor = "teal"),
-    menuItem("Sculpture", tabName = "sculpture_tab", icon = icon("person-skating"),
-             badgeLabel = "AUTO", badgeColor = "teal"),
-    menuItem("Terracotta", tabName = "terracotta_tab", icon = icon("horse-head"),
-             badgeLabel = "AUTO", badgeColor = "teal"),
+             badgeLabel = "WIP", badgeColor = "teal"),
+
     menuItem("Issues / Contact", icon = icon("file-contract"),
              href = "https://github.com/lsteinmann/milQuant")
   )
@@ -96,7 +104,10 @@ body <- dashboardBody(
     loomweights_tab,
     barplot_tab("coins", tabname = "coins_tab"),
     barplot_tab("lamps", tabname = "lamps_tab"),
+    barplot_tab("metal", tabname = "metal_tab"),
+    barplot_tab("plaster", tabname = "plaster_tab"),
     barplot_tab("sculpture", tabname = "sculpture_tab"),
+    barplot_tab("stone", tabname = "stone_tab"),
     barplot_tab("terracotta", tabname = "terracotta_tab")
   )
 )
@@ -140,8 +151,12 @@ server <- function(input, output, session) {
   # server code only for coins
   #source('source/server/coins_serv.R', local = TRUE)
   barplot_server("coins", resource_category = "Coin")
+
   barplot_server("lamps", resource_category = "Lamp")
+  barplot_server("metal", resource_category = "Metal")
+  barplot_server("plaster", resource_category = "PlasterFragment")
   barplot_server("sculpture", resource_category = "Sculpture")
+  barplot_server("stone", resource_category = "Stone")
   barplot_server("terracotta", resource_category = "Terracotta")
 
   # server code for future sculpture tab

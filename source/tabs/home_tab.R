@@ -42,7 +42,10 @@ home_tab <- tabItem(
           time, you should select the Trench(es) you want to work with."),
         p("Though sometimes cumbersome, this selection process helps speed
           up the app a great deal. When you are all done, you can start
-          browsing the different tabs.")
+          browsing the different tabs."),
+        p("Please note that if you add new resources in Field Desktop while
+          working with milQuant, you need to press the 'Refresh Index' button
+          and wait in order to be able to see them.")
     )
   )
 )
