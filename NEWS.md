@@ -5,6 +5,7 @@
 * delay evaluation of Operation-input
 * redesign the overview-plot in plotly and make it display the complete project database with the exception of types and images
 * disable all buttons while shiny is busy (maybe remove this and do it only for the refresh-button)
+* add tab for coins
 
 
 # milQuant 1.0.3 _2023-10-30_

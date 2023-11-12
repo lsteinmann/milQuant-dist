@@ -26,6 +26,7 @@ source("source/tabs/potteryQB_tab.R")
 source("source/tabs/bricks_tab.R")
 source("source/tabs/bricksQ_tab.R")
 source("source/tabs/loomweights_tab.R")
+source("source/tabs/coins_tab.R")
 
 #  header
 header <- dashboardHeader(
@@ -64,6 +65,8 @@ sidebar <- dashboardSidebar(
                          icon = icon("shapes"))
     ),
     menuItem("Loomweights", tabName = "loomweights", icon = icon("weight-hanging")),
+    menuItem("Coins", tabName = "coins", icon = icon("circle-dollar-to-slot"),
+             badgeLabel = "WIP", badgeColor = "red"),
     menuItem("Issues / Contact", icon = icon("file-contract"),
              href = "https://github.com/lsteinmann/milQuant")
   )
@@ -85,7 +88,8 @@ body <- dashboardBody(
     potteryQB_tab,
     bricks_tab,
     bricksQ_tab,
-    loomweights_tab
+    loomweights_tab,
+    coins_tab
   )
 )
 
@@ -126,6 +130,9 @@ server <- function(input, output, session) {
 
   # server code only for loomweights
   source('source/server/loomweights_serv.R', local = TRUE)
+
+  # server code only for coins
+  source('source/server/coins_serv.R', local = TRUE)
 
   # server code for future sculpture tab
   # test commit
