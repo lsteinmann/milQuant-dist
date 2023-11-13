@@ -22,7 +22,7 @@ tabInfoRow_server <- function(id, tab_data) {
 
       output$n <- renderText({
         validate(
-          need(tab_data(), "Please wait.")
+          need(is.data.frame(tab_data()), "Waiting for data...")
         )
         prettyNum(nrow(tab_data()), big.mark = ",")
       })

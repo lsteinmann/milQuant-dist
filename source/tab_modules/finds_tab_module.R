@@ -134,7 +134,7 @@ all_finds_server <- function(id) {
       make_plot <- reactive({
 
         validate(
-          need(is.data.frame(plot_data()), "I am not getting the data!")
+          need(is.data.frame(plot_data()), "Waiting for data...")
         )
 
         fig <- plot_ly(plot_data(), x = ~x, y = ~n,

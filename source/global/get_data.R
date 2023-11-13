@@ -64,7 +64,8 @@ get_resources <<- function(resource_category = find_categories) {
     filter(category %in% resource_category) %>%
     pull(UID)
 
-  message(paste0("Getting ", length(uids), " ", resource_category, "-resources..."))
+  message(paste0("Getting ", length(uids), " resources of category: ",
+                 paste(resource_category, collapse = ", "), "..."))
 
   selected <- idf_uid_query(login_connection(), uids)
   message("Processing data (simplify_idaifield(), prep_for_shiny()).\nMay point out possible problems:")

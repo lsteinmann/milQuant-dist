@@ -18,17 +18,17 @@ prep_for_shiny <<- function(data, reorder_periods = reorder_periods) {
   tryCatch({
     data <- data %>%
       mutate(date = as.Date(as.character(date), format = "%d.%m.%Y"))
-  }, error = function(e) print(paste("prep_for_shiny(): ", e)))
+  }, error = function(e) message(paste("Caught problem in prep_for_shiny(): ", e)))
 
   tryCatch({
     data <- data %>%
       mutate(beginningDate = as.Date(as.character(beginningDate), format = "%d.%m.%Y"))
-  }, error = function(e) print(paste("prep_for_shiny(): ", e)))
+  }, error = function(e) message(paste("Caught problem in prep_for_shiny(): ", e)))
 
   tryCatch({
     data <- data %>%
       mutate(endDate = as.Date(as.character(endDate), format = "%d.%m.%Y"))
-  }, error = function(e) print(paste("prep_for_shiny(): ", e)))
+  }, error = function(e) message(paste("Caught problem in prep_for_shiny(): ", e)))
 
 
   if(reorder_periods) {
