@@ -104,10 +104,8 @@ bricksQ_server <- function(id) {
         }
 
         if (input$keep_context) {
-          fig <- plot_ly(plot_data,
-                         x = ~variable, y = ~value,
-                         color = ~color, customdata = ~color,
-                         type = "bar", source = "plot",
+          fig <- plot_ly(plot_data, type = "bar",
+                         x = ~variable, y = ~value, color = ~color,
                          colors = viridis(length(unique(plot_data$color))),
                          hovertemplate = paste0("<b>%{fullData.name}</b><br>",
                                                 "%{x}<br>",
@@ -118,8 +116,8 @@ bricksQ_server <- function(id) {
             select(variable, value) %>%
             group_by(variable) %>%
             summarise(value = sum(value)) %>%
-            plot_ly(x = ~variable, y = ~value,
-                    type = "bar", source = "plot",
+            plot_ly(type = "bar",
+                    x = ~variable, y = ~value,
                     hovertemplate = paste0("<b>%{x}</b><br>",
                                            "count: <b>%{y}</b><br>",
                                            "<extra></extra>"))
