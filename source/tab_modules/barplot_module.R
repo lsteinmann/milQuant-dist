@@ -68,6 +68,13 @@ barplot_server <- function(id, resource_category) {
         return(resources)
       })
 
+      selected_resources <- reactive({
+        resources() %>%
+          filter(relation.liesWithinLayer %in% input$selected_layers) %>%
+          period_filter(is_milet = is_milet,
+                        selector = input$selected_periods)
+      })
+
 
 
       var_choices <- reactive({
@@ -104,13 +111,11 @@ barplot_server <- function(id, resource_category) {
 
       plot_data <- reactive({
         validate(
+          need(is.data.frame(selected_resources()), "Waiting for data..."),
           need(is.character(input$x_var), "No variables selected.")
         )
 
-        plot_data <- resources() %>%
-          filter(relation.liesWithinLayer %in% input$selected_layers) %>%
-          period_filter(is_milet = is_milet,
-                        selector = input$selected_periods) %>%
+        plot_data <- selected_resources() %>%
           mutate(x = get(input$x_var),
                  color = get(input$fill_var)) %>%
           select(x, color) %>%
@@ -167,7 +172,7 @@ barplot_server <- function(id, resource_category) {
       })
 
       plotDataTable_server("resources_clickdata",
-                           resources = resources,
+                           resources = selected_resources,
                            click_data = click_data,
                            x = reactive({input$x_var}),
                            customdata = reactive({input$fill_var}))

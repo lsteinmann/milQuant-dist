@@ -69,6 +69,12 @@ all_finds_server <- function(id) {
         return(finds)
       })
 
+      selected_finds <- reactive({
+        finds() %>%
+          filter(relation.liesWithinLayer %in% input$selected_layers) %>%
+          period_filter(is_milet = is_milet, selector = input$selected_periods)
+      })
+
       tabInfoRow_server("info", tab_data = finds)
 
       generateLayerSelector("layers", finds, inputid = ns("selected_layers"))
@@ -102,6 +108,7 @@ all_finds_server <- function(id) {
       plot_data <- reactive({
 
         validate(
+          need(is.data.frame(selected_finds()), "Waiting for data..."),
           need(input$secondary_var, "Waiting for variable selection.")
         )
 
@@ -113,9 +120,7 @@ all_finds_server <- function(id) {
           color_var("category")
         }
 
-        plot_data <- finds() %>%
-          filter(relation.liesWithinLayer %in% input$selected_layers) %>%
-          period_filter(is_milet = is_milet, selector = input$selected_periods) %>%
+        plot_data <- selected_finds() %>%
           mutate(x = get(x_var()), color = get(color_var())) %>%
           select(x, color) %>%
           droplevels() %>%
@@ -176,7 +181,7 @@ all_finds_server <- function(id) {
       })
 
       plotDataTable_server("finds_clickdata",
-                           resources = finds,
+                           resources = selected_finds,
                            click_data = click_data,
                            x = x_var,
                            customdata = color_var)

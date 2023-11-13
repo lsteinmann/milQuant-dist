@@ -44,6 +44,7 @@ plotDataTable_server <- function(id, resources, click_data, x, customdata) {
         }
 
         validate(
+          need(is.data.frame(click_data()), "Waiting for click..."),
           need(input$selected_tbl_columns, "Can't get the selected columns from selector!")
         )
 
