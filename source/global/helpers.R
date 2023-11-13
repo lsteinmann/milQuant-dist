@@ -140,7 +140,9 @@ milquant_plotly_layout <<- function(plotly_fig, caption = FALSE) {
     layout(yaxis = list(tickmode = "auto", showline = FALSE, gridwidth = 3,
                         gridcolor = "grey20"),
            xaxis = list(gridcolor = "grey60"),
-           title = list(xanchor = "left", x = 0),
+           title = list(xanchor = "left", x = 0,
+                        pad = list(b = 50),
+                        yref = "container", automargin = TRUE),
            showlegend = TRUE)
 
   if (is.character(caption)) {
