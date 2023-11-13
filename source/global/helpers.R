@@ -28,7 +28,7 @@ prep_for_shiny <<- function(data, reorder_periods = reorder_periods) {
   }, error = function(e) print(paste("prep_for_shiny(): ", e)))
 
 
-  if(reorder_periods) {
+  if(reorder_periods && length(data$period) != 0) {
     data <- data %>%
       mutate_at(c("period", "period.end", "period.start"), as.character) %>%
       # fix value for periods that have been assigned multiple periods
