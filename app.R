@@ -131,33 +131,35 @@ server <- function(input, output, session) {
   source('source/server/workflow_serv.R', local = TRUE)
 
 
-
+  # general finds plot
   all_finds_server("all_finds")
 
-  # server code only for pottery form (single)
-  barplot_server("pottery", resource_category = "Pottery")
-  # server code only for pottery quantification A form
-  source('source/server/potteryQA_serv.R', local = TRUE)
-  # server code only for pottery quantification B form
-  source('source/server/potteryQB_serv.R', local = TRUE)
-
-  # server code only for bricks
-  barplot_server("bricks", resource_category = "Brick")
-  source('source/server/bricksQ_serv.R', local = TRUE)
-
-  # server code for loomweights
-  loomweights_server("lw_hist")
-
-  # server code only for coins
-  #source('source/server/coins_serv.R', local = TRUE)
-  barplot_server("coins", resource_category = "Coin")
-
+  # all other (automated) finds
   barplot_server("lamps", resource_category = "Lamp")
   barplot_server("metal", resource_category = "Metal")
   barplot_server("plaster", resource_category = "PlasterFragment")
   barplot_server("sculpture", resource_category = "Sculpture")
   barplot_server("stone", resource_category = "Stone")
   barplot_server("terracotta", resource_category = "Terracotta")
+
+  # server code for pottery form (single)
+  barplot_server("pottery", resource_category = "Pottery")
+  # server code for pottery quantification A form
+  source('source/server/potteryQA_serv.R', local = TRUE)
+  # server code for pottery quantification B form
+  source('source/server/potteryQB_serv.R', local = TRUE)
+
+  # server code for bricks
+  barplot_server("bricks", resource_category = "Brick")
+  source('source/server/bricksQ_serv.R', local = TRUE)
+
+  # server code for loomweights
+  loomweights_server("lw_hist")
+
+  # server code for coins
+  barplot_server("coins", resource_category = "Coin")
+
+
 
   # server code for future sculpture tab
   # test commit
