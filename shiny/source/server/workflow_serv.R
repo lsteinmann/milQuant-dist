@@ -6,11 +6,10 @@ wf_disp_cols <- reactive({
 
 workflow_data <- reactive({
   validate(
-    need(is.data.frame(selected_db()), "No Trenches and/or Places selected.")
+    need(is.data.frame(react_index()), "No Index available.")
   )
 
-  base_data <- selected_db() %>%
-    filter(category %in% find_categories) %>%
+  base_data <- get_resources(resource_category = find_categories) %>%
     remove_na_cols() %>%
     select(any_of(wf_disp_cols()), contains("workflow")) %>%
     mutate_at(vars(contains("workflow")), ~ ifelse(is.na(.), FALSE, TRUE))

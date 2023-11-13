@@ -1,10 +1,9 @@
 bricksQ <- reactive({
   validate(
-    need(is.data.frame(selected_db()), "No Trenches and/or Places selected.")
+    need(is.data.frame(react_index()), "No Index available.")
   )
 
-  bricksQ <- selected_db() %>%
-    filter(category == "Brick_Quantification") %>%
+  bricksQ <- get_resources(resource_category = "Brick_Quantification") %>%
     remove_na_cols()
   return(bricksQ)
 })
@@ -12,18 +11,14 @@ bricksQ <- reactive({
 output$bricksQ_overview <- renderText({
   n_objects <- nrow(bricksQ())
   n_layers <- length(unique(bricksQ()$relation.liesWithinLayer))
-  paste("The selected trenches ", paste(input$select_trench, collapse = ", "),
-        " (from ", paste(input$select_operation, collapse = ", "),
+  paste("The selected trenches ", paste(input$selected_trenches, collapse = ", "),
+        " (from ", paste(input$selected_operations, collapse = ", "),
         ") contain a total of ", n_objects,
         " Brick-Quantification Forms from ", n_layers, " contexts.",
         sep = "")
 })
 
-output$bricksQ_layer_selector <- renderUI({
-  make_layer_selector(bricksQ(),
-                      inputId = "bricksQ_layer_selector")
-})
-
+generateLayerSelector("bricksQ_layers", bricksQ, inputid = "selected_bricksQ_layers")
 
 make_bricksQPlot_1 <- reactive({
   existing_cols <- colnames(bricksQ())
@@ -36,7 +31,7 @@ make_bricksQPlot_1 <- reactive({
   keep <- c(keep, "relation.liesWithinLayer")
 
   plot_data <- bricksQ() %>%
-    filter(relation.liesWithinLayer %in% input$bricksQ_layer_selector) %>%
+    filter(relation.liesWithinLayer %in% input$selected_bricksQ_layers) %>%
     select(all_of(keep)) %>%
     melt(id = "relation.liesWithinLayer") %>%
     mutate(value = ifelse(is.na(value), 0, value)) %>%
@@ -59,7 +54,5 @@ output$bricksQPlot_1 <- renderPlotly({
   convert_to_Plotly(make_bricksQPlot_1())
 })
 
-callModule(downloadPlotHandler, id = "bricksQPlot_1_download",
-           dlPlot = make_bricksQPlot_1)
-
+makeDownloadPlotHandler("bricksQPlot_1_download", dlPlot = make_bricksQPlot_1)
 

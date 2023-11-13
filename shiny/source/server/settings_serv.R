@@ -4,11 +4,11 @@ observeEvent(input$tab_connect.connect, {
   validate(
     need(exists("projects"), "Project list not available.")
   )
-  output$select_project <- renderUI({
-    selectizeInput(inputId = "select_project",
+  output$selected_project <- renderUI({
+    selectizeInput(inputId = "selected_project",
                    label = "Choose a Project to work with",
                    choices = projects, multiple = FALSE,
-                   selected = selection_settings$select_project,
+                   selected = selection_settings$selected_project,
                    options = list(
                      placeholder = "Please select an option below")
                    )
@@ -16,7 +16,7 @@ observeEvent(input$tab_connect.connect, {
 })
 
 
-react_index <- reactiveVal(value = NULL)
+react_index <<- reactiveVal(value = NULL)
 
 observeEvent(input$loadDatabase, {
 
@@ -32,14 +32,14 @@ observeEvent(input$loadDatabase, {
   message("Trying to connect to the project:")
   try_project <- tryCatch({
     client <- idaifieldR:::proj_idf_client(login_connection(), include = "query",
-                                           project = input$select_project)
+                                           project = input$selected_project)
     query <- paste0(
       '{
       "selector": { "resource.id": "project" },
       "fields": [ "resource.id", "resource.identifier" ]
        }')
     response <- idaifieldR:::response_to_list(client$post(body = query))
-    input$select_project %in% unlist(response)
+    input$selected_project %in% unlist(response)
   }, warning = function(w) {
     conditionMessage(w)
   }, error = function(e) {
@@ -48,7 +48,7 @@ observeEvent(input$loadDatabase, {
 
   if (try_project) {
     new_login_connection <- login_connection()
-    new_login_connection$project <- input$select_project
+    new_login_connection$project <- input$selected_project
     login_connection(new_login_connection)
     message("Success! Getting the Index:")
     newIndex <- get_index(source = login_connection())
@@ -56,9 +56,9 @@ observeEvent(input$loadDatabase, {
     message("Done.")
     rm(newIndex)
     output$load.success_msg <- renderText(paste("Using project:",
-                                                isolate(input$select_project)))
+                                                isolate(input$selected_project)))
     shinyjs::show("load.success_msg")
-    output$current_project <- renderText({input$select_project})
+    output$current_project <- renderText({input$selected_project})
     removeModal()
   } else {
     output$load.error_msg <- renderText(paste("An error has occured: ",
@@ -71,15 +71,25 @@ observeEvent(input$close_busy_dialog,{
   removeModal()
 })
 
-observeEvent(input$select_project, {
+observeEvent(input$selected_project, {
   hide('load.success_msg')
-  is_milet <<- input$select_project == "milet"
+  is_milet <<- input$selected_project %in% c("milet", "milet-test")
   if (is_milet) {
     reorder_periods <<- TRUE
   } else {
     reorder_periods <<- FALSE
   }
 })
+
+
+observeEvent(input$refreshIndex, {
+  message("Fetching the Index again...")
+  newIndex <- get_index(source = login_connection())
+  react_index(newIndex)
+  message("Done.")
+  rm(newIndex)
+})
+
 
 # Produces the List of Places to select from the reactive Index
 # may not update when index is refreshed
@@ -100,17 +110,19 @@ operations <- reactive({
 })
 
 
+db_operations <<- reactive({input$selected_operations}) %>% debounce(2000)
+
 trenches <- reactive({
   validate(
-    need(input$select_operation, "No operation selected.")
+    need(db_operations(), "No operation selected.")
   )
-  if (input$select_operation[1] == "select everything") {
+  if (db_operations()[1] == "select everything") {
     tmp_trenches <- react_index() %>%
       pull(isRecordedIn) %>%
       unique()
   } else {
     tmp_trenches <- react_index() %>%
-    filter(Place %in% input$select_operation) %>%
+    filter(Place %in% db_operations()) %>%
     pull(isRecordedIn) %>%
     unique()
   }
@@ -121,12 +133,15 @@ trenches <- reactive({
   return(trenches)
 })
 
+db_trenches <<- reactive({input$selected_trenches}) %>% debounce(2000)
+
+
 #Place Selector -- Return the requested dataset as text
 # apparently i do not use this anywhere??
 #output$selected_place <- renderText({
-#  paste(input$select_operation)
+#  paste(input$selected_operations)
 #})
-output$select_operation <- renderUI({
+output$selected_operations <- renderUI({
   validate(
     need(react_index(), "No project selected.")
   )
@@ -134,10 +149,10 @@ output$select_operation <- renderUI({
   if (length(choices) == 0) {
     choices <- c("select everything")
   }
-  pickerInput(inputId = "select_operation",
+  pickerInput(inputId = "selected_operations",
               label = "Choose one or more Places / Operations to work with",
               choices = choices,
-              selected = selection_settings$select_operation,
+              selected = selection_settings$selected_operations,
               multiple = TRUE,
               options = list("actions-box" = TRUE,
                              "live-search" = TRUE,
@@ -145,14 +160,14 @@ output$select_operation <- renderUI({
                              "live-search-placeholder" = "Search here..."))
 })
 
-output$select_trench <- renderUI({
+output$selected_trenches <- renderUI({
   validate(
     need(react_index(), "No project selected.")
   )
-  pickerInput(inputId = "select_trench",
+  pickerInput(inputId = "selected_trenches",
               label = "Choose one or more Trenches to work with",
               choices = trenches(),
-              selected = selection_settings$select_trench,
+              selected = selection_settings$selected_trenches,
               multiple = TRUE,
               options = list("actions-box" = TRUE,
                              "live-search" = TRUE,
@@ -166,15 +181,15 @@ output$select_trench <- renderUI({
 #  validate(
 #    need(react_index(), "No project selected.")
 #  )
-#  config <- get_configuration(login_connection, projectname = input$select_project)
+#  config <- get_configuration(login_connection, projectname = input$selected_project)
 #  return(react_periods)
 #})
 
 
 observeEvent(input$close_app,{
-  selection_settings <- list("select_project" = input$select_project,
-                             "select_operation" = input$select_operation,
-                             "select_trench" = input$select_trench)
+  selection_settings <- list("selected_project" = input$selected_project,
+                             "selected_operations" = input$selected_operations,
+                             "selected_trenches" = input$selected_trenches)
   saveRDS(selection_settings, "defaults/selection_settings.RDS")
   print("Shiny: EXIT")
   stopApp()

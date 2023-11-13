@@ -31,11 +31,11 @@ All plots can be given custom titles and subtitles. The plots can be saved as pn
 
 ## Dependencies and other info
 
-This app uses the [idaifieldR](https://github.com/lsteinmann/idaifieldR) package at version 0.2.3. The package is currently only available on GitHub, and is used to import data from Field Desktop / iDAI.field into R. You can install it using `devtools` or `remotes`, but running milQuant should take care of that automatically.
+This app uses the [idaifieldR](https://github.com/lsteinmann/idaifieldR) package (not on CRAN) to import data from Field Desktop. For more info about the package, see [this article](https://doi.org/10.34780/068b-q6c7). 
 
 Apart from that there is a variety of other packages used in the dashboard, all of which can be found on CRAN and are automatically installed when trying to run the app: 
 ```
-require("shiny", "shinydashboard", "shinycssloaders", "shinyjs", "ggplot2", "plotly", "dplyr", "reshape2", "forcats", "DT", "remotes", "idaifieldR", "shinyWidgets", "tidyr", "viridis", "glue")
+require("shiny", "shinydashboard", "shinycssloaders", "shinyjs", "shinyWidgets", "ggplot2", "plotly", "viridis", "dplyr", "reshape2", "forcats", "tidyr", "DT", "remotes", "glue")
 ```
 
 This repository contains a distributable version of milQuant built with electron and based off [electron-quick-start](https://github.com/electron/electron-quick-start) and [COVAIL](https://github.com/COVAIL/electron-quick-start/blob/master/main.js) (see also: [lsteinmann/shiny-electron](https://github.com/lsteinmann/shiny-electron).) The directory R-win-port (locally) contains an R-portable distribution for windows.

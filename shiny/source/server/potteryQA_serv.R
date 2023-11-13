@@ -1,29 +1,26 @@
 potteryQA <- reactive({
   validate(
-    need(is.data.frame(selected_db()), "No Trenches and/or Places selected.")
+    need(is.data.frame(react_index()), "No Index available.")
   )
 
-  potteryQA <- selected_db() %>%
-    filter(category == "Pottery_Quantification_A") %>%
+  potteryQA <- get_resources(resource_category = "Pottery_Quantification_A") %>%
     remove_na_cols()
   return(potteryQA)
 })
 
-output$potQA_overview <- renderText({
+output$potteryQA_overview <- renderText({
   n_objects <- nrow(potteryQA())
   n_layers <- length(unique(potteryQA()$relation.liesWithinLayer))
-  paste("The selected place (", paste(input$select_operation, collapse = ", "),
+  paste("The selected place (", paste(input$selected_operations, collapse = ", "),
         ") contains a total of ", n_objects,
         " pottery quantification (A) forms from ", n_layers, " contexts. Kolay gelsin.",
         sep = "")
 })
 
-output$QA_layer_selector <- renderUI({
-  make_layer_selector(potteryQA(),
-                      inputId = "QA_layer_selector")
-})
+generateLayerSelector("QA_layers", potteryQA, inputid = "selected_QA_layers")
 
-QApotPlot_data <- reactive({
+
+potteryQAPlot_data <- reactive({
   validate(
     need(is.data.frame(potteryQA()), "Data not available.")
   )
@@ -37,7 +34,7 @@ QApotPlot_data <- reactive({
   keep <- c(keep, "relation.liesWithinLayer")
 
   plot_data <- potteryQA() %>%
-    filter(relation.liesWithinLayer %in% input$QA_layer_selector) %>%
+    filter(relation.liesWithinLayer %in% input$selected_QA_layers) %>%
     select(all_of(keep)) %>%
     melt(id = "relation.liesWithinLayer") %>%
     mutate(value = ifelse(is.na(value), 0, value)) %>%
@@ -51,51 +48,49 @@ QApotPlot_data <- reactive({
   return(plot_data)
 })
 
-#QApotPlot_data <- function() { return(plot_data)}
+#potteryQAPlot_data <- function() { return(plot_data)}
 
-QApotPlot_1 <- reactive({
+potteryQAPlot_1 <- reactive({
 
 
-  if (input$QApotPlot_1_display == "fill") {
-    p <- ggplot(QApotPlot_data(), aes(x = variable,
+  if (input$potteryQAPlot_1_display == "fill") {
+    p <- ggplot(potteryQAPlot_data(), aes(x = variable,
                                fill = relation.liesWithinLayer))
     legend_title <- "Context"
     x_axis_title <- "functional category"
-  } else if (input$QApotPlot_1_display == "x") {
-    p <- ggplot(QApotPlot_data(), aes(x = relation.liesWithinLayer,
+  } else if (input$potteryQAPlot_1_display == "x") {
+    p <- ggplot(potteryQAPlot_data(), aes(x = relation.liesWithinLayer,
                                fill = variable))
     legend_title <- "functional category"
     x_axis_title <- "Context"
 
-  } else if (input$QApotPlot_1_display == "none") {
+  } else if (input$potteryQAPlot_1_display == "none") {
 
-    p <- ggplot(QApotPlot_data(), aes(x = variable))
+    p <- ggplot(potteryQAPlot_data(), aes(x = variable))
     legend_title <- "none"
     x_axis_title <- "Vessel Forms"
   }
 
-  if (input$QApotPlot_1_title == "") {
+  if (input$potteryQAPlot_1_title == "") {
     plot_title <- paste("Vessel Forms from Context: ",
-                        paste(input$QA_layer_selector, collapse = ", "),
+                        paste(input$selected_QA_layers, collapse = ", "),
                         sep = "")
   } else {
-    plot_title <- input$QApotPlot_1_title
+    plot_title <- input$potteryQAPlot_1_title
   }
 
   p <- p +
-    geom_bar(position = input$QApotPlot_1_bars) +
+    geom_bar(position = input$potteryQAPlot_1_bars) +
     scale_fill_discrete(name = legend_title, guide = "legend") +
     labs(x = x_axis_title, y = "count",
          title = plot_title,
-         subtitle = input$QApotPlot_1_subtitle,
-         caption = paste("Total Number of Fragments:", nrow(QApotPlot_data())))
+         subtitle = input$potteryQAPlot_1_subtitle,
+         caption = paste("Total Number of Fragments:", nrow(potteryQAPlot_data())))
   p
 })
 
-output$QApotPlot_1 <- renderPlotly({
-  convert_to_Plotly(QApotPlot_1())
+output$potteryQAPlot_1 <- renderPlotly({
+  convert_to_Plotly(potteryQAPlot_1())
 })
 
-callModule(downloadPlotHandler, id = "QApotPlot_1_download",
-           dlPlot = make_QApotPlot_1)
-
+makeDownloadPlotHandler("potteryQAPlot_1_download", dlPlot = make_potteryQAPlot_1)

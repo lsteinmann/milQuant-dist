@@ -13,7 +13,7 @@ bricksQ_tab <- tabItem(
                 placeholder = "Enter title here"),
       textInput(inputId = "bricksQPlot_1_subtitle", label = "Subtitle",
                 placeholder = "Enter subtitle here"),
-      htmlOutput("bricksQ_layer_selector"),
+      uiLayerSelector("bricksQ_layers"),
       downloadPlotButtons("bricksQPlot_1_download")
     ),
     box(

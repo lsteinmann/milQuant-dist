@@ -5,8 +5,8 @@ home_tab <- tabItem(
   fluidRow(
     box(width = 10,
         div(img(src="milQuant-logo.png", height=100, align="center"))),
-    infoBox(width = 2, title = "Version", subtitle = "date: 30.10.2023",
-            icon = icon("code-branch"), value = "v.1.0.3", color = "black",
+    infoBox(width = 2, title = "Version", subtitle = "date: 13.11.2023",
+            icon = icon("code-branch"), value = "v.1.1.0", color = "black",
             href = "https://github.com/lsteinmann/milQuant")
   ),
   fluidRow(
@@ -20,7 +20,7 @@ home_tab <- tabItem(
   fluidRow(
     box(width = 6, height = "200px", title = "Select a project to work with",
         div(class = "welcome-row-div",
-            uiOutput("select_project"),
+            uiOutput("selected_project"),
             actionButton(inputId = "loadDatabase",
                          label = "Load Database"))),
     box(p("With this App, you can view and download various plots of data from
@@ -42,7 +42,10 @@ home_tab <- tabItem(
           time, you should select the Trench(es) you want to work with."),
         p("Though sometimes cumbersome, this selection process helps speed
           up the app a great deal. When you are all done, you can start
-          browsing the different tabs.")
+          browsing the different tabs."),
+        p("Please note that if you add new resources in Field Desktop while
+          working with milQuant, you need to press the 'Refresh Index' button
+          and wait in order to be able to see them.")
     )
   )
 )
