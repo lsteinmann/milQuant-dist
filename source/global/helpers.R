@@ -7,6 +7,9 @@ prep_for_shiny <<- function(data, reorder_periods = reorder_periods) {
     as.data.frame() %>%
     mutate(relation.liesWithinLayer = na_if(relation.liesWithinLayer, "NA")) %>%
     mutate(relation.liesWithinLayer = ifelse(is.na(relation.liesWithinLayer),
+                                             relation.liesWithin,
+                                             relation.liesWithinLayer)) %>%
+    mutate(relation.liesWithinLayer = ifelse(is.na(relation.liesWithinLayer),
                                              relation.isRecordedIn,
                                              relation.liesWithinLayer)) %>%
     remove_na_cols() %>%
