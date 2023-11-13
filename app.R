@@ -49,16 +49,7 @@ sidebar <- dashboardSidebar(
 
     menuItem("Workflow", tabName = "workflow", icon = icon("gear")),
 
-    menuItem("Finds", tabName = "all_finds", icon = icon("chart-bar"),
-             menuSubItem("Finds (Overview)", tabName = "all_finds", icon = icon("chart-bar")),
-             menuSubItem("Lamps", tabName = "lamps_tab", icon = icon("fire-flame-curved")),
-             menuSubItem("Metal", tabName = "metal_tab", icon = icon("utensils")),
-             menuSubItem("Plaster", tabName = "plaster_tab", icon = icon("paintbrush")),
-             menuSubItem("Sculpture", tabName = "sculpture_tab", icon = icon("person-skating")),
-             menuSubItem("Stone", tabName = "stone_tab", icon = icon("volcano")),
-             menuSubItem("Terracotta", tabName = "terracotta_tab", icon = icon("horse-head"))
-    ),
-
+    menuItem("Finds", tabName = "all_finds", icon = icon("chart-bar")),
     menuItem("Pottery", tabName = "pottery_all", icon = icon("trophy"),
              menuSubItem("Pottery (single)", tabName = "pottery_tab",
                          icon = icon("martini-glass-empty")),
@@ -67,19 +58,23 @@ sidebar <- dashboardSidebar(
              menuSubItem("Pottery Quantification B", tabName = "potteryQB",
                          icon = icon("champagne-glasses"))
     ),
-
     menuItem("Bricks and Tiles", tabName = "bricks_all", icon = icon("square"),
              menuSubItem("Bricks and Tiles", tabName = "bricks_tab",
                          icon = icon("house")),
              menuSubItem("Brick/Tile/Pipe Quantification", tabName = "bricksQ_tab",
                          icon = icon("shapes"))
     ),
-
-    menuItem("Loomweights", tabName = "loomweights_hist", icon = icon("weight-hanging")),
-
     menuItem("Coins", tabName = "coins_tab", icon = icon("circle-dollar-to-slot"),
              badgeLabel = "WIP", badgeColor = "teal"),
-
+    menuItem("Bone", tabName = "bone_tab", icon = icon("bone")),
+    menuItem("Glass", tabName = "glass_tab", icon = icon("whiskey-glass")),
+    menuItem("Lamps", tabName = "lamps_tab", icon = icon("fire-flame-curved")),
+    menuItem("Loomweights", tabName = "loomweights_hist", icon = icon("weight-hanging")),
+    menuItem("Metal", tabName = "metal_tab", icon = icon("utensils")),
+    menuItem("Plaster", tabName = "plaster_tab", icon = icon("paintbrush")),
+    menuItem("Sculpture", tabName = "sculpture_tab", icon = icon("person-skating")),
+    menuItem("Stone", tabName = "stone_tab", icon = icon("volcano")),
+    menuItem("Terracotta", tabName = "terracotta_tab", icon = icon("horse-head")),
     menuItem("Issues / Contact", icon = icon("file-contract"),
              href = "https://github.com/lsteinmann/milQuant")
   )
@@ -101,9 +96,11 @@ body <- dashboardBody(
     potteryQB_tab,
     barplot_tab("bricks", tabname = "bricks_tab"),
     bricksQ_tab("bricksQ_bar"),
-    loomweights_tab("lw_hist"),
     barplot_tab("coins", tabname = "coins_tab"),
+    barplot_tab("bone", tabname = "bone_tab"),
+    barplot_tab("glass", tabname = "glass_tab"),
     barplot_tab("lamps", tabname = "lamps_tab"),
+    loomweights_tab("lw_hist"),
     barplot_tab("metal", tabname = "metal_tab"),
     barplot_tab("plaster", tabname = "plaster_tab"),
     barplot_tab("sculpture", tabname = "sculpture_tab"),
@@ -135,7 +132,10 @@ server <- function(input, output, session) {
   all_finds_server("all_finds")
 
   # all other (automated) finds
+  barplot_server("bone", resource_category = "Bone")
+  barplot_server("glass", resource_category = "Glass")
   barplot_server("lamps", resource_category = "Lamp")
+  loomweights_server("lw_hist")
   barplot_server("metal", resource_category = "Metal")
   barplot_server("plaster", resource_category = "PlasterFragment")
   barplot_server("sculpture", resource_category = "Sculpture")
@@ -152,9 +152,6 @@ server <- function(input, output, session) {
   # server code for bricks
   barplot_server("bricks", resource_category = "Brick")
   bricksQ_server("bricksQ_bar")
-
-  # server code for loomweights
-  loomweights_server("lw_hist")
 
   # server code for coins
   barplot_server("coins", resource_category = "Coin")
