@@ -16,6 +16,7 @@ source("source/global_modules/displayPlotDataTable.R")
 source("source/tab_modules/finds_tab_module.R")
 source("source/tab_modules/barplot_module.R")
 source("source/tab_modules/loomweights_tab_module.R")
+source("source/tab_modules/bricksQ_tab_module.R")
 
 # each tab / ui element group
 source("source/tabs/home_tab.R")
@@ -24,7 +25,6 @@ source("source/tabs/overview_tab.R")
 source("source/tabs/workflow_tab.R")
 source("source/tabs/potteryQA_tab.R")
 source("source/tabs/potteryQB_tab.R")
-source("source/tabs/bricksQ_tab.R")
 
 #  header
 header <- dashboardHeader(
@@ -71,7 +71,7 @@ sidebar <- dashboardSidebar(
     menuItem("Bricks and Tiles", tabName = "bricks_all", icon = icon("square"),
              menuSubItem("Bricks and Tiles", tabName = "bricks_tab",
                          icon = icon("house")),
-             menuSubItem("Brick/Tile/Pipe Quantification", tabName = "bricksQ",
+             menuSubItem("Brick/Tile/Pipe Quantification", tabName = "bricksQ_tab",
                          icon = icon("shapes"))
     ),
 
@@ -100,7 +100,7 @@ body <- dashboardBody(
     potteryQA_tab,
     potteryQB_tab,
     barplot_tab("bricks", tabname = "bricks_tab"),
-    bricksQ_tab,
+    bricksQ_tab("bricksQ_bar"),
     loomweights_tab("lw_hist"),
     barplot_tab("coins", tabname = "coins_tab"),
     barplot_tab("lamps", tabname = "lamps_tab"),
@@ -151,7 +151,7 @@ server <- function(input, output, session) {
 
   # server code for bricks
   barplot_server("bricks", resource_category = "Brick")
-  source('source/server/bricksQ_serv.R', local = TRUE)
+  bricksQ_server("bricksQ_bar")
 
   # server code for loomweights
   loomweights_server("lw_hist")
