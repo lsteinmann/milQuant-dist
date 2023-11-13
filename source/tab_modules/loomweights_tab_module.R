@@ -40,12 +40,6 @@ loomweights_tab <- function(id) {
         width = 9, height = 850,
         plotlyOutput(ns("display_plot"), height = 670) %>% mq_spinner()
       )
-    ),
-    fluidRow(
-      box(
-        width = 9, height = 850,
-        h1("NBAÖSADS"),
-      tableOutput(ns("click_data")))
     )
   )
 
@@ -173,13 +167,6 @@ loomweights_server <- function(id) {
       })
 
       makeDownloadPlotHandler("download", dlPlot = make_plot)
-
-      click_data <- renderTable({
-        bla <- event_data("plotly_click", source = "loomweights_histogram")
-        bla <- as.data.frame(bla)
-        return(bla)
-      })
-
 
     }
   )
