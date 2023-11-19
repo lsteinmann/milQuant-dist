@@ -17,6 +17,7 @@ source("source/tab_modules/finds_tab_module.R")
 source("source/tab_modules/barplot_module.R")
 source("source/tab_modules/loomweights_tab_module.R")
 source("source/tab_modules/bricksQ_tab_module.R")
+source("source/tab_modules/basic_quant_module.R")
 
 # each tab / ui element group
 source("source/tabs/home_tab.R")
@@ -50,7 +51,8 @@ sidebar <- dashboardSidebar(
     menuItem("Workflow", tabName = "workflow", icon = icon("gear")),
 
     menuItem("Find Overview", tabName = "finds_overview", icon = icon("chart-bar"),
-             menuSubItem("Inventoried Finds", tabName = "all_finds", icon = icon("chart-bar"))),
+             menuSubItem("Inventoried Finds", tabName = "all_finds", icon = icon("chart-bar")),
+             menuSubItem("Quantifications", tabName = "all_finds_quant_tab", icon = icon("chart-simple"))),
     menuItem("Pottery", tabName = "pottery_all", icon = icon("trophy"),
              menuSubItem("Pottery (single)", tabName = "pottery_tab",
                          icon = icon("martini-glass-empty")),
@@ -93,6 +95,7 @@ body <- dashboardBody(
     overview_tab,
     workflow_tab,
     all_finds_tab("all_finds"),
+    basic_quant_tab("all_finds_quant", tabname = "all_finds_quant_tab"),
     barplot_tab("pottery", tabname = "pottery_tab"),
     potteryQA_tab,
     potteryQB_tab,
@@ -132,6 +135,7 @@ server <- function(input, output, session) {
 
   # general finds plot
   all_finds_server("all_finds")
+  basic_quant_server("all_finds_quant")
 
   # all other (automated) finds
   barplot_server("bone", resource_category = "Bone")
