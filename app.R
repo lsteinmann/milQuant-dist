@@ -18,6 +18,7 @@ source("source/tab_modules/barplot_module.R")
 source("source/tab_modules/loomweights_tab_module.R")
 source("source/tab_modules/bricksQ_tab_module.R")
 source("source/tab_modules/basic_quant_module.R")
+source("source/tab_modules/aoristic_module.R")
 
 # each tab / ui element group
 source("source/tabs/home_tab.R")
@@ -68,7 +69,8 @@ sidebar <- dashboardSidebar(
                          icon = icon("shapes"))
     ),
     menuItem("Coins", tabName = "coins_tab", icon = icon("circle-dollar-to-slot"),
-             badgeLabel = "WIP", badgeColor = "teal"),
+             menuSubItem("Coins", tabName = "coins_tab", icon = icon("chart-column")),
+             menuSubItem("Coins (Aoristic)", tabName = "coins_aor_tab", icon = icon("chart-area"))),
     menuItem("Loomweights", tabName = "loomweights_hist", icon = icon("weight-hanging"),
              menuSubItem("Loomweights", tabName = "loomweights_bar_tab", icon = icon("weight-hanging")),
              menuSubItem("Loomweights by Weight", tabName = "loomweights_hist_tab", icon = icon("scale-unbalanced"))),
@@ -112,6 +114,7 @@ body <- dashboardBody(
 
     # coins
     barplot_tab("coins", tabname = "coins_tab"),
+    aoristic_tab("coins_aor", tabname = "coins_aor_tab"),
 
     # loomweights
     loomweights_tab("lw_hist"),
@@ -165,6 +168,7 @@ server <- function(input, output, session) {
 
   # server code for coins
   barplot_server("coins", resource_category = "Coin")
+  aoristic_server("coins_aor", resource_category = "Coin")
 
   # loomweights
   loomweights_server("lw_hist")
