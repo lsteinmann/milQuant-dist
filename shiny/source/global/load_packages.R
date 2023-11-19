@@ -3,7 +3,7 @@ packages <- c("shiny", "shinydashboard",
               "ggplot2", "plotly", "viridis",
               "dplyr", "reshape2", "forcats", "tidyr", "DT",
               "remotes", "idaifieldR",
-              "glue")
+              "glue", "datplot")
 
 idf_version <- "0.3.2"
 
