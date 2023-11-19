@@ -120,7 +120,8 @@ basic_quant_server <- function(id, resource_category) {
           mutate(value = ifelse(is.na(value), 0, value)) %>%
           mutate(value = as.numeric(value)) %>%
           group_by(x, color) %>%
-          summarise(value = sum(value))
+          summarise(value = sum(value)) %>%
+          arrange(value)
 
         if (input$plot_by == "weightTotal") {
           plot_data$value <- plot_data$value / 1000
