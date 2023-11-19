@@ -141,7 +141,7 @@ milquant_plotly_layout <<- function(plotly_fig, caption = FALSE) {
                         gridcolor = "grey20"),
            xaxis = list(gridcolor = "grey60"),
            title = list(xanchor = "left", x = 0,
-                        pad = list(b = 50),
+                        pad = list(b = 70),
                         yref = "container", automargin = TRUE),
            showlegend = TRUE)
 

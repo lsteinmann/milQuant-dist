@@ -69,7 +69,9 @@ sidebar <- dashboardSidebar(
     ),
     menuItem("Coins", tabName = "coins_tab", icon = icon("circle-dollar-to-slot"),
              badgeLabel = "WIP", badgeColor = "teal"),
-    menuItem("Loomweights", tabName = "loomweights_hist", icon = icon("weight-hanging")),
+    menuItem("Loomweights", tabName = "loomweights_hist", icon = icon("weight-hanging"),
+             menuSubItem("Loomweights", tabName = "loomweights_bar_tab", icon = icon("weight-hanging")),
+             menuSubItem("Loomweights by Weight", tabName = "loomweights_hist_tab", icon = icon("scale-unbalanced"))),
     menuItem("Other Finds", tabName = "otherFinds", icon = icon("network-wired"),
              menuItem("Bone", tabName = "bone_tab", icon = icon("bone")),
              menuItem("Glass", tabName = "glass_tab", icon = icon("whiskey-glass")),
@@ -94,18 +96,31 @@ body <- dashboardBody(
     home_tab,
     overview_tab,
     workflow_tab,
+
+    # overview of all finds
     all_finds_tab("all_finds"),
     basic_quant_tab("all_finds_quant", tabname = "all_finds_quant_tab"),
+
+    # pottery
     barplot_tab("pottery", tabname = "pottery_tab"),
     potteryQA_tab,
     potteryQB_tab,
+
+    # bricks and tiles
     barplot_tab("bricks", tabname = "bricks_tab"),
     bricksQ_tab("bricksQ_bar"),
+
+    # coins
     barplot_tab("coins", tabname = "coins_tab"),
+
+    # loomweights
+    loomweights_tab("lw_hist"),
+    barplot_tab("lw_bar", tabname = "loomweights_bar_tab"),
+
+    # others, grouped
     barplot_tab("bone", tabname = "bone_tab"),
     barplot_tab("glass", tabname = "glass_tab"),
     barplot_tab("lamps", tabname = "lamps_tab"),
-    loomweights_tab("lw_hist"),
     barplot_tab("metal", tabname = "metal_tab"),
     barplot_tab("plaster", tabname = "plaster_tab"),
     barplot_tab("sculpture", tabname = "sculpture_tab"),
@@ -142,6 +157,7 @@ server <- function(input, output, session) {
   barplot_server("glass", resource_category = "Glass")
   barplot_server("lamps", resource_category = "Lamp")
   loomweights_server("lw_hist")
+  barplot_server("lw_bar", resource_category = "Loomweight")
   barplot_server("metal", resource_category = "Metal")
   barplot_server("plaster", resource_category = "PlasterFragment")
   barplot_server("sculpture", resource_category = "Sculpture")

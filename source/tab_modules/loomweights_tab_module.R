@@ -3,7 +3,7 @@ loomweights_tab <- function(id) {
   ns <- NS(id)
 
   tabItem(
-    tabName = "loomweights_hist",
+    tabName = "loomweights_hist_tab",
 
     h1("Weight-Histogram of 'Loomweight'-resources"),
 

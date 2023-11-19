@@ -5,7 +5,7 @@ basic_quant_tab <- function(id, tabname) {
   tabItem(
     tabName = tabname,
 
-    h1("Quantification of aaaaaaaaaaaaaaaaa"),
+    h1("Overview of all Quantifications"),
 
     fluidRow(
       box(
@@ -36,7 +36,8 @@ basic_quant_tab <- function(id, tabname) {
                                           "dodging" = "group",
                                           "proportional" = "fill"),
                            icon = icon("check"),
-                           inline = TRUE, animation = "jelly")
+                           inline = TRUE, animation = "jelly"),
+        downloadPlotButtons(ns("download"))
       ),
       box(
         width = 9, height = 700,
