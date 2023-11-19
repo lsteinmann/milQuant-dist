@@ -152,18 +152,6 @@ server <- function(input, output, session) {
   all_finds_server("all_finds")
   basic_quant_server("all_finds_quant")
 
-  # all other (automated) finds
-  barplot_server("bone", resource_category = "Bone")
-  barplot_server("glass", resource_category = "Glass")
-  barplot_server("lamps", resource_category = "Lamp")
-  loomweights_server("lw_hist")
-  barplot_server("lw_bar", resource_category = "Loomweight")
-  barplot_server("metal", resource_category = "Metal")
-  barplot_server("plaster", resource_category = "PlasterFragment")
-  barplot_server("sculpture", resource_category = "Sculpture")
-  barplot_server("stone", resource_category = "Stone")
-  barplot_server("terracotta", resource_category = "Terracotta")
-
   # server code for pottery form (single)
   barplot_server("pottery", resource_category = "Pottery")
   # server code for pottery quantification A form
@@ -177,6 +165,21 @@ server <- function(input, output, session) {
 
   # server code for coins
   barplot_server("coins", resource_category = "Coin")
+
+  # loomweights
+  loomweights_server("lw_hist")
+  barplot_server("lw_bar", resource_category = "Loomweight")
+
+  # all other (automated) finds
+  barplot_server("bone", resource_category = "Bone")
+  barplot_server("glass", resource_category = "Glass")
+  barplot_server("lamps", resource_category = "Lamp")
+  barplot_server("metal", resource_category = "Metal")
+  barplot_server("plaster", resource_category = "PlasterFragment")
+  barplot_server("sculpture", resource_category = "Sculpture")
+  barplot_server("stone", resource_category = "Stone")
+  barplot_server("terracotta", resource_category = "Terracotta")
+
 
 
 
