@@ -19,14 +19,14 @@ source("source/tab_modules/loomweights_tab_module.R")
 source("source/tab_modules/bricksQ_tab_module.R")
 source("source/tab_modules/basic_quant_module.R")
 source("source/tab_modules/aoristic_module.R")
+source("source/tab_modules/workflow_module.R")
+source("source/tab_modules/potteryQA_module.R")
+source("source/tab_modules/potteryQB_module.R")
+source("source/tab_modules/db_overview_module.R")
 
 # each tab / ui element group
 source("source/tabs/home_tab.R")
 source("source/tabs/modals_ui.R")
-source("source/tabs/overview_tab.R")
-source("source/tabs/workflow_tab.R")
-source("source/tabs/potteryQA_tab.R")
-source("source/tabs/potteryQB_tab.R")
 
 #  header
 header <- dashboardHeader(
@@ -45,11 +45,11 @@ sidebar <- dashboardSidebar(
                              textOutput("load.success_msg",
                                         container = tags$p))),
     actionButton("refreshIndex", "Refresh Index", icon = icon("refresh")),
-    menuItem("Project overview", tabName = "overview", icon = icon("graduation-cap")),
+    menuItem("Project overview", tabName = "db_overview_tab", icon = icon("graduation-cap")),
     uiOutput("selected_operations"),
     uiOutput("selected_trenches"),
 
-    menuItem("Workflow", tabName = "workflow", icon = icon("gear")),
+    menuItem("Workflow", tabName = "workflow_tab", icon = icon("gear")),
 
     menuItem("Find Overview", tabName = "finds_overview", icon = icon("chart-bar"),
              menuSubItem("Inventoried Finds", tabName = "all_finds", icon = icon("chart-bar")),
@@ -57,9 +57,9 @@ sidebar <- dashboardSidebar(
     menuItem("Pottery", tabName = "pottery_all", icon = icon("trophy"),
              menuSubItem("Pottery (single)", tabName = "pottery_tab",
                          icon = icon("martini-glass-empty")),
-             menuSubItem("Pottery Quantification A", tabName = "potteryQA",
+             menuSubItem("Pottery Quantification A", tabName = "potteryQA_tab",
                          icon = icon("champagne-glasses")),
-             menuSubItem("Pottery Quantification B", tabName = "potteryQB",
+             menuSubItem("Pottery Quantification B", tabName = "potteryQB_tab",
                          icon = icon("champagne-glasses"))
     ),
     menuItem("Bricks and Tiles", tabName = "bricks_all", icon = icon("square"),
@@ -96,8 +96,9 @@ body <- dashboardBody(
   includeScript('source/global/toggleBtnsOnBusy.js'),
   tabItems(
     home_tab,
-    overview_tab,
-    workflow_tab,
+    db_overview_tab("db_overview", tabname = "db_overview_tab"),
+
+    worflow_tab("workflow", tabname = "workflow_tab"),
 
     # overview of all finds
     all_finds_tab("all_finds"),
@@ -105,8 +106,8 @@ body <- dashboardBody(
 
     # pottery
     barplot_tab("pottery", tabname = "pottery_tab"),
-    potteryQA_tab,
-    potteryQB_tab,
+    potteryQA_tab("pottery_QA", tabname = "potteryQA_tab"),
+    potteryQB_tab("pottery_QB", tabname = "potteryQB_tab"),
 
     # bricks and tiles
     barplot_tab("bricks", tabname = "bricks_tab"),
@@ -147,8 +148,9 @@ server <- function(input, output, session) {
   source('source/server/settings_serv.R', local = TRUE)
 
   # server code only for overview pages
-  source('source/server/overview_serv.R', local = TRUE)
-  source('source/server/workflow_serv.R', local = TRUE)
+  db_overview_server("db_overview")
+
+  worflow_tab_server("workflow")
 
 
   # general finds plot
@@ -157,10 +159,8 @@ server <- function(input, output, session) {
 
   # server code for pottery form (single)
   barplot_server("pottery", resource_category = "Pottery")
-  # server code for pottery quantification A form
-  source('source/server/potteryQA_serv.R', local = TRUE)
-  # server code for pottery quantification B form
-  source('source/server/potteryQB_serv.R', local = TRUE)
+  potteryQA_server("pottery_QA")
+  potteryQB_server("pottery_QB")
 
   # server code for bricks
   barplot_server("bricks", resource_category = "Brick")
