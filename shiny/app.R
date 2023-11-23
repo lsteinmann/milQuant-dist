@@ -23,6 +23,7 @@ source("source/tab_modules/workflow_module.R")
 source("source/tab_modules/potteryQA_module.R")
 source("source/tab_modules/potteryQB_module.R")
 source("source/tab_modules/db_overview_module.R")
+source("source/tab_modules/db_activity_module.R")
 
 # each tab / ui element group
 source("source/tabs/home_tab.R")
@@ -46,6 +47,7 @@ sidebar <- dashboardSidebar(
                                         container = tags$p))),
     actionButton("refreshIndex", "Refresh Index", icon = icon("refresh")),
     menuItem("Project overview", tabName = "db_overview_tab", icon = icon("graduation-cap")),
+    menuItem("Activity", tabName = "db_activity_tab", icon = icon("people-arrows")),
     uiOutput("selected_operations"),
     uiOutput("selected_trenches"),
 
@@ -97,6 +99,7 @@ body <- dashboardBody(
   tabItems(
     home_tab,
     db_overview_tab("db_overview", tabname = "db_overview_tab"),
+    db_activity_tab("db_activity", tabname = "db_activity_tab"),
 
     worflow_tab("workflow", tabname = "workflow_tab"),
 
@@ -149,6 +152,7 @@ server <- function(input, output, session) {
 
   # server code only for overview pages
   db_overview_server("db_overview")
+  db_activity_server("db_activity")
 
   worflow_tab_server("workflow")
 
