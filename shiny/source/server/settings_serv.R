@@ -110,7 +110,7 @@ operations <- reactive({
 })
 
 
-db_operations <<- reactive({input$selected_operations}) %>% debounce(2000)
+db_operations <<- reactive({input$selected_operations})
 
 trenches <- reactive({
   validate(
