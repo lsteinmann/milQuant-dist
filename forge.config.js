@@ -7,7 +7,7 @@ module.exports = {
     {
       name: '@electron-forge/maker-squirrel',
       config: {
-        loadingGif: 'shiny/www/quant-spinner-smooth.gif',
+        loadingGif: 'images/quant-spinner-smooth.gif',
         icon: 'images/quant-icon.ico',
         setupIcon: 'images/quant-icon-setup.ico'
       },
