@@ -74,13 +74,12 @@ if (handleSquirrelEvent()) {
 // (remodel) change forward slashes to escaped backslashes to hand the path to R/shiny
 // anything else but windows is not supported here at all and this part has to be redone
 // if you want to distribute to something other than windows
-var shinyPath = path.join(app.getAppPath(), "shiny/app.R").replace(/\\/g, "\\\\")
 var execPath = path.join(app.getAppPath(), "R-win-port", "bin", "RScript.exe")
 
 
 // creates the childProcess const that will start R and tell it to run the Shiny App as app.R from the 
 // app directory of the electron app
-const childProcess = child.spawn(execPath, ["-e", "shiny::runApp(file.path('" + shinyPath + "'), port=" + port + ")"])
+const childProcess = child.spawn(execPath, ["-e", "library(milQuant); milQuant::run_milQuant_app()"])
 
 // this starts the childProcess and also
 // repeats everything R tells us to the console
