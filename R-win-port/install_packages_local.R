@@ -1,2 +1,2 @@
-remotes::install_github("lsteinmann/milQuant", ref = "app-as-package", lib = "library/", dependencies = TRUE)
-remotes::install_github("lsteinmann/idaifieldR", ref = "v0.3.x", lib = "library/", dependencies = TRUE)
+remotes::install_github("lsteinmann/milQuant", lib = "library/", dependencies = TRUE)
+remotes::install_github("lsteinmann/idaifieldR", lib = "library/", dependencies = TRUE)

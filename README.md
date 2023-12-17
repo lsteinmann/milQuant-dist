@@ -5,43 +5,47 @@ The milQuant-Shiny Dashboard provides quick quantitative overviews of the data i
 The dashboard has been developed and is meant to be used with the milet-configuration and within the framework of the [Miletus Excavation Project](https://www.miletgrabung.uni-hamburg.de/). While very limited, some functionality and general overviews may also work with other project-configurations. The repository of the shiny-dashboard is located at [lsteinmann/milQuant](https://github.com/lsteinmann/milQuant).
 
 ## Usage
-This distribution is meant for the team of the Miletus Excavation. If you encounter a white screen after startup, select View > Reload or restart the app. On load, a login screen asks the user to input the address for synchronization and the password. The preset adress will usually work (except for the password). The password is the password recorded in your Field Desktop app under "settings". You can safe default settings for the app under "*Settings*" > "*Change connection settings*". After connecting, select a project in the main screen and click "Load Database". With the Miletus database, and depending on your computer, loading it may take a minute or two. 
+This distribution is meant for the team of the Miletus Excavation. On load, a login screen asks the user to input the address for synchronization and the password. The preset adress will usually work (except for the password). The password is the password recorded in your Field Desktop app under "settings". You can safe default settings for the app under "*Settings*" > "*Change connection settings*". After connecting, select a project in the main screen and click "Load Database". With the Miletus database, and depending on your computer, loading it may take between 5 seconds and half a minute. 
 
-#### Refresh Index
-When pressing the *Refresh Index* button, milQuant will import the index of the selected project database again. This way you can get new resources that have been entered while milQuant was running without restarting the app. This takes as long as loading the database to begin with. 
+## Home tab
+In the **Home**-tab, you are expected to select *Places* and *Operations* you want to work with. Selecting this beforehand greatly speeds up querying the database for all information needed for the plots, and reduces the amount of contexts displayed in the layer selectors. You can always switch them again here without having to reload the project database itself. 
 
-#### Project overview
-This plot gives a very broad overview on all resources in the project database. It simply shows how many resources of each type (e.g. Pottery, Coin, Layer) are present in the database and informs you of the total number of resources in the upper right corner. 
+The *Project overview* provides a general view of all resources included in the complete database project, to give you an orientation of what you could work with. *News* displays the latest changes made to the app. 
 
-### Sidebar selection: Places, Operations, Trenches
-In the sidebar to the left, select an 'Operation' (meaning a Place or a Group of Trenches) to work with, e.g. 'Insula UV/8-9' for our current project. In the dropdown below, need to select the trenches you want to work with. This selection process exists solely to make working with the app easier and faster. Generally, the more *Operations* / *Places* / *Trenches* you select, the longer it will take to load the plots. This selection impacts all the other tabs you can see in the sidebar below the two dropdowns. Only resources from the selected *Operations* will be loaded in those tabs. (Categories of Operations are: *Maßnahme/Operation*, *Schnitt/Trench*, *Bauwerk/Building*, *Survey-Areal/Survey*.)
+## Sidebar
+The sidebar to the left is the main navigation through the App. Directly below the link to the **Home**-tab, you can see the project you have selected. When hovering your mouse over the project name, you will be informed of the selected *Place*s and *Operation*s. When pressing the **Refresh Index**-button, milQuant will import the index of the selected project database again. This way you can get new resources that have been entered while milQuant was running without restarting the app. This takes as long as loading the database to begin with. 
 
-#### Workflow
-The workflow tab lists all resources were certain checkboxes in the *Workflow*-field have been ticked or not, and is meant to give an overview of the state of find processing and help with finding specific resources to work on. 
+### Activity
+The **Activity**-tab gives you a general idea of changes happening in the project database. It displays all modifications or resource creations by date. Per default it will show you all activity within the last week. You can modify the time frame, select for specific users, and decide whether you want to see the counts of newly created resources, resource modifications or both. 
 
-#### Finds Overview
-The "Finds Overview"-tabs display all the different categories of *Find* resources at once, selected by the layers you can choose from the dropdown next to the plot. There is one tab for inventoried finds, which means single finds where one object has its own database resource, and a tab for displaying all different kinds of find quantifications together. 
+### Fulltext Search
+The **Fulltext Search**-tab lets you select specific kinds of resource categories you want to search through. This is especially helpful for searching single words in the larger text-input fields in *Field Desktop*, as *Field Desktop* itself will not let you do that. In this tab, you can search through e.g. **Impression** forms or **Inscription**s to find specific keywords. In the case of Inscriptions, the original content of the Inscription is also transcribed to latin characters without diacritics alongside the original, which should make it easier to find results. 
 
-#### Pottery
-The variable and color-selector of the pottery plot is automatically generated, and may contain many variables that you deem unusable. The period selector can be used to display only objects dated between two specific periods. I have not solved the problem of displaying multiple periods yet, though the selector works well in this case. I also still need to remove the period "groups" from this selector. You can choose between the the single find pottery, and the two forms of quantification. 
+### Workflow
+The workflow tab lists all resources were certain checkboxes in the *Workflow*-field have been ticked or not, and is meant to give an overview of the state of find processing and help with finding specific resources to work on. As with the **Fulltext Search**, you need to select for Layers and resources beforehand to minimize loading time and memory usage. 
 
-#### Bricks and Tiles
-Same as with pottery, there is one tab for barplots of single finds, and one tab for the evaluation of brick quantification forms. 
+### Finds
+The **Finds**-tabs contain three different charts for Find-resources. In the **Inventoried Finds**-tab, you will get a general overview of all Finds from the selected layers, which you can choose from the dropdown next to the plot. **Bar Charts for Find Groups** lets you select one or more specific category of finds and display a plot using the fields suitable for bar charts. As loading all resources may take a while, you are expected to select one or more category and click *Load Resources*. It mostly makes no sense to select multiple categories, as they all use different fields, but depending on what you are planing to show it may still be useful. **Aoristic Density Plots** gives you an impression of the chronology of the contexts and their finds. For more info on this method see [datplot](https://github.com/lsteinmann/datplot) or [10.1017/aap.2021.8](https://doi.org/10.1017/aap.2021.8). With the *Derive Dating from Periods*-option enabled, all finds that do not yet have a precise dating will instead get their absolute dates from the periods that have been selected for them.
 
-#### Coins
-There is a regular barplot for coins, as well as a currently not very useful 'aoristic' plot that shows the distribution of dating for the selected coins. For more info on this, see [datplot](https://doi.org/10.1017/aap.2021.8). 
+![Screenshot from the Dashboard: Finds](images/01_Finds.png "Screenshot from the Dashboard: Finds")
 
-#### Loomweights
-The barplot for loomweights works just as the one for pottery and bricks. The histogram plot is a bit more curated. Here, you may want to select only complete loomweights using the radio buttons. The number of bins of the histogram can be adjusted, and using the "weight range" selector you can remove outliers from the plot (if you so wish), or only look at loomweights of a certain weight group. 
+### Quantifications
+The **Quantifications**-tabs display all counts from Quantification-resources. For **Quantifications (General)** all *Quantification A*-forms for the selected contexts are gathered and the value entered in the field for total count is used. If this is not filled properly in all the forms you wish to display, the data will be incorrect. Be sure to check in the database before you use this for evaluation! All other tabs in this group display the respective Quantification forms with the values gathered from the more specific fields.  
 
-#### Other finds
-All the tabs you can see under the 'Other finds'-group contain automatically generated barplots. They are not produced with a lot of love, but they are functional and at least give you the option of looking at these finds. 
+### Pottery
+The variable and color-selector of the pottery plot is automatically generated, and may contain many variables that you deem unusable. The period selector can be used to display only objects dated between two specific periods. I have not solved the problem of displaying multiple periods yet, though the selector works well in this case. I also still need to remove the period "groups" from this selector. You can choose between the the single find pottery, and the two forms of quantification. With **Pottery Quantification B** it is now possible to split the counts for forms dated to multiple periods. All counts will be devided by the number of periods entered in the form. Be aware of this when using this option - since we had not originally planned on using multiple periods for this form, the results may not always be as intended or expected. 
 
-### General
-All plots can be given custom titles and subtitles. As most of the plots are generated with plotly, you can get some information by hovering your cursor over the bars, or use the plotly options in the upper right corner to modify the plot. You can also play with the legend. The plots can be saved as an HTML using the Download-button. If you want to export the plot as an image, you can click on the camera icon in the upper right corner of the plot when hovering the cursor over it. In many plots, you can click on a bar to display a table of all objects that would be contained in that (section of the) bar, and even select which columns to display in the table. 
+![Screenshot from the Dashboard: Finds](images/01_Finds.png "Screenshot from the Dashboard: Finds")
+
+### Loomweights
+The **Loomweights**-tab contains a curated histogram plot. Here, you may want to select only complete loomweights using the radio buttons. The number of bins of the histogram can be adjusted, and using the "weight range" selector you can remove outliers from the plot (if you so wish), or only look at loomweights of a certain weight group. 
+
+![Screenshot from the Dashboard: Loomweights](images/03_Loomweights.png "Screenshot from the Dashboard: Loomweights")
+
+## General
+All plots can be given custom titles and subtitles. As all plots are generated with plotly, you can get some information by hovering your cursor over the bars, or use the plotly options in the upper right corner to modify the plot. You can also play with the legend. The plots can be saved as an HTML using the Download-button. If you want to export the plot as an image, you can click on the camera icon in the upper right corner of the plot when hovering the cursor over it. In many plots, you can click on a bar to display a table of all objects that would be contained in that (section of the) bar, and even select which columns to display in the table. 
 
 ## Dependencies and other info
+This app uses the [idaifieldR](https://github.com/lsteinmann/idaifieldR) package (not on CRAN) to import data from Field Desktop. For more info about the package, see [this article](https://doi.org/10.34780/068b-q6c7). Apart from that there is a variety of other packages used in the dashboard, all of which can be found on CRAN and are automatically installed alongside the milQuant-app.
 
-This app uses the [idaifieldR](https://github.com/lsteinmann/idaifieldR) package (not on CRAN) to import data from Field Desktop. For more info about the package, see [this article](https://doi.org/10.34780/068b-q6c7). Apart from that there is a variety of other packages used in the dashboard, all of which can be found on CRAN and are automatically installed when trying to run the app.
-
-This repository contains a distributable version of milQuant built with electron and based off [electron-quick-start](https://github.com/electron/electron-quick-start) and [COVAIL](https://github.com/COVAIL/electron-quick-start/blob/master/main.js) (see also: [lsteinmann/shiny-electron](https://github.com/lsteinmann/shiny-electron).) The directory R-win-port (locally) contains an R-portable distribution for windows, which I do not include in the online repository, but is packed in the downloadable exe attached to each release. 
+This repository contains a distributable version of milQuant built with electron and based off [electron-quick-start](https://github.com/electron/electron-quick-start) and [COVAIL](https://github.com/COVAIL/electron-quick-start/blob/master/main.js) (see also: [lsteinmann/shiny-electron](https://github.com/lsteinmann/shiny-electron).) The directory R-win-port (locally) contains an R-portable distribution for windows, which I do not include in the online repository, but is packed in the downloadable *exe* attached to each release. 
