@@ -6,9 +6,6 @@ const child = require('child_process');
 
 const { readDefaultSettings, settingsFileName } = require('./imports/settings');
 
-// not great to do that, maybe try to choose a random port?
-const port = "3002"
-
 // this will ensure that squirrel does a few things, such as 
 // make the setup produce a desktop shortcut after install and register
 // the program to be found by windows
@@ -74,36 +71,34 @@ if (handleSquirrelEvent()) {
 // (remodel) change forward slashes to escaped backslashes to hand the path to R/shiny
 // anything else but windows is not supported here at all and this part has to be redone
 // if you want to distribute to something other than windows
-var shinyPath = path.join(app.getAppPath(), "shiny/app.R").replace(/\\/g, "\\\\")
 var execPath = path.join(app.getAppPath(), "R-win-port", "bin", "RScript.exe")
 
 
 // creates the childProcess const that will start R and tell it to run the Shiny App as app.R from the 
 // app directory of the electron app
-const childProcess = child.spawn(execPath, ["-e", "shiny::runApp(file.path('" + shinyPath + "'), port=" + port + ")"])
+const childProcess = child.spawn(execPath, ["-e", "library(milQuant); milQuant::run_milQuant_app()"])
 
 // this starts the childProcess and also
 // repeats everything R tells us to the console
 childProcess.stdout.on('data', (data) => {
-  console.log(`stdout:${data}`)
+  console.log(`R Output: ${data}`)
   if (data.includes("Shiny: EXIT")) {
     cleanUpApplication()
   }
 })
 childProcess.stderr.on('data', (data) => {
-  console.log(`stderr:${data}`)
+  console.log(`R: ${data}`)
 })
 
 
 // with delayedLoad() : first, an empty loading.html is loaded, then after a 3-second timeout, the shiny url
 // this avoids the white screen that occurs if the windows loads before shiny is actually ready
-// TODO: Probably better to make this wait for shiny Listening.. notification in next version
-const delay = ms => new Promise(res => setTimeout(res, ms));
 const delayedLoad = async () => {
   mainWindow.loadFile('loading.html')
   childProcess.stderr.on('data', (data) => {
-    if (data.includes("Listening on")) {
-      mainWindow.loadURL('http://127.0.0.1:' + port)
+    if (data.includes('Listening on')) {
+      shinyURL = data.toString().replace('Listening on ', '')
+      mainWindow.loadURL(shinyURL)
     }
   })
 };
