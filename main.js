@@ -93,8 +93,6 @@ childProcess.stderr.on('data', (data) => {
 
 // with delayedLoad() : first, an empty loading.html is loaded, then after a 3-second timeout, the shiny url
 // this avoids the white screen that occurs if the windows loads before shiny is actually ready
-// TODO: Probably better to make this wait for shiny Listening.. notification in next version
-const delay = ms => new Promise(res => setTimeout(res, ms));
 const delayedLoad = async () => {
   mainWindow.loadFile('loading.html')
   childProcess.stderr.on('data', (data) => {
