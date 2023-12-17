@@ -1,7 +1,7 @@
 const { app, BrowserWindow } = require('electron')
 const fs = require('fs');
 const path = require('path')
-const settingsFileName = path.join(app.getAppPath(), 'shiny/defaults/settings.R').replace(/\\/g, '\\\\')
+const settingsFileName = path.join(app.getAppPath(), 'R-win-port/library/milQuant/app/www/settings/shared_settings.R').replace(/\\/g, '\\\\')
 const mainWindow = require('../main')
 
 function showDefaultSettingsModal() {
