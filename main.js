@@ -76,7 +76,7 @@ var execPath = path.join(app.getAppPath(), "R-win-port", "bin", "RScript.exe")
 
 // creates the childProcess const that will start R and tell it to run the Shiny App as app.R from the 
 // app directory of the electron app
-const childProcess = child.spawn(execPath, ["-e", "library(milQuant); milQuant::run_milQuant_app(port = 3002)"])
+const childProcess = child.spawn(execPath, ["-e", "library(milQuant); milQuant::run_milQuant_app()"])
 
 // this starts the childProcess and also
 // repeats everything R tells us to the console
