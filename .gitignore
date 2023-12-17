@@ -73,6 +73,7 @@ R-win-port/library/*
 !R-win-port/bin/load_packages.R
 !R-win-port/bin/install_packages_local.R
 
+!R-win-port/Rprofile.site
 
 # random stuff
 tests/*
@@ -117,15 +118,5 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 
-# Settings that should not be uploaded
-shiny/defaults/selection_settings.RDS
-shiny/defaults/settings.R
-
-# private
-.notes/*
-profile.R
-README.html
-dist/*
+# other
 NEWS.html
-dataprep/*
-defaults/selection_settings.RDS
