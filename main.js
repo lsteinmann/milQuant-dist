@@ -130,7 +130,7 @@ function createWindow() {
 
 
   mainWindow.on('closed', function () {
-    console.log(new Date().toISOString() + '::mainWindow.closed()')
+    console.log('Electron: mainWindow.closed()')
     cleanUpApplication()
   })
 
@@ -141,11 +141,13 @@ function createWindow() {
 
 // quit the app, and if a child exists, kill it
 function cleanUpApplication() {
-  app.quit()
 
   if (childProcess) {
     childProcess.kill();
+    console.log('Electron: Shutting down R')
   }
+
+  app.quit()
 }
 
 
