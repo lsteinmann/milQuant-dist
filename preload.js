@@ -15,3 +15,23 @@ window.addEventListener('DOMContentLoaded', () => {
     replaceText(`${type}-version`, process.versions[type])
   }
 })
+
+const { ipcRenderer } = require('electron');
+
+
+// Listen for messages from the main process
+ipcRenderer.on('stdout', (event, data) => {
+    // Log stdout messages to the developer tools
+    console.log('R Output: ', data);
+});
+  
+ipcRenderer.on('stderr', (event, data) => {
+    // Log stderr messages to the developer tools
+    if (data.toLowerCase().includes("error")) {
+      console.error('R Error: ', data);
+    } else if (data.toLowerCase().includes("warning")) {
+      console.log('R Warning: ', data);
+    } else {
+      console.log('R Message: ', data);
+    }
+});

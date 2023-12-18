@@ -78,16 +78,23 @@ var execPath = path.join(app.getAppPath(), "R-win-port", "bin", "RScript.exe")
 // app directory of the electron app
 const childProcess = child.spawn(execPath, ["-e", "library(milQuant); milQuant::run_milQuant_app()"])
 
+// Function to send messages to the renderer process
+function sendToRenderer(channel, data) {
+  mainWindow.webContents.send(channel, data);
+}
+
 // this starts the childProcess and also
 // repeats everything R tells us to the console
 childProcess.stdout.on('data', (data) => {
   console.log(`R Output: ${data}`)
+  sendToRenderer('stdout', data.toString());
   if (data.includes("Shiny: EXIT")) {
     cleanUpApplication()
   }
 })
 childProcess.stderr.on('data', (data) => {
-  console.log(`R: ${data}`)
+  console.log(`R: ${data}`);
+  sendToRenderer('stderr', data.toString());
 })
 
 
@@ -119,7 +126,8 @@ function createWindow() {
     frame: true,
     show: false,
     webPreferences: {
-      nodeIntegration: false
+      nodeIntegration: false,
+      preload: path.join(__dirname, 'preload.js')
     }
   })
 
