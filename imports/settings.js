@@ -19,11 +19,11 @@ function showDefaultSettingsModal() {
     webPreferences: {
       nodeIntegration: false, // Enable Node.js integration
       contextIsolation: true,
-      preload: path.join(app.getAppPath(), 'modal-preload.js')
+      preload: path.join(app.getAppPath(), 'pages/modal-preload.js')
     }
   });
   // Load the HTML content into the window
-  settingsModal.loadFile('settings.html');
+  settingsModal.loadFile('pages/settings.html');
 
   // Show the window when it's ready
   settingsModal.once('ready-to-show', () => {

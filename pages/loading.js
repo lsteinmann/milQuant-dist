@@ -9,3 +9,4 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+console.log("This is a message in loading.js");

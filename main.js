@@ -80,10 +80,11 @@ function spawnR(call) {
 let milQuantUpdater;
 let milQuantShiny;
 
-
+// current version of the R-package to possibly influence the update process
 var milQuantVersion = getmilQuantVersion();
 var updatemilQuant = true;
 
+// send it to the loading.html window
 ipcMain.on('version-request', (event) => {
   event.sender.send('version-reply', milQuantVersion);
 });
@@ -93,7 +94,7 @@ function sendToRenderer(channel, data) {
   mainWindow.webContents.send(channel, data);
 };
 
-// this repeats everything R tells us to the console and in developer tools
+// this repeats everything R tells us in the developer tools console for debugging in the client
 function logROutput(process) {
   process.stdout.on('data', (data) => {
     //console.log(`R Output: ${data}`)
@@ -105,6 +106,9 @@ function logROutput(process) {
   })
 };
 
+// updateShinyApp() spawns R to install the milQuant-package, which will automatically 
+// skip the update if the version is the current one on github anyway
+// but only if "updatemilQuant" is true (which may be of use later)
 const updateShinyApp = () => {
   return new Promise((resolve, reject) => {
     if (updatemilQuant) {
@@ -136,8 +140,11 @@ const updateShinyApp = () => {
   });
 };
 
+// checkAndLoadShiny() loads the loading.html with the spinner and version number, 
+// and waits for the update process to finish to then call 
+// loadShinyURLWhenReady()
 const checkAndLoadShiny = async () => {
-  mainWindow.loadFile('loading.html');
+  mainWindow.loadFile('pages/loading.html');
   try {
     const updateReady = await updateShinyApp();
     if (updateReady) {
@@ -152,8 +159,8 @@ const checkAndLoadShiny = async () => {
 }
 
 
-// with delayedLoad() : first, an empty loading.html is loaded, then after shiny is ready
-// it will load the URL that shiny states in "Listening on..."
+// loadShinyURLWhenReady() : spawns the RScript that will host the shiny app and
+// loads the URL that shiny states in "Listening on..."
 const loadShinyURLWhenReady = async () => {
   milQuantShiny = spawnR("library(milQuant); milQuant::run_milQuant_app()");
   logROutput(milQuantShiny);
@@ -189,7 +196,7 @@ function createWindow() {
     show: false,
     webPreferences: {
       nodeIntegration: false,
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'pages/preload.js')
     }
   });
 
