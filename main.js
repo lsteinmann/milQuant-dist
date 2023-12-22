@@ -77,10 +77,12 @@ function spawnR(call) {
 
 
 // names of the child processes to be spawned later
+let milQuantUpdater
 let milQuantShiny
 
 
 var milQuantVersion = getmilQuantVersion()
+var updatemilQuant = true;
 
 ipcMain.on('version-request', function (event, arg) {
   event.sender.send('version-reply', milQuantVersion);
@@ -103,12 +105,59 @@ function logROutput(process) {
   })
 }
 
+const updateShinyApp = () => {
+  return new Promise((resolve, reject) => {
+    if (updatemilQuant) {
+      console.log("Trying to update milQuant-package.");
+
+      milQuantUpdater = spawnR("remotes::install_github('lsteinmann/milQuant', dependencies = TRUE, upgrade = 'never')");
+
+      logROutput(milQuantUpdater);
+      milQuantUpdater.stderr.on('data', (data) => {
+        if (data.includes('DONE (milQuant)')) {
+          milQuantUpdater.kill();
+          console.log('Shutting down R after Update, moving on.');
+          resolve(true);
+        }
+        if (data.includes("Skipping install of 'milQuant'")) {
+          console.log("Not updating milQuant, moving on.");
+          milQuantUpdater.kill();
+          resolve(true);
+        }
+      });
+      milQuantUpdater.on('error', (error) => {
+        console.error('Error during R update:', error.message);
+        reject(error);
+      });
+    } else {
+      console.log("Not updating milQuant, moving on.");
+      resolve(true);
+    }
+  });
+};
+
+const checkAndLoadShiny = async () => {
+  mainWindow.loadFile('loading.html')
+  try {
+    const updateReady = await updateShinyApp();
+    if (updateReady) {
+      console.log("updateShinyApp() has finished.")
+      loadShinyURLWhenReady();
+    } else {
+      console.log('updateShinyApp() has finished and did not return true.');
+    }
+  } catch (error) {
+    console.error('An error occurred:', error);
+  }
+}
+
+
 // with delayedLoad() : first, an empty loading.html is loaded, then after shiny is ready
 // it will load the URL that shiny states in "Listening on..."
-const delayedLoad = async () => {
-  mainWindow.loadFile('loading.html')
+const loadShinyURLWhenReady = async () => {
   milQuantShiny = spawnR("library(milQuant); milQuant::run_milQuant_app()")
   logROutput(milQuantShiny)
+
   milQuantShiny.stderr.on('data', (data) => {
     if (data.includes('Listening on')) {
       shinyURL = data.toString().replace('Listening on ', '')
@@ -144,7 +193,8 @@ function createWindow() {
   })
 
   // delayedLoad() loads the shiny url to the windows after it is ready
-  delayedLoad()
+  checkAndLoadShiny()
+
   // actually shows the mainWindow
   mainWindow.show()
 
