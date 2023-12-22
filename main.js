@@ -74,40 +74,42 @@ if (handleSquirrelEvent()) {
 var execPath = path.join(app.getAppPath(), "R-win-port", "bin", "RScript.exe")
 
 
-// creates the childProcess const that will start R and tell it to run the Shiny App as app.R from the 
 // app directory of the electron app
-const childProcess = child.spawn(execPath, ["-e", "library(milQuant); milQuant::run_milQuant_app()"])
+const milQuantShiny = child.spawn(execPath, ["-e", "library(milQuant); milQuant::run_milQuant_app()"])
 
 // Function to send messages to the renderer process
 function sendToRenderer(channel, data) {
   mainWindow.webContents.send(channel, data);
 }
 
-// this starts the childProcess and also
-// repeats everything R tells us to the console
-childProcess.stdout.on('data', (data) => {
-  console.log(`R Output: ${data}`)
-  sendToRenderer('stdout', data.toString());
-  if (data.includes("Shiny: EXIT")) {
-    cleanUpApplication()
-  }
-})
-childProcess.stderr.on('data', (data) => {
-  console.log(`R: ${data}`);
-  sendToRenderer('stderr', data.toString());
-})
+// this repeats everything R tells us to the console and in developer tools
+function logROutput(process) {
+  process.stdout.on('data', (data) => {
+    console.log(`R Output: ${data}`)
+    sendToRenderer('stdout', data.toString());
+  })
+  process.stderr.on('data', (data) => {
+    console.log(`R: ${data}`);
+    sendToRenderer('stderr', data.toString());
+  })
+}
 
-
-// with delayedLoad() : first, an empty loading.html is loaded, then after a 3-second timeout, the shiny url
-// this avoids the white screen that occurs if the windows loads before shiny is actually ready
+// with delayedLoad() : first, an empty loading.html is loaded, then after shiny is ready
+// it will load the URL that shiny states in "Listening on..."
 const delayedLoad = async () => {
   mainWindow.loadFile('loading.html')
-  childProcess.stderr.on('data', (data) => {
+  milQuantShiny.stderr.on('data', (data) => {
     if (data.includes('Listening on')) {
       shinyURL = data.toString().replace('Listening on ', '')
       mainWindow.loadURL(shinyURL)
     }
   })
+  milQuantShiny.stdout.on('data', (data) => {
+    if (data.includes("Shiny: EXIT")) {
+      cleanUpApplication()
+    }
+  })
+  logROutput(milQuantShiny)
 };
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -131,7 +133,7 @@ function createWindow() {
     }
   })
 
-  // delayedLoad() loads the shiny url to the windows after waiting
+  // delayedLoad() loads the shiny url to the windows after it is ready
   delayedLoad()
   // actually shows the mainWindow
   mainWindow.show()
@@ -150,8 +152,8 @@ function createWindow() {
 // quit the app, and if a child exists, kill it
 function cleanUpApplication() {
 
-  if (childProcess) {
-    childProcess.kill();
+  if (milQuantShiny) {
+    milQuantShiny.kill();
     console.log('Electron: Shutting down R')
   }
 
