@@ -69,12 +69,15 @@ if (handleSquirrelEvent()) {
 }
 
 
-// (remodel) change forward slashes to escaped backslashes to hand the path to R/shiny
-// anything else but windows is not supported here at all and this part has to be redone
-// if you want to distribute to something other than windows
-var execPath = path.join(app.getAppPath(), "R-win-port", "bin", "RScript.exe")
+// function to spawn a child process that executes RScript
+function spawnR(call) {
+  var execPath = path.join(app.getAppPath(), "R-win-port", "bin", "RScript.exe");
+  return child.spawn(execPath, ["-e", call]);
+};
 
 
+// names of the child processes to be spawned later
+let milQuantShiny
 
 
 var milQuantVersion = getmilQuantVersion()
@@ -82,11 +85,6 @@ var milQuantVersion = getmilQuantVersion()
 ipcMain.on('version-request', function (event, arg) {
   event.sender.send('version-reply', milQuantVersion);
 });
-
-
-// creates the milQuantShiny const that will start R and tell it to run the Shiny App as app.R from the 
-// app directory of the electron app
-const milQuantShiny = child.spawn(execPath, ["-e", "library(milQuant); milQuant::run_milQuant_app()"])
 
 // Function to send messages to the renderer process
 function sendToRenderer(channel, data) {
@@ -109,6 +107,8 @@ function logROutput(process) {
 // it will load the URL that shiny states in "Listening on..."
 const delayedLoad = async () => {
   mainWindow.loadFile('loading.html')
+  milQuantShiny = spawnR("library(milQuant); milQuant::run_milQuant_app()")
+  logROutput(milQuantShiny)
   milQuantShiny.stderr.on('data', (data) => {
     if (data.includes('Listening on')) {
       shinyURL = data.toString().replace('Listening on ', '')
@@ -120,7 +120,6 @@ const delayedLoad = async () => {
       cleanUpApplication()
     }
   })
-  logROutput(milQuantShiny)
 };
 
 // Keep a global reference of the window object, if you don't, the window will
