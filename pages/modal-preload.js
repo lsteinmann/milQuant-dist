@@ -5,8 +5,6 @@ function closeSettingsModal() {
   window.parent.close();
 };
 
-
-
 window.addEventListener('DOMContentLoaded', () => {
 
     ipcRenderer.send('variable-request', ['username', 'synchpw']);

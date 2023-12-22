@@ -26,6 +26,18 @@ window.addEventListener('DOMContentLoaded', () => {
     window.dispatchEvent(new Event('milQuantVersionDisplay'));
   });
 
+  document.getElementById('update').addEventListener('click', () => {
+    ipcRenderer.send('update', 'milQuant');
+  });
+
+  document.getElementById('alldeps').addEventListener('click', () => {
+    ipcRenderer.send('update', 'all');
+  });
+
+  document.getElementById('cancel').addEventListener('click', () => {
+    ipcRenderer.send('update', 'no');
+  });
+
 });
 
 contextBridge.exposeInMainWorld('electron', {
@@ -33,6 +45,9 @@ contextBridge.exposeInMainWorld('electron', {
     return cur_milQuantVersion;
   }
 });
+
+
+
 
 // Listen for messages from the main process
 ipcRenderer.on('stdout', (event, data) => {
