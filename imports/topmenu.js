@@ -1,4 +1,4 @@
-const { Menu, app, dialog } = require('electron')
+const { Menu, app, dialog } = require('electron');
 const { showDefaultSettingsModal } = require('./settings');
 
 
@@ -82,7 +82,7 @@ const template = [
                 label: 'About',
                 click: function showAbout() {
                     dialog.showMessageBox({
-                        title: `About ${app.getName()}`,
+                        title: `About ${app.getName()} (dist / Electron-App)`,
                         message:`${app.getName()} ${app.getVersion()}`,
                         detail: 'Solange man lebt soll man ... zählen.',
                         buttons: [],
@@ -92,8 +92,8 @@ const template = [
             }
         ]
     }
-]
+];
 
 
-const menu = Menu.buildFromTemplate(template)
-Menu.setApplicationMenu(menu)
+const menu = Menu.buildFromTemplate(template);
+Menu.setApplicationMenu(menu);

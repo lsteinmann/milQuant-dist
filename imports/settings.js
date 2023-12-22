@@ -1,8 +1,8 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow } = require('electron');
 const fs = require('fs');
-const path = require('path')
-const settingsFileName = path.join(app.getAppPath(), 'R-win-port/library/milQuant/app/www/settings/shared_settings.R').replace(/\\/g, '\\\\')
-const mainWindow = require('../main')
+const path = require('path');
+const settingsFileName = path.join(app.getAppPath(), 'R-win-port/library/milQuant/app/www/settings/shared_settings.R').replace(/\\/g, '\\\\');
+const mainWindow = require('../main');
 
 function showDefaultSettingsModal() {
   const settingsModal = new BrowserWindow({
@@ -55,8 +55,8 @@ function readDefaultSettings() {
     console.log(defaultAppSettings);
 
     return defaultAppSettings;
-  }
-}
+  };
+};
 
 // Export the functions in this file so they can be used elsewhere
 module.exports = { showDefaultSettingsModal, readDefaultSettings, settingsFileName };

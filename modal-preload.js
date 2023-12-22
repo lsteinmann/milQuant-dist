@@ -3,7 +3,7 @@ const { ipcRenderer } = require('electron');
 function closeSettingsModal() {
   console.log("Closing Settings Modal!");
   window.parent.close();
-}
+};
 
 
 
@@ -12,8 +12,8 @@ window.addEventListener('DOMContentLoaded', () => {
     ipcRenderer.send('variable-request', ['username', 'synchpw']);
 
     ipcRenderer.on('variable-reply', function (event, defaultAppSettings) {
-        document.getElementById('username').value = defaultAppSettings[0]
-        document.getElementById('synchpw').value = defaultAppSettings[1]
+        document.getElementById('username').value = defaultAppSettings[0];
+        document.getElementById('synchpw').value = defaultAppSettings[1];
     });
 
     const form = document.getElementById('default-settings-form');
@@ -27,11 +27,7 @@ window.addEventListener('DOMContentLoaded', () => {
         // Send the form data to the main process via IPC
         ipcRenderer.send('default-settings', { username, synchpw });
 
-        // Close the modal window
-        // const modal = document.getElementById('div-settings-form');
-        // modal.style.display = 'none';
-
-        closeSettingsModal()
+        closeSettingsModal();
     });
 
     document.getElementById("cancel").addEventListener("click", closeSettingsModal);

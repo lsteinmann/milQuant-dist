@@ -1,6 +1,6 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain } = require('electron')
-const path = require('path')
+const { app, BrowserWindow, ipcMain } = require('electron');
+const path = require('path');
 const fs = require('fs');
 const child = require('child_process');
 
@@ -17,7 +17,7 @@ const { getmilQuantVersion } = require('./imports/milQuant-version');
 var handleSquirrelEvent = function () {
   if (process.platform != 'win32') {
     return false;
-  }
+  };
 
   function executeSquirrelCommand(args, done) {
     var updateDotExe = path.resolve(path.dirname(process.execPath),
@@ -66,7 +66,7 @@ var handleSquirrelEvent = function () {
 
 if (handleSquirrelEvent()) {
   return;
-}
+};
 
 
 // function to spawn a child process that executes RScript
@@ -77,21 +77,21 @@ function spawnR(call) {
 
 
 // names of the child processes to be spawned later
-let milQuantUpdater
-let milQuantShiny
+let milQuantUpdater;
+let milQuantShiny;
 
 
-var milQuantVersion = getmilQuantVersion()
+var milQuantVersion = getmilQuantVersion();
 var updatemilQuant = true;
 
-ipcMain.on('version-request', function (event, arg) {
+ipcMain.on('version-request', (event) => {
   event.sender.send('version-reply', milQuantVersion);
 });
 
 // Function to send messages to the renderer process
 function sendToRenderer(channel, data) {
   mainWindow.webContents.send(channel, data);
-}
+};
 
 // this repeats everything R tells us to the console and in developer tools
 function logROutput(process) {
@@ -103,7 +103,7 @@ function logROutput(process) {
     //console.log(`R: ${data}`);
     sendToRenderer('stderr', data.toString());
   })
-}
+};
 
 const updateShinyApp = () => {
   return new Promise((resolve, reject) => {
@@ -132,16 +132,16 @@ const updateShinyApp = () => {
     } else {
       console.log("Not updating milQuant, moving on.");
       resolve(true);
-    }
+    };
   });
 };
 
 const checkAndLoadShiny = async () => {
-  mainWindow.loadFile('loading.html')
+  mainWindow.loadFile('loading.html');
   try {
     const updateReady = await updateShinyApp();
     if (updateReady) {
-      console.log("updateShinyApp() has finished.")
+      console.log("updateShinyApp() has finished.");
       loadShinyURLWhenReady();
     } else {
       console.log('updateShinyApp() has finished and did not return true.');
@@ -155,31 +155,32 @@ const checkAndLoadShiny = async () => {
 // with delayedLoad() : first, an empty loading.html is loaded, then after shiny is ready
 // it will load the URL that shiny states in "Listening on..."
 const loadShinyURLWhenReady = async () => {
-  milQuantShiny = spawnR("library(milQuant); milQuant::run_milQuant_app()")
-  logROutput(milQuantShiny)
+  milQuantShiny = spawnR("library(milQuant); milQuant::run_milQuant_app()");
+  logROutput(milQuantShiny);
 
   milQuantShiny.stderr.on('data', (data) => {
     if (data.includes('Listening on')) {
-      shinyURL = data.toString().replace('Listening on ', '')
-      mainWindow.loadURL(shinyURL)
-    }
-  })
+      shinyURL = data.toString().replace('Listening on ', '');
+      console.log(`Loading shiny on ${shinyURL}`);
+      mainWindow.loadURL(shinyURL);
+    };
+  });
   milQuantShiny.stdout.on('data', (data) => {
     if (data.includes("Shiny: EXIT")) {
-      cleanUpApplication()
-    }
-  })
+      mainWindow.close();
+    };
+  });
 };
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow
+let mainWindow;
 
 
 // Create the browser window.
 function createWindow() {
   // Create the browser window.
-  console.log('Creating the main window here')
+  console.log('Creating the main window.');
 
   mainWindow = new BrowserWindow({
     width: 1400,
@@ -190,39 +191,39 @@ function createWindow() {
       nodeIntegration: false,
       preload: path.join(__dirname, 'preload.js')
     }
-  })
+  });
 
   // delayedLoad() loads the shiny url to the windows after it is ready
-  checkAndLoadShiny()
+  checkAndLoadShiny();
 
   // actually shows the mainWindow
-  mainWindow.show()
+  mainWindow.show();
 
 
   mainWindow.on('closed', function () {
-    console.log('mainWindow has been closed')
-    cleanUpApplication()
-  })
+    console.log('mainWindow has been closed');
+    cleanUpApplication();
+  });
 
 
   // this will build the custom top menu bar
-  require('./imports/topmenu')
-}
+  require('./imports/topmenu');
+};
 
 // quit the app, and if a child exists, kill it
 function cleanUpApplication() {
 
   if (milQuantShiny) {
     milQuantShiny.kill();
-    console.log('Shutting down R')
-  }
+    console.log('Shutting down R');
+  };
 
-  app.quit()
-}
+  app.quit();
+};
 
 
 // get the settings from the file in shiny/defaults
-var defaultAppSettings = readDefaultSettings()
+var defaultAppSettings = readDefaultSettings();
 // requested by modal-preload.js and sent back
 ipcMain.on('variable-request', function (event, arg) {
   event.sender.send('variable-reply', [defaultAppSettings[arg[0]], defaultAppSettings[arg[1]], , defaultAppSettings[arg[3]]]);
@@ -240,33 +241,20 @@ ipcMain.on('default-settings', (event, data) => {
     if (err) {
       console.error(err);
       return;
-    }
-    console.log('Data saved successfully!');
-    console.log(settingsFileName)
+    };
+    console.log(`Data saved successfully to file: ${settingsFileName}`);
   });
 });
 
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  createWindow()
-  app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
-    // mainWindow.reload();
-  })
-})
+  createWindow();
+});
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
 app.on('window-all-closed', function () {
-  console.log('EVENT::window-all-closed')
-  cleanUpApplication()
-})
+  console.log("window-all-closed");
+  cleanUpApplication();
+});
 
 
 // export mainWindow so it can be used in the modules in ./imports/
