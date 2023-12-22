@@ -25,7 +25,7 @@ window.addEventListener('DOMContentLoaded', () => {
   ipcRenderer.send('version-request', ['package', 'version']);
 
   ipcRenderer.on('version-reply', function (event, milQuantVersion) {
-    console.log(milQuantVersion.toString())
+    console.log(`Using milQuant R-package with version: ${milQuantVersion.toString()}`)
     cur_milQuantVersion = milQuantVersion
     window.dispatchEvent(new Event('milQuantVersionDisplay'));
   });

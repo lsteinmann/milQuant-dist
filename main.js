@@ -96,11 +96,11 @@ function sendToRenderer(channel, data) {
 // this repeats everything R tells us to the console and in developer tools
 function logROutput(process) {
   process.stdout.on('data', (data) => {
-    console.log(`R Output: ${data}`)
+    //console.log(`R Output: ${data}`)
     sendToRenderer('stdout', data.toString());
   })
   process.stderr.on('data', (data) => {
-    console.log(`R: ${data}`);
+    //console.log(`R: ${data}`);
     sendToRenderer('stderr', data.toString());
   })
 }
@@ -151,7 +151,7 @@ function createWindow() {
 
 
   mainWindow.on('closed', function () {
-    console.log('Electron: mainWindow.closed()')
+    console.log('mainWindow has been closed')
     cleanUpApplication()
   })
 
@@ -165,7 +165,7 @@ function cleanUpApplication() {
 
   if (milQuantShiny) {
     milQuantShiny.kill();
-    console.log('Electron: Shutting down R')
+    console.log('Shutting down R')
   }
 
   app.quit()
