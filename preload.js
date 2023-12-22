@@ -16,8 +16,27 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 })
 
-const { ipcRenderer } = require('electron');
+const { contextBridge, ipcRenderer } = require('electron');
 
+let cur_milQuantVersion
+
+window.addEventListener('DOMContentLoaded', () => {
+
+  ipcRenderer.send('version-request', ['package', 'version']);
+
+  ipcRenderer.on('version-reply', function (event, milQuantVersion) {
+    console.log(milQuantVersion.toString())
+    cur_milQuantVersion = milQuantVersion
+    window.dispatchEvent(new Event('milQuantVersionDisplay'));
+  });
+
+});
+
+contextBridge.exposeInMainWorld('electron', {
+  getmilQuantVersionNumber: () => {
+    return cur_milQuantVersion;
+  },
+});
 
 // Listen for messages from the main process
 ipcRenderer.on('stdout', (event, data) => {

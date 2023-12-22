@@ -5,6 +5,7 @@ const fs = require('fs');
 const child = require('child_process');
 
 const { readDefaultSettings, settingsFileName } = require('./imports/settings');
+const { getmilQuantVersion } = require('./imports/milQuant-version');
 
 // this will ensure that squirrel does a few things, such as 
 // make the setup produce a desktop shortcut after install and register
@@ -74,6 +75,16 @@ if (handleSquirrelEvent()) {
 var execPath = path.join(app.getAppPath(), "R-win-port", "bin", "RScript.exe")
 
 
+
+
+var milQuantVersion = getmilQuantVersion()
+
+ipcMain.on('version-request', function (event, arg) {
+  event.sender.send('version-reply', milQuantVersion);
+});
+
+
+// creates the milQuantShiny const that will start R and tell it to run the Shiny App as app.R from the 
 // app directory of the electron app
 const milQuantShiny = child.spawn(execPath, ["-e", "library(milQuant); milQuant::run_milQuant_app()"])
 
