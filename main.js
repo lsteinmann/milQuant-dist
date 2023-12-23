@@ -82,7 +82,6 @@ let milQuantShiny;
 
 // current version of the R-package to possibly influence the update process
 var milQuantVersion = getmilQuantVersion();
-var updatemilQuant = true;
 
 // send it to the loading.html window
 ipcMain.on('version-request', (event) => {

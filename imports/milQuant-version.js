@@ -34,7 +34,7 @@ function getmilQuantVersion() {
 };
 
 
-async function getLatestmilQuantVersion() {
+async function getLatestmilQuantReleaseVersion() {
     const repository = 'lsteinmann/milQuant';
     try {
         const response = await fetch(`https://api.github.com/repos/${repository}/releases/latest`);
@@ -56,8 +56,9 @@ async function getLatestmilQuantVersion() {
 
 const checkForUpdate = async (milQuantVersion) => {
     try {
-        //const latestRelease = await getLatestmilQuantVersion();
-        const latestRelease = "3.0.0";
+        const latestRelease = await getLatestmilQuantReleaseVersion();
+        //const latestRelease = "3.0.0";
+
         console.log(`Current milQuant version: ${milQuantVersion}`);
         console.log(`Latest release of milQuant on GitHub: ${latestRelease}`);
 
@@ -76,6 +77,7 @@ const checkForUpdate = async (milQuantVersion) => {
 
     } catch (error) {
         console.error('An error occurred:', error);
+        return false;
     };
 };
 
