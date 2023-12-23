@@ -133,6 +133,15 @@ ipcMain.on('save-settings', (event, data) => {
 
 app.whenReady().then(() => {
   createWindow();
+
+  mainWindow.webContents.on('context-menu', (e, props) => {
+    const contextMenu = Menu.buildFromTemplate([
+      { role: 'copy' },
+      { role: 'paste' }
+    ]);
+
+    contextMenu.popup({ window: mainWindow });
+  });
 });
 
 app.on('window-all-closed', function () {
