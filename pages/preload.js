@@ -26,17 +26,22 @@ window.addEventListener('DOMContentLoaded', () => {
     window.dispatchEvent(new Event('milQuantVersionDisplay'));
   });
 
-  document.getElementById('update').addEventListener('click', () => {
-    ipcRenderer.send('update', 'milQuant');
-  });
+  // Check if currently on update.html
+  try {
+    document.getElementById('update').addEventListener('click', () => {
+      ipcRenderer.send('update', 'milQuant');
+    });
 
-  document.getElementById('alldeps').addEventListener('click', () => {
-    ipcRenderer.send('update', 'all');
-  });
+    document.getElementById('alldeps').addEventListener('click', () => {
+      ipcRenderer.send('update', 'all');
+    });
 
-  document.getElementById('cancel').addEventListener('click', () => {
-    ipcRenderer.send('update', 'no');
-  });
+    document.getElementById('cancel').addEventListener('click', () => {
+      ipcRenderer.send('update', 'no');
+    });
+  } catch (error) {
+    console.log("Not on Update-Window.")
+  };
 
 });
 

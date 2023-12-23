@@ -76,7 +76,9 @@ function spawnR(call) {
 };
 
 
-// names of the child processes to be spawned later
+// Keep a global reference of objects, if you don't, the window will
+// be closed automatically when the JavaScript object is garbage collected.
+let mainWindow;
 let milQuantUpdater;
 let milQuantShiny;
 
@@ -196,9 +198,6 @@ const loadShinyURLWhenReady = async () => {
   });
 };
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
 
 
 // Create the browser window.

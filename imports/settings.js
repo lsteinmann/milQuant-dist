@@ -1,8 +1,14 @@
 const { app, BrowserWindow } = require('electron');
 const fs = require('fs');
 const path = require('path');
-const settingsFileName = path.join(app.getAppPath(), 'R-win-port/library/milQuant/app/www/settings/shared_settings.R').replace(/\\/g, '\\\\');
 const mainWindow = require('../main');
+
+
+const settingsFileName = path.join(
+  app.getAppPath(), 'R-win-port', 'library', 
+  'milQuant', 'app', 'www', 'settings', 
+  'shared_settings.R'
+);
 
 function showDefaultSettingsModal() {
   const settingsModal = new BrowserWindow({
