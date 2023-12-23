@@ -24,7 +24,6 @@ function getmilQuantVersion() {
 
     if (versionMatch && versionMatch[1]) {
         const versionNumber = versionMatch[1];
-        console.log(`Current milQuant-version Number: ${versionNumber}`);
         return versionNumber;
     } else {
         console.error('Version number not found in DESCRIPTION file.');
