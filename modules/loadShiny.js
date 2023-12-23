@@ -4,11 +4,36 @@ const { spawnR } = require('./rmodules');
 const { logROutput } = require('./bridge');
 const { getmilQuantVersion, checkForUpdate } = require('./milQuant-version');
 
+const runInstallGithub = async (mainWindow, RPkgUpdater, package, deps) => {
+    return new Promise((resolve, reject) => {
+        console.log("runInstallGithub() is trying to update: ", package);
+        RPkgUpdater = spawnR(`remotes::install_github('${package}', dependencies = ${deps[0]}, upgrade = '${deps[1]}')`);
+
+        logROutput(mainWindow, RPkgUpdater);
+        RPkgUpdater.stderr.on('data', (data) => {
+            if (data.includes('DONE')) {
+                RPkgUpdater.kill();
+                console.log('Shutting down R after Update, moving on.');
+                resolve(true);
+            }
+            if (data.includes("Skipping install of")) {
+                console.log(data.toString());
+                RPkgUpdater.kill();
+                resolve(true);
+            }
+        });
+
+        RPkgUpdater.on('error', (error) => {
+            console.error('Error during R update:', error.message);
+            reject(error);
+        });
+    });
+};
 
 // updateShinyApp() spawns R to install the milQuant-package, which will automatically 
 // skip the update if the version is the current one on github anyway
 // but only if "updatemilQuant" is true (which may be of use later)
-const updateShinyApp = async (mainWindow, milQuantUpdater, milQuantVersion) => {
+const updateShinyApp = async (mainWindow, RPkgUpdater, milQuantVersion) => {
 
     var milQuantVersion = getmilQuantVersion();
     var updatemilQuant = await checkForUpdate(milQuantVersion);
@@ -16,7 +41,7 @@ const updateShinyApp = async (mainWindow, milQuantUpdater, milQuantVersion) => {
     return new Promise((resolve, reject) => {
         if (updatemilQuant) {
             mainWindow.loadFile('pages/update.html');
-            ipcMain.once('update', function (event, value) {
+            ipcMain.once('update', async (event, value) => {
                 mainWindow.loadFile('pages/loading.html');
                 if (value == "no") {
                     resolve(true);
@@ -26,29 +51,9 @@ const updateShinyApp = async (mainWindow, milQuantUpdater, milQuantVersion) => {
                     } else {
                         var deps = ["FALSE", "never"];
                     };
-                    console.log("Trying to update milQuant-package.");
-                    milQuantUpdater = spawnR(`remotes::install_github('lsteinmann/milQuant', dependencies = ${deps[0]}, upgrade = '${deps[1]}')`);
-                    //milQuantUpdater = spawnR('message("DONE (milQuant)")');
-
-                    logROutput(mainWindow, milQuantUpdater);
-                    milQuantUpdater.stderr.on('data', (data) => {
-                        if (data.includes('DONE (milQuant)')) {
-                            milQuantUpdater.kill();
-                            console.log('Shutting down R after Update, moving on.');
-                            resolve(true);
-                        }
-                        if (data.includes("Skipping install of 'milQuant'")) {
-                            console.log(data.toString());
-                            milQuantUpdater.kill();
-                            resolve(true);
-                        }
-                    });
-
-                    milQuantUpdater.on('error', (error) => {
-                        console.error('Error during R update:', error.message);
-                        reject(error);
-                    });
-
+                    await runInstallGithub(mainWindow, RPkgUpdater, "lsteinmann/idaifieldR", deps);
+                    await runInstallGithub(mainWindow, RPkgUpdater, "lsteinmann/milQuant", deps);
+                    resolve(true);
                 };
             });
         } else {
