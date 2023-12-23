@@ -16,8 +16,8 @@ function showDefaultSettingsModal(mainWindow) {
     alwaysOnTop: true,
     show: false,
     useContentSize: true,
-    width: 375,
-    height: 225,
+    width: 475,
+    height: 235,
     resizable: false,
     movable: false,
     frame: false,
@@ -49,31 +49,30 @@ function readDefaultSettings() {
   if (rawSettings) {
     var data = rawSettings[1]
       .replace(/"/g, '') // Remove any quotes
-      .split(', ') // Split into an array of key-value pairs
+      .split(',') // Split into an array of key-value pairs
       .map(pair => {
         var [key, value] = pair.split('=');
         return [key.trim(), value.trim()];
       });
 
     var defaultAppSettings = Object.fromEntries(data);
-
-    console.log(defaultAppSettings);
-
     return defaultAppSettings;
   };
 };
 
 // Function to handle variable requests
-const handleSettingsRequest = (event, arg) => {
+const handleSettingsRequest = (event) => {
   const defaultAppSettings = readDefaultSettings();
-  event.sender.send('settings-reply', [defaultAppSettings[arg[0]], defaultAppSettings[arg[1]], , defaultAppSettings[arg[3]]]);
+  event.sender.send('settings-reply', defaultAppSettings);
 };
 
 // Function to handle default settings
-const handleDefaultSettings = (event, data) => {
-  const { username, synchpw } = data;
+const saveDefaultSettings = (event, data) => {
+  const { fieldhost, username, synchpw } = data;
 
-  const settings = `list("username" = "${username}", "synchpw" = "${synchpw}")`;
+  const settings = `list("fieldhost" = "${fieldhost}", "username" = "${username}", "synchpw" = "${synchpw}")`;
+  console.log("saveDefaultSettings() will save:")
+  console.log(settings)
 
   // Save the form data to a file or database:
   fs.writeFile(settingsFileName, settings, (err) => {
@@ -91,5 +90,5 @@ module.exports = {
   showDefaultSettingsModal, 
   readDefaultSettings, 
   handleSettingsRequest,
-  handleDefaultSettings 
+  saveDefaultSettings 
 };

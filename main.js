@@ -1,9 +1,9 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, Menu } = require('electron');
 const path = require('path');
 const child = require('child_process');
 
-const { handleDefaultSettings, handleSettingsRequest } = require('./modules/settings');
+const { saveDefaultSettings, handleSettingsRequest } = require('./modules/settings');
 const { getmilQuantVersion } = require('./modules/milQuant-version');
 const { checkAndLoadShiny } = require('./modules/loadShiny');
 const { cleanUpApplication } = require('./modules/utility');
@@ -120,14 +120,14 @@ function createWindow() {
 };
 
 // requested by modal-preload.js and sent back
-ipcMain.on('settings-request', function (event, arg) {
-  handleSettingsRequest(event, arg)
+ipcMain.on('settings-request', function (event) {
+  handleSettingsRequest(event)
 });
 
 // get the settings from the form in the modal that you can load
 // from the top menu
-ipcMain.on('default-settings', (event, data) => {
-  handleDefaultSettings(event, data)
+ipcMain.on('save-settings', (event, data) => {
+  saveDefaultSettings(event, data)
 });
 
 
