@@ -72,15 +72,15 @@ if (handleSquirrelEvent()) {
 // Keep a global reference of objects, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
-let milQuantUpdater;
+let RPkgUpdater;
 let milQuantShiny;
 
 // current version of the R-package to possibly influence the update process
 var milQuantVersion = getmilQuantVersion();
 
 // send it to the loading.html window
-ipcMain.on('version-request', (event) => {
-  event.sender.send('version-reply', milQuantVersion);
+ipcMain.on('context-request', (event) => {
+  event.sender.send('context-reply', "start", milQuantVersion);
 });
 
 
@@ -102,7 +102,7 @@ function createWindow() {
   });
 
   // delayedLoad() loads the shiny url to the windows after it is ready
-  checkAndLoadShiny(mainWindow, milQuantShiny, milQuantUpdater);
+  checkAndLoadShiny(mainWindow, milQuantShiny, RPkgUpdater, milQuantVersion);
 
   // actually shows the mainWindow
   mainWindow.show();

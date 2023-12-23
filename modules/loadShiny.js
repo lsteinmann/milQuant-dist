@@ -35,7 +35,6 @@ const runInstallGithub = async (mainWindow, RPkgUpdater, package, deps) => {
 // but only if "updatemilQuant" is true (which may be of use later)
 const updateShinyApp = async (mainWindow, RPkgUpdater, milQuantVersion) => {
 
-    var milQuantVersion = getmilQuantVersion();
     var updatemilQuant = await checkForUpdate(milQuantVersion);
 
     return new Promise((resolve, reject) => {
@@ -43,6 +42,10 @@ const updateShinyApp = async (mainWindow, RPkgUpdater, milQuantVersion) => {
             mainWindow.loadFile('pages/update.html');
             ipcMain.once('update', async (event, value) => {
                 mainWindow.loadFile('pages/loading.html');
+                ipcMain.on('context-request', (event) => {
+                    event.sender.send('context-reply', "update", "updating");
+                });
+
                 if (value == "no") {
                     resolve(true);
                 } else {
@@ -55,6 +58,7 @@ const updateShinyApp = async (mainWindow, RPkgUpdater, milQuantVersion) => {
                     await runInstallGithub(mainWindow, RPkgUpdater, "lsteinmann/milQuant", deps);
                     resolve(true);
                 };
+                console.log('Timeout completed after 10 seconds');
             });
         } else {
             console.log("Not updating milQuant, moving on.");
@@ -87,11 +91,15 @@ const loadShinyURLWhenReady = async (mainWindow, milQuantShiny) => {
 // checkAndLoadShiny() loads the loading.html with the spinner and version number, 
 // and waits for the update process to finish to then call 
 // loadShinyURLWhenReady()
-const checkAndLoadShiny = async (mainWindow, milQuantShiny, milQuantUpdater) => {
-    mainWindow.loadFile('pages/loading.html');
+const checkAndLoadShiny = async (mainWindow, milQuantShiny, RPkgUpdater, milQuantVersion) => {
+    //mainWindow.loadFile('pages/loading.html');
     try {
-        const updateReady = await updateShinyApp(mainWindow, milQuantUpdater);
+        const updateReady = await updateShinyApp(mainWindow, RPkgUpdater, milQuantVersion);
         if (updateReady) {
+            mainWindow.loadFile('pages/loading.html');
+            ipcMain.on('context-request', (event) => {
+                event.sender.send('context-reply', "start", milQuantVersion);
+            });
             console.log("updateShinyApp() has finished.");
             await loadShinyURLWhenReady(mainWindow, milQuantShiny);
         } else {
@@ -102,4 +110,4 @@ const checkAndLoadShiny = async (mainWindow, milQuantShiny, milQuantUpdater) => 
     }
 }
 
-module.exports = { loadShinyURLWhenReady, checkAndLoadShiny, updateShinyApp };
+module.exports = { checkAndLoadShiny, updateShinyApp };

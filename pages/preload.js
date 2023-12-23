@@ -1,6 +1,8 @@
 /*
- * The preload script runs before loading.html. 
+ * The preload script runs before the mainWindow. 
 */
+const { contextBridge, ipcRenderer } = require('electron');
+
 window.addEventListener('DOMContentLoaded', () => {
   const replaceText = (selector, text) => {
     const element = document.getElementById(selector);
@@ -12,21 +14,28 @@ window.addEventListener('DOMContentLoaded', () => {
   };
 });
 
-const { contextBridge, ipcRenderer } = require('electron');
-
-let cur_milQuantVersion;
-
+// Code for loading.html
 window.addEventListener('DOMContentLoaded', () => {
+  ipcRenderer.send('context-request');
 
-  ipcRenderer.send('version-request');
+  ipcRenderer.on('context-reply', function (event, context, data) {
+    let spinnerSubtitle;
 
-  ipcRenderer.on('version-reply', function (event, milQuantVersion) {
-    console.log(`Using milQuant R-package with version: ${milQuantVersion.toString()}`);
-    cur_milQuantVersion = milQuantVersion;
-    window.dispatchEvent(new Event('milQuantVersionDisplay'));
+    if (context == "start") {
+      console.log(`Using milQuant R-package with version: ${data.toString()}`);
+      spinnerSubtitle = `Using milQuant (Shiny) Version: ${data}`;
+    } else if (context == "update") {
+      console.log("Currently updating R-packages...");
+      spinnerSubtitle = "Updating R-Packages...";
+    }
+
+    window.dispatchEvent(new CustomEvent('spinnerSubtitleDisplay', { detail: spinnerSubtitle }));
   });
+});
 
-  // Check if currently on update.html
+// Code for update.html
+window.addEventListener('DOMContentLoaded', () => {
+  // error when not currently on update.html
   try {
     document.getElementById('update').addEventListener('click', () => {
       ipcRenderer.send('update', 'milQuant');
@@ -45,21 +54,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
 });
 
-contextBridge.exposeInMainWorld('electron', {
-  getmilQuantVersionNumber: () => {
-    return cur_milQuantVersion;
-  }
-});
 
-
-
-
-// Listen for messages from the main process
+// Code to display messages from logROutput() in Developer Tools Console:
 ipcRenderer.on('stdout', (event, data) => {
   // Log stdout messages to the developer tools
   console.log('R Output: ', data);
 });
-
 ipcRenderer.on('stderr', (event, data) => {
   // Log stderr messages to the developer tools
   if (data.toLowerCase().includes("error")) {
