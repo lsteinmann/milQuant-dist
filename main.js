@@ -211,6 +211,7 @@ function createWindow() {
     height: 900,
     frame: true,
     show: false,
+    maximizable: true,
     webPreferences: {
       nodeIntegration: false,
       preload: path.join(__dirname, 'pages/preload.js')
@@ -222,6 +223,7 @@ function createWindow() {
 
   // actually shows the mainWindow
   mainWindow.show();
+  mainWindow.maximize();
 
 
   mainWindow.on('closed', function () {
