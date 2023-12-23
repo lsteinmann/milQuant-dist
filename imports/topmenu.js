@@ -1,5 +1,6 @@
 const { Menu, app, dialog } = require('electron');
 const { showDefaultSettingsModal } = require('./settings');
+const { openRConsole } = require('./rmodules');
 
 
 
@@ -46,6 +47,15 @@ const template = [
             {
                 label: 'Change connection settings',
                 click: showDefaultSettingsModal
+            }
+        ]
+    },
+    {
+        label: 'R',
+        submenu: [
+            {
+                label: 'Open R console',
+                click: openRConsole
             }
         ]
     },
