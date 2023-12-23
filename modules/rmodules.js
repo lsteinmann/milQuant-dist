@@ -5,6 +5,18 @@ const child = require('child_process');
 
 const RPath = path.join(app.getAppPath(), "R-win-port", "bin");
 
+
+// function to spawn a child process that executes RScript
+function spawnR(call) {
+    try {
+        var execPath = path.join(RPath, "RScript.exe");
+        return child.spawn(execPath, ["-e", call]);
+    } catch (error) {
+        console.error('Error trying to run RScript:', error.message);
+    }
+};
+
+
 function openRConsole() {
     try {
         var execPath = path.join(RPath, "R.exe");

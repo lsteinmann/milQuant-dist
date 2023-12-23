@@ -1,6 +1,7 @@
 const { Menu, app, dialog } = require('electron');
 const { showDefaultSettingsModal } = require('./settings');
 const { openRConsole } = require('./rmodules');
+const { mainWindow } = require('../main');
 
 
 
@@ -46,7 +47,7 @@ const template = [
         submenu: [
             {
                 label: 'Change connection settings',
-                click: showDefaultSettingsModal
+                click: () => showDefaultSettingsModal(mainWindow)
             }
         ]
     },

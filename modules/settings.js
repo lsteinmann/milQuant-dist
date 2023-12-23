@@ -1,7 +1,6 @@
 const { app, BrowserWindow } = require('electron');
 const fs = require('fs');
 const path = require('path');
-const mainWindow = require('../main');
 
 
 const settingsFileName = path.join(
@@ -10,7 +9,7 @@ const settingsFileName = path.join(
   'shared_settings.R'
 );
 
-function showDefaultSettingsModal() {
+function showDefaultSettingsModal(mainWindow) {
   const settingsModal = new BrowserWindow({
     parent: mainWindow, // Set the parent window (if you have one)
     modal: true, // Set the window to be modal
@@ -25,7 +24,7 @@ function showDefaultSettingsModal() {
     webPreferences: {
       nodeIntegration: false, // Enable Node.js integration
       contextIsolation: true,
-      preload: path.join(app.getAppPath(), 'pages/modal-preload.js')
+      preload: path.join(app.getAppPath(), 'pages', 'modal-preload.js')
     }
   });
   // Load the HTML content into the window
@@ -64,5 +63,33 @@ function readDefaultSettings() {
   };
 };
 
+// Function to handle variable requests
+const handleSettingsRequest = (event, arg) => {
+  const defaultAppSettings = readDefaultSettings();
+  event.sender.send('settings-reply', [defaultAppSettings[arg[0]], defaultAppSettings[arg[1]], , defaultAppSettings[arg[3]]]);
+};
+
+// Function to handle default settings
+const handleDefaultSettings = (event, data) => {
+  const { username, synchpw } = data;
+
+  const settings = `list("username" = "${username}", "synchpw" = "${synchpw}")`;
+
+  // Save the form data to a file or database:
+  fs.writeFile(settingsFileName, settings, (err) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    console.log(`Data saved successfully to file: ${settingsFileName}`);
+  });
+};
+
 // Export the functions in this file so they can be used elsewhere
-module.exports = { showDefaultSettingsModal, readDefaultSettings, settingsFileName };
+module.exports = { 
+  settingsFileName, 
+  showDefaultSettingsModal, 
+  readDefaultSettings, 
+  handleSettingsRequest,
+  handleDefaultSettings 
+};

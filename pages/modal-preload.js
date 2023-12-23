@@ -7,9 +7,9 @@ function closeSettingsModal() {
 
 window.addEventListener('DOMContentLoaded', () => {
 
-    ipcRenderer.send('variable-request', ['username', 'synchpw']);
+    ipcRenderer.send('settings-request', ['username', 'synchpw']);
 
-    ipcRenderer.on('variable-reply', function (event, defaultAppSettings) {
+    ipcRenderer.on('settings-reply', function (event, defaultAppSettings) {
         document.getElementById('username').value = defaultAppSettings[0];
         document.getElementById('synchpw').value = defaultAppSettings[1];
     });
