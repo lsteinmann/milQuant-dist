@@ -4,6 +4,16 @@ The milQuant-Shiny Dashboard provides quick quantitative overviews of the data i
 
 The dashboard has been developed and is meant to be used with the milet-configuration and within the framework of the [Miletus Excavation Project](https://www.miletgrabung.uni-hamburg.de/). While very limited, some functionality and general overviews may also work with other project-configurations. The repository of the shiny-dashboard is located at [lsteinmann/milQuant](https://github.com/lsteinmann/milQuant).
 
+## Archived 
+
+> [!IMPORTANT]  
+> This project is no longer being maintained.
+
+I no longer have the time to maintain the electron distribution version. This repository is archived as of May 13th 2026. I am replacing it with install instructions for R and a script that will start and open the dashboard in the browser instead (if R is installed). You can find the new launcher at [lsteinmann/milQuant-launcher](https://github.com/lsteinmann/milQuant-launcher). 
+
+(This worked well and it was a good project - I can recommend the approach to others wanting to share their locally running shiny apps. It just requires more time than I am willing to commit to this hobby project.)
+
+
 ## Usage
 This distribution is meant for the team of the Miletus Excavation. On load, a login screen asks the user to input the address for synchronization and the password. The preset adress will usually work (except for the password). The password is the password recorded in your Field Desktop app under "settings". You can safe default settings for the app under "*Settings*" > "*Change connection settings*". After connecting, select a project in the main screen and click "Load Database". With the Miletus database, and depending on your computer, loading it may take between 5 seconds and half a minute. 
 
